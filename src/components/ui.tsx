@@ -259,17 +259,17 @@ export const Takeaway = styled.aside`
 export const HeroBleed = styled.section`
   position: relative;
   width: 100%;
-  min-height: clamp(22rem, 58vh, 34rem);
+  height: clamp(11rem, 26vh, 16rem);
   overflow: hidden;
   border-bottom: 1px solid ${({ theme }) => theme.colors.line};
   animation: fadeIn 0.7s ease both;
+  background: ${({ theme }) => theme.colors.bg};
 
   img {
     width: 100%;
     height: 100%;
-    min-height: clamp(22rem, 58vh, 34rem);
     object-fit: cover;
-    object-position: center;
+    object-position: center 35%;
   }
 
   &::after {
@@ -277,10 +277,10 @@ export const HeroBleed = styled.section`
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      180deg,
-      rgba(10, 12, 16, 0.35) 0%,
-      rgba(10, 12, 16, 0.55) 45%,
-      rgba(10, 12, 16, 0.96) 100%
+      105deg,
+      rgba(10, 12, 16, 0.92) 0%,
+      rgba(10, 12, 16, 0.72) 42%,
+      rgba(10, 12, 16, 0.45) 100%
     );
   }
 `;
@@ -289,19 +289,22 @@ export const HeroCopy = styled.div`
   position: absolute;
   left: ${({ theme }) => theme.space.pageX};
   right: ${({ theme }) => theme.space.pageX};
-  bottom: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 1;
-  max-width: 38rem;
+  max-width: 36rem;
 
   h1 {
-    margin: 0.4rem 0 0.75rem;
-    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    margin: 0.3rem 0 0.55rem;
+    font-size: clamp(1.65rem, 3.5vw, 2.35rem);
   }
 
   p {
     margin: 0;
     color: ${({ theme }) => theme.colors.muted};
-    font-size: 1.1rem;
+    font-size: 0.98rem;
+    line-height: 1.45;
+    max-width: 32rem;
   }
 `;
 

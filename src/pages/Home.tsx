@@ -53,8 +53,8 @@ export default function Home() {
   const hero = (
     <HeroBleed>
       <img
-        src="/images/arena-projection.jpg"
-        alt="Projected robotics competition arena with crowd"
+        src="/images/wild-rift-ref.jpg"
+        alt="League of Legends Wild Rift — MOBA gameplay reference"
       />
       <HeroCopy>
         <Eyebrow>Competition concept</Eyebrow>
