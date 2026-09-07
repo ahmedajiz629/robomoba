@@ -127,7 +127,7 @@ export default function Game() {
       </Takeaway>
 
       <PageNav>
-        <Link to="/system">← System</Link>
+        <Link to="/system">← Robot structure</Link>
         <Link to="/champions">Next: Champions →</Link>
       </PageNav>
     </Layout>

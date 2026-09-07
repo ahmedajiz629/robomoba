@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
-import Figure from "../components/Figure";
 import {
+  RobotStructureDiagram,
+  InterfaceCompositionDiagram,
+  ActuatorVsSensorDiagram,
+  RobotWiringDiagram,
   BoundaryDiagram,
-  OrgTeamDiagram,
-  RobotCompositionDiagram,
 } from "../components/diagrams";
 import {
   PageIntro,
@@ -14,9 +15,7 @@ import {
   WideSection,
   Callout,
   Principle,
-  ListPlain,
   PageNav,
-  TwoCol,
   DiagramPanel,
   Takeaway,
 } from "../components/ui";
@@ -27,39 +26,22 @@ export default function System() {
       <ChapterNav chapterId="system" />
 
       <PageIntro>
-        <Eyebrow>Chapter 01 · Architecture</Eyebrow>
-        <h1>System</h1>
+        <Eyebrow>Chapter 01 · Robot structure</Eyebrow>
+        <h1>Robot structure</h1>
         <p>
-          The competition standardizes the game boundary — not the robot.
-          Fairness comes from a shared interface; creativity from everything
-          around it.
+          How a competition robot is put together: what the team builds, what
+          the organization mounts, how it is wired, and who owns the weapon
+          actuator versus the weapon sensor.
         </p>
       </PageIntro>
 
       <WideSection>
-        <Figure
-          src="/images/frc-match.jpg"
-          alt="Robots competing on a FIRST Robotics field"
-          caption="Real competition robots on a shared field — engineering differences, common rules."
-          credit="Wikimedia Commons · FIRST Robotics Competition"
-        />
+        <h2>Two zones in one machine</h2>
         <DiagramPanel>
-          <BoundaryDiagram />
-          <figcaption>Team robot ↔ Champion Interface ↔ game server</figcaption>
-        </DiagramPanel>
-      </WideSection>
-
-      <WideSection>
-        <h2>Champion vs robot</h2>
-        <p>
-          The <strong>champion</strong> is the standardized game entity. The{" "}
-          <strong>robot</strong> is the team’s physical implementation.
-        </p>
-        <DiagramPanel>
-          <RobotCompositionDiagram />
+          <RobotStructureDiagram />
           <figcaption>
-            Amber = team-built. Cyan = organization interface mounted onto the
-            robot.
+            Amber is team-owned. Cyan is the sealed Champion Interface —
+            mounted for the match, then removed.
           </figcaption>
         </DiagramPanel>
         <Principle>
@@ -69,85 +51,94 @@ export default function System() {
       </WideSection>
 
       <WideSection>
-        <h2>Who builds what</h2>
+        <h2>The critical split: actuator vs sensor</h2>
+        <p>
+          On the same weapon, ownership is split. The team builds the
+          mechanism that <strong>moves</strong> it. The organization provides
+          the sealed sensor that <strong>measures</strong> it.
+        </p>
         <DiagramPanel>
-          <OrgTeamDiagram />
+          <ActuatorVsSensorDiagram />
           <figcaption>
-            Organization owns the interface and infrastructure. Teams own the
-            machine and strategy.
+            Example: Fighter sword — you design the swing mechanism; we own
+            the IMU that reports the swing to the server.
+          </figcaption>
+        </DiagramPanel>
+        <Callout>
+          <strong>Why split ownership?</strong>
+          <p>
+            Fairness: every team is measured the same way. Freedom: every team
+            can invent a different way to produce that motion.
+          </p>
+        </Callout>
+      </WideSection>
+
+      <WideSection>
+        <h2>Interface composition</h2>
+        <p>
+          The Champion Interface is one sealed assembly. Exact parts vary by
+          champion (Tank optics, Fighter IMU, Artillery launch sensing), but
+          the pattern is the same: a Core hard-wired to its sensors.
+        </p>
+        <DiagramPanel>
+          <InterfaceCompositionDiagram />
+          <figcaption>
+            Core ↔ weapon sensors ↔ optics are protected organization wiring.
+            Opening or bypassing them is a rules violation.
+          </figcaption>
+        </DiagramPanel>
+        <Callout $tone="warn">
+          <strong>Sealed</strong>
+          <p>
+            The assembly is supplied as a unit. It must not be disassembled.
+            Tampering with internal links is grounds for disqualification.
+          </p>
+        </Callout>
+      </WideSection>
+
+      <WideSection>
+        <h2>How the robot is wired</h2>
+        <p>
+          Teams never rewire the sealed interface. They connect to the Core
+          over USB (power + documented API). The Core talks to the game
+          server over BLE.
+        </p>
+        <DiagramPanel>
+          <RobotWiringDiagram />
+          <figcaption>
+            Team computer ↔ USB ↔ Core ↔ sealed sensors · and Core ↔ BLE ↔
+            server.
+          </figcaption>
+        </DiagramPanel>
+      </WideSection>
+
+      <WideSection>
+        <h2>Where this sits in the match</h2>
+        <DiagramPanel>
+          <BoundaryDiagram />
+          <figcaption>
+            Physical robot → measurement boundary (interface) → authoritative
+            server.
           </figcaption>
         </DiagramPanel>
       </WideSection>
 
       <Section>
-        <h2>Champion Interface</h2>
+        <h2>Match logistics</h2>
         <p>
-          A sealed hardware assembly supplied by the organization. Each
-          champion type has its own interface. Mounted before the match,
-          removed after.
+          Six official interfaces for 3v3 (two of each champion type). Mounted
+          before the match, removed after. Teams do not keep competition
+          hardware. Interface designs stay open for development; only the
+          competition auth token stays private.
         </p>
-        <p>
-          A 3v3 match needs six competition interfaces (two of each type).
-          Teams do not permanently own competition hardware.
-        </p>
-        <Callout $tone="warn">
-          <strong>Sealed assembly</strong>
-          <p>
-            Protected wiring must not be modified or bypassed. Tampering is
-            disqualification. The goal is a shared game interface — not to
-            limit robot engineering.
-          </p>
-        </Callout>
-      </Section>
-
-      <Section>
-        <h2>Core</h2>
-        <p>
-          The Core connects the robot (USB power + data API) and the
-          competition infrastructure (wireless link to the game server).
-        </p>
-        <TwoCol>
-          <div>
-            <h3>USB to the robot</h3>
-            <ul>
-              <li>Powers protected interface components</li>
-              <li>Exposes a documented API</li>
-              <li>Hides internal electronics from teams</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Wireless to the server</h3>
-            <ul>
-              <li>BLE + antenna in the Core</li>
-              <li>Low latency and failure detection</li>
-              <li>Critical match infrastructure</li>
-            </ul>
-          </div>
-        </TwoCol>
-      </Section>
-
-      <Section>
-        <h2>Open interface, protected token</h2>
-        <ListPlain>
-          <li>
-            <strong>Open</strong>
-            <span>
-              Interface hardware and firmware so teams can understand and
-              reproduce them for development
-            </span>
-          </li>
-          <li>
-            <strong>Protected</strong>
-            <span>Competition-time authentication token only</span>
-          </li>
-        </ListPlain>
       </Section>
 
       <Takeaway>
         <strong>Takeaway</strong>
         <p>
-          Same interface for everyone. Different robots. The organization
-          measures; teams act.
+          Robot structure = team shell + sealed interface. You own the weapon
+          actuator. We own the weapon sensor. Wiring to the game goes only
+          through the Core.
         </p>
       </Takeaway>
 

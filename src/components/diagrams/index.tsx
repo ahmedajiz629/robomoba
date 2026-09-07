@@ -33,41 +33,147 @@ export function BoundaryDiagram() {
   );
 }
 
-/** Nested composition: team robot contains mechanics + official interface */
-export function RobotCompositionDiagram() {
+/** Full robot structure: team shell + sealed interface inside */
+export function RobotStructureDiagram() {
   return (
-    <Svg viewBox="0 0 620 280" role="img" aria-label="Team robot composition with Champion Interface">
-      <rect x="20" y="20" width="580" height="240" rx="14" fill="#12161c" stroke="#3ecfff" strokeWidth="1.5" />
-      <text x="40" y="48" fill="#3ecfff" fontSize="14" fontFamily={fontTitle} fontWeight="600">Team robot</text>
-      <text x="40" y="68" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Built entirely by the team</text>
+    <Svg viewBox="0 0 680 320" role="img" aria-label="Robot structure with team hardware and Champion Interface">
+      <rect x="16" y="16" width="648" height="288" rx="14" fill="#12161c" stroke="rgba(255,255,255,0.14)" strokeWidth="1.5" />
+      <text x="36" y="44" fill="#eef2f6" fontSize="15" fontFamily={fontTitle} fontWeight="600">Robot structure</text>
+      <text x="36" y="64" fill="#6b7785" fontSize="11" fontFamily={fontBody}>One machine · two ownership zones</text>
 
-      <rect x="40" y="88" width="240" height="152" rx="10" fill="#181e26" stroke="rgba(255,180,90,0.55)" strokeWidth="1.5" />
-      <text x="56" y="116" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Team hardware</text>
+      <rect x="36" y="84" width="280" height="200" rx="12" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="52" y="112" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Team-owned</text>
+      <text x="52" y="130" fill="#6b7785" fontSize="11" fontFamily={fontBody}>You build this</text>
       {[
-        ["Chassis & frame", 140],
-        ["Motors & drivetrain", 164],
-        ["Actuators & mechanisms", 188],
-        ["Control software", 212],
+        ["Chassis & frame", 158],
+        ["Motors & drivetrain", 182],
+        ["Weapon actuator", 206],
+        ["Mechanisms & control SW", 230],
       ].map(([label, y]) => (
         <g key={label}>
-          <circle cx="64" cy={Number(y) - 4} r="3" fill="#ffb45a" />
-          <text x="78" y={y} fill="#eef2f6" fontSize="12" fontFamily={fontBody}>{label}</text>
+          <rect x="52" y={Number(y) - 14} width="248" height="26" rx="6" fill="rgba(255,180,90,0.1)" />
+          <text x="64" y={y} fill="#eef2f6" fontSize="12" fontFamily={fontBody}>{label}</text>
         </g>
       ))}
 
-      <rect x="310" y="88" width="270" height="152" rx="10" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1.5" />
-      <text x="326" y="116" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Champion Interface</text>
-      <text x="326" y="134" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Organization · sealed</text>
+      <rect x="344" y="84" width="300" height="200" rx="12" fill="rgba(62,207,255,0.08)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="360" y="112" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Champion Interface</text>
+      <text x="360" y="130" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Organization · sealed unit</text>
       {[
-        ["Core (USB + wireless)", 162],
-        ["Weapon sensors / interface", 186],
-        ["Photodiode / light beam", 210],
+        ["Core", 158],
+        ["Weapon internal sensors", 182],
+        ["Photodiode / light beam", 206],
+        ["Protected internal wiring", 230],
       ].map(([label, y]) => (
         <g key={label}>
-          <circle cx="340" cy={Number(y) - 4} r="3" fill="#3ecfff" />
-          <text x="354" y={y} fill="#eef2f6" fontSize="12" fontFamily={fontBody}>{label}</text>
+          <rect x="360" y={Number(y) - 14} width="268" height="26" rx="6" fill="rgba(62,207,255,0.1)" />
+          <text x="372" y={y} fill="#eef2f6" fontSize="12" fontFamily={fontBody}>{label}</text>
         </g>
       ))}
+    </Svg>
+  );
+}
+
+export function RobotCompositionDiagram() {
+  return <RobotStructureDiagram />;
+}
+
+/** Sealed interface internals: Core hard-wired to weapon sensors and optics */
+export function InterfaceCompositionDiagram() {
+  return (
+    <Svg viewBox="0 0 640 260" role="img" aria-label="Champion Interface composition and sealed wiring">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Interface composition</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Hard-wired by the organization · must not be opened</text>
+
+      <rect x="220" y="72" width="200" height="64" rx="12" fill="rgba(62,207,255,0.14)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="320" y="100" textAnchor="middle" fill="#3ecfff" fontSize="15" fontFamily={fontTitle} fontWeight="600">Core</text>
+      <text x="320" y="120" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>USB · BLE · API</text>
+
+      <path d="M320 136 V160" stroke="#3ecfff" strokeWidth="2" />
+      <text x="332" y="154" fill="#6b7785" fontSize="10" fontFamily={fontBody}>sealed wiring</text>
+      <path d="M160 160 H480" stroke="#3ecfff" strokeWidth="2" />
+      <path d="M160 160 V176" stroke="#3ecfff" strokeWidth="2" />
+      <path d="M480 160 V176" stroke="#3ecfff" strokeWidth="2" />
+
+      <rect x="60" y="176" width="200" height="64" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="160" y="204" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Weapon sensors</text>
+      <text x="160" y="224" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>IMU / launch params / …</text>
+
+      <rect x="380" y="176" width="200" height="64" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="480" y="204" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Optics</text>
+      <text x="480" y="224" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Photodiode / light beam</text>
+    </Svg>
+  );
+}
+
+/** Critical split: team moves the weapon; org measures it */
+export function ActuatorVsSensorDiagram() {
+  return (
+    <Svg viewBox="0 0 680 300" role="img" aria-label="Weapon actuator owned by team versus weapon sensor owned by organization">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Same weapon · two owners</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>You move it. We measure it.</text>
+
+      <rect x="20" y="72" width="300" height="200" rx="14" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="40" y="100" fill="#ffb45a" fontSize="12" fontFamily={fontTitle} fontWeight="600">TEAM</text>
+      <rect x="40" y="118" width="260" height="56" rx="10" fill="rgba(255,180,90,0.12)" stroke="#ffb45a" strokeWidth="1" />
+      <text x="170" y="142" textAnchor="middle" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Weapon actuator</text>
+      <text x="170" y="162" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>servo · linkage · mechanism</text>
+      <text x="40" y="204" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>Builds how the sword / shield /</text>
+      <text x="40" y="222" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>launcher physically moves</text>
+      <text x="40" y="248" fill="#ffb45a" fontSize="12" fontFamily={fontTitle} fontWeight="600">Physical action</text>
+
+      <rect x="360" y="72" width="300" height="200" rx="14" fill="rgba(62,207,255,0.08)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="380" y="100" fill="#3ecfff" fontSize="12" fontFamily={fontTitle} fontWeight="600">ORGANIZATION</text>
+      <rect x="380" y="118" width="260" height="56" rx="10" fill="rgba(62,207,255,0.12)" stroke="#3ecfff" strokeWidth="1" />
+      <text x="510" y="142" textAnchor="middle" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Weapon sensor</text>
+      <text x="510" y="162" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>IMU · launch sensing · …</text>
+      <text x="380" y="204" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>Inside the sealed interface —</text>
+      <text x="380" y="222" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>measures motion for the server</text>
+      <text x="380" y="248" fill="#3ecfff" fontSize="12" fontFamily={fontTitle} fontWeight="600">Official measurement</text>
+
+      <path d="M320 146 H360" stroke="#6b7785" strokeWidth="1.5" strokeDasharray="4 3" />
+      <text x="340" y="138" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>couples</text>
+    </Svg>
+  );
+}
+
+/** How power/data/radio are wired around the Core */
+export function RobotWiringDiagram() {
+  return (
+    <Svg viewBox="0 0 680 280" role="img" aria-label="How the robot is wired through the Core">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">How it is wired</text>
+
+      <rect x="40" y="100" width="140" height="70" rx="10" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="110" y="130" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Team robot</text>
+      <text x="110" y="150" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>computer · power</text>
+
+      <path d="M180 135 H230" stroke="#ffb45a" strokeWidth="2" />
+      <text x="205" y="124" textAnchor="middle" fill="#ffb45a" fontSize="10" fontFamily={fontBody}>USB</text>
+      <polygon points="230,131 240,135 230,139" fill="#ffb45a" />
+
+      <rect x="248" y="88" width="180" height="100" rx="12" fill="rgba(62,207,255,0.12)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="338" y="120" textAnchor="middle" fill="#3ecfff" fontSize="14" fontFamily={fontTitle} fontWeight="600">Core</text>
+      <text x="338" y="140" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>power + data API</text>
+      <text x="338" y="158" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>to sealed parts</text>
+
+      <path d="M338 188 V210" stroke="#3ecfff" strokeWidth="2" />
+      <text x="350" y="204" fill="#6b7785" fontSize="10" fontFamily={fontBody}>hard-wired</text>
+
+      <rect x="220" y="210" width="110" height="48" rx="8" fill="#181e26" stroke="#3ecfff" strokeWidth="1" />
+      <text x="275" y="238" textAnchor="middle" fill="#eef2f6" fontSize="11" fontFamily={fontBody}>Weapon sensors</text>
+
+      <rect x="346" y="210" width="110" height="48" rx="8" fill="#181e26" stroke="#3ecfff" strokeWidth="1" />
+      <text x="401" y="238" textAnchor="middle" fill="#eef2f6" fontSize="11" fontFamily={fontBody}>Optics</text>
+
+      <path d="M428 120 H500" stroke="#ffb45a" strokeWidth="2" strokeDasharray="5 3" />
+      <text x="464" y="110" textAnchor="middle" fill="#ffb45a" fontSize="10" fontFamily={fontBody}>BLE</text>
+      <polygon points="500,116 510,120 500,124" fill="#ffb45a" />
+
+      <rect x="518" y="95" width="140" height="70" rx="10" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="588" y="125" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Game server</text>
+      <text x="588" y="145" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>authoritative state</text>
+
+      <text x="40" y="60" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Teams talk to the Core only — never to sealed internal wiring</text>
     </Svg>
   );
 }

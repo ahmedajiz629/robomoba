@@ -5,7 +5,7 @@ import PhotoStrip from "../components/PhotoStrip";
 import {
   BoundaryDiagram,
   PhysicalDigitalDiagram,
-  RobotCompositionDiagram,
+  RobotStructureDiagram,
 } from "../components/diagrams";
 import { chapters } from "../data/chapters";
 import {
@@ -105,10 +105,9 @@ export default function Home() {
           </figcaption>
         </DiagramPanel>
         <DiagramPanel>
-          <RobotCompositionDiagram />
+          <RobotStructureDiagram />
           <figcaption>
-            Team hardware wraps the sealed official interface — not an ASCII
-            tree, a clear split.
+            Team hardware wraps the sealed official interface — amber vs cyan.
           </figcaption>
         </DiagramPanel>
       </WideSection>
@@ -151,7 +150,7 @@ export default function Home() {
       </WideSection>
 
       <PageNav>
-        <Link to="/system">Start with System →</Link>
+        <Link to="/system">Start with Robot structure →</Link>
       </PageNav>
     </Layout>
   );

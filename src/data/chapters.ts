@@ -10,9 +10,9 @@ export const chapters: Chapter[] = [
   {
     id: "system",
     number: "01",
-    title: "System",
+    title: "Robot structure",
     path: "/system",
-    promise: "The shared game boundary — not the robot.",
+    promise: "How the robot is wired — who owns actuators vs sensors.",
   },
   {
     id: "game",
