@@ -1,905 +1,142 @@
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
-
-const interfaceParts = [
-  {
-    name: "CORE",
-    description:
-      "The central electronics module. It powers the interface, exposes the robot-facing API and provides BLE/network communication with the game platform.",
-    owner: "ORGANIZATION",
-  },
-  {
-    name: "MEASUREMENT",
-    description:
-      "Official sensors such as IMUs, photodiodes and other champion-specific measurement hardware used to determine what physically happened.",
-    owner: "ORGANIZATION",
-  },
-  {
-    name: "PHYSICAL CONNECTIONS",
-    description:
-      "The protected hard-wired connections between Core and official components. They are assembled by the organization and are not intended to be modified.",
-    owner: "ORGANIZATION",
-  },
-  {
-    name: "CHAMPION-SPECIFIC I/O",
-    description:
-      "The standardized interface through which the robot's mechanism is measured and interpreted as the corresponding champion ability.",
-    owner: "ORGANIZATION",
-  },
-];
-
-const boundaries = [
-  {
-    title: "TEAM OWNS",
-    color: "team",
-    items: [
-      "Chassis",
-      "Motors / locomotion",
-      "Actuators",
-      "Weapon mechanisms",
-      "Shield mechanism",
-      "Launcher mechanism",
-      "Mine deployment",
-      "Robot control software",
-      "Mechanical design",
-    ],
-  },
-  {
-    title: "ORGANIZATION OWNS",
-    color: "organization",
-    items: [
-      "Champion Interface",
-      "Core",
-      "Official sensors",
-      "Competition authentication",
-      "Arena infrastructure",
-      "Game server",
-      "Tracking",
-      "Electronic referee",
-      "Visualization pipeline",
-    ],
-  },
-];
-
-const communicationSteps = [
-  {
-    number: "01",
-    title: "ROBOT → CORE",
-    description:
-      "The team's robot communicates with the Champion Interface through the standardized USB connection. USB provides both power and data.",
-  },
-  {
-    number: "02",
-    title: "CORE → PLATFORM",
-    description:
-      "The Core communicates with the competition platform using BLE/network connectivity. The Core therefore becomes the controlled bridge between robot hardware and the game.",
-  },
-  {
-    number: "03",
-    title: "SERVER → GAME STATE",
-    description:
-      "The server validates measurements and applies game rules. It decides what actually happened: attack, hit, damage, healing, objective interaction, death and so on.",
-  },
-  {
-    number: "04",
-    title: "GAME STATE → VISUALIZATION",
-    description:
-      "The resulting state is exposed to the visualization layer, which can drive projection, arena LEDs and spectator displays.",
-  },
-];
+import Layout from "../components/Layout";
+import {
+  PageIntro,
+  Eyebrow,
+  Section,
+  Callout,
+  Principle,
+  Flow,
+  ListPlain,
+  PageNav,
+  TwoCol,
+} from "../components/ui";
 
 export default function System() {
   return (
-    <div className="site">
-      {/* PAGE HEADER */}
-      <Navbar />
+    <Layout>
+      <PageIntro>
+        <Eyebrow>Architecture</Eyebrow>
+        <h1>System</h1>
+        <p>
+          The competition standardizes the game boundary — not the robot.
+          Fairness comes from a shared interface; creativity comes from
+          everything around it.
+        </p>
+      </PageIntro>
 
-      <header className="subpage-header">
+      <Section>
+        <h2>Champion vs robot</h2>
+        <p>
+          The <strong>champion</strong> is the standardized game entity.
+          The <strong>robot</strong> is the team’s physical implementation.
+        </p>
+        <Flow>{`TEAM ROBOT
+   ├── chassis, motors, actuators, mechanics
+   └── Champion Interface (organization)
+         ├── Core
+         ├── Weapon sensors / actuators interface
+         └── Photodiode / light beam (where required)`}</Flow>
+        <Principle>
+          The organization standardizes the measurement. The team engineers
+          the physical action.
+        </Principle>
+      </Section>
 
-        <div>
-          <span className="eyebrow">SYSTEM ARCHITECTURE</span>
-
-          <h1>
-            The competition
-            <br />
-            is a <span>platform.</span>
-          </h1>
-
+      <Section>
+        <h2>Champion Interface</h2>
+        <p>
+          A sealed hardware assembly supplied by the organization. Each
+          champion type has its own interface. It is mounted before the
+          match and removed after.
+        </p>
+        <p>
+          For a 3v3 match the organization needs six competition interfaces
+          (two of each type). Extra units can exist for testing and demos,
+          but teams do not permanently own competition hardware.
+        </p>
+        <Callout $tone="warn">
+          <strong>Sealed assembly</strong>
           <p>
-            The central architectural decision is to separate the game,
-            the measurement boundary and the robot engineering. We provide
-            a standardized interface and authoritative game infrastructure.
-            Teams engineer the machine that interacts with it.
+            Protected wiring must not be modified, bypassed, or separated.
+            Tampering is grounds for disqualification. The goal is a shared
+            game interface — not to limit robot engineering.
           </p>
-        </div>
+        </Callout>
+      </Section>
 
-        <div className="subpage-index">
-          <span>02</span>
-          <small>SYSTEM</small>
-        </div>
-
-      </header>
-
-
-      {/* CORE PRINCIPLE */}
-
-      <section className="system-principle">
-
-        <div className="system-principle-main">
-          <span className="eyebrow">BOUNDARY</span>
-
-          <h2>
-            Standardize
-            <br />
-            the <span>measurement.</span>
-          </h2>
-        </div>
-
-        <div className="system-principle-text">
-          <p>
-            We do not standardize the robot. We standardize the information
-            required to determine how that robot interacts with the game.
-          </p>
-
-          <p>
-            This gives every team the same competition interface while
-            leaving mechanical engineering open.
-          </p>
-
-          <strong>
-            The organization standardizes the measurement.
-            <br />
-            The team engineers the physical action.
-          </strong>
-        </div>
-
-      </section>
-
-
-      {/* COMPLETE ARCHITECTURE */}
-
-      <section className="system-architecture">
-
-        <div className="section-header">
-
-          <span className="section-number">01</span>
-
+      <Section>
+        <h2>Core</h2>
+        <p>
+          The Core is the center of the interface. It connects the robot
+          (USB power + data API) and the competition infrastructure
+          (wireless link to the game server).
+        </p>
+        <TwoCol>
           <div>
-            <span className="eyebrow">COMPLETE ARCHITECTURE</span>
-
-            <h2>
-              From physical
-              <br />
-              action to game state.
-            </h2>
+            <h3>USB to the robot</h3>
+            <ul>
+              <li>Powers protected interface components</li>
+              <li>Exposes a documented API</li>
+              <li>Hides internal electronics from teams</li>
+            </ul>
           </div>
-
-        </div>
-
-        <div className="big-architecture">
-
-          {/* PHYSICAL SIDE */}
-
-          <div className="architecture-side">
-
-            <div className="arch-side-label">
-              PHYSICAL WORLD
-            </div>
-
-            <div className="arch-node team-node-large">
-
-              <div className="node-type">TEAM</div>
-
-              <h3>TEAM ROBOT</h3>
-
-              <div className="node-list">
-                <span>Chassis</span>
-                <span>Locomotion</span>
-                <span>Actuators</span>
-                <span>Weapons</span>
-                <span>Mechanisms</span>
-                <span>Control software</span>
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div className="arch-connector">
-
-            <div className="connector-line" />
-
-            <span>USB</span>
-
-            <div className="connector-arrow">
-              →
-            </div>
-
-          </div>
-
-
-          {/* INTERFACE */}
-
-          <div className="architecture-side">
-
-            <div className="arch-side-label cyan">
-              STANDARDIZED BOUNDARY
-            </div>
-
-            <div className="arch-node interface-node-large">
-
-              <div className="node-type">
-                ORGANIZATION
-              </div>
-
-              <h3>CHAMPION INTERFACE</h3>
-
-              <div className="node-list">
-                <span>Core</span>
-                <span>IMU / sensors</span>
-                <span>Photodiode</span>
-                <span>Champion-specific I/O</span>
-                <span>Protected wiring</span>
-                <span>Competition token</span>
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div className="arch-connector">
-
-            <div className="connector-line" />
-
-            <span>BLE / NETWORK</span>
-
-            <div className="connector-arrow">
-              →
-            </div>
-
-          </div>
-
-
-          {/* SERVER */}
-
-          <div className="architecture-side">
-
-            <div className="arch-side-label purple">
-              AUTHORITATIVE
-            </div>
-
-            <div className="arch-node server-node-large">
-
-              <div className="node-type">
-                ORGANIZATION
-              </div>
-
-              <h3>GAME SERVER</h3>
-
-              <div className="node-list">
-                <span>Game state</span>
-                <span>Rules engine</span>
-                <span>Combat validation</span>
-                <span>Objective state</span>
-                <span>Electronic referee</span>
-                <span>Match management</span>
-              </div>
-
-            </div>
-
-          </div>
-
-
-          {/* VISUALIZATION */}
-
-          <div className="visualization-connector">
-            <div className="vertical-line" />
-            <span>GAME STATE</span>
-            <div className="down-arrow">↓</div>
-          </div>
-
-          <div className="visualization-row">
-
-            <div>
-              <strong>PROJECTION</strong>
-              <span>
-                Trajectories · AoE · Impacts · Effects
-              </span>
-            </div>
-
-            <div>
-              <strong>ARENA</strong>
-              <span>
-                Turret HP · Objective state · LEDs
-              </span>
-            </div>
-
-            <div>
-              <strong>SPECTATOR HUD</strong>
-              <span>
-                Champions · HP · Energy · Match state
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* CHAMPION INTERFACE */}
-
-      <section className="interface-section">
-
-        <div className="section-header">
-
-          <span className="section-number">02</span>
-
           <div>
-            <span className="eyebrow">CHAMPION INTERFACE</span>
-
-            <h2>
-              One interface.
-              <br />
-              Different robots.
-            </h2>
+            <h3>Wireless to the server</h3>
+            <ul>
+              <li>BLE + antenna in the Core</li>
+              <li>Low latency and failure detection</li>
+              <li>Treated as critical match infrastructure</li>
+            </ul>
           </div>
+        </TwoCol>
+      </Section>
 
-        </div>
-
-        <div className="interface-layout">
-
-          <div className="interface-description">
-
-            <p className="large-copy">
-              The Champion Interface is the organization's standardized
-              hardware boundary. There is one official interface design
-              for each champion type.
-            </p>
-
-            <p>
-              For the first 3v3 competition, the tournament requires only
-              six official assemblies: two Tank interfaces, two Fighter
-              interfaces and two Artillery interfaces.
-            </p>
-
-            <p>
-              The organization can manufacture additional units for
-              development, calibration and replacement, but the interface
-              specification itself remains common.
-            </p>
-
-          </div>
-
-          <div className="interface-stack">
-
-            <div className="interface-stack-item active">
-              <span>01</span>
-
-              <div>
-                <strong>CORE</strong>
-                <small>
-                  Power + API + communication
-                </small>
-              </div>
-            </div>
-
-            <div className="interface-stack-item">
-              <span>02</span>
-
-              <div>
-                <strong>MEASUREMENT</strong>
-                <small>
-                  IMU + optical + champion sensors
-                </small>
-              </div>
-            </div>
-
-            <div className="interface-stack-item">
-              <span>03</span>
-
-              <div>
-                <strong>PHYSICAL CONNECTION</strong>
-                <small>
-                  Protected hard-wired assembly
-                </small>
-              </div>
-            </div>
-
-            <div className="interface-stack-item">
-              <span>04</span>
-
-              <div>
-                <strong>COMPETITION IDENTITY</strong>
-                <small>
-                  Official patched authentication token
-                </small>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* SEALED HARDWARE */}
-
-      <section className="sealed-section">
-
-        <div className="sealed-visual">
-
-          <div className="sealed-frame">
-
-            <div className="sealed-topline">
-              OFFICIAL COMPETITION ASSEMBLY
-            </div>
-
-            <div className="sealed-body">
-
-              <div className="sealed-core">
-                CORE
-              </div>
-
-              <div className="sealed-wire wire-one" />
-              <div className="sealed-wire wire-two" />
-              <div className="sealed-wire wire-three" />
-
-              <div className="sealed-component c-one">
-                IMU
-              </div>
-
-              <div className="sealed-component c-two">
-                SENSOR
-              </div>
-
-              <div className="sealed-component c-three">
-                I/O
-              </div>
-
-            </div>
-
-            <div className="seal">
-              SEALED
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className="sealed-copy">
-
-          <span className="eyebrow">
-            OFFICIAL HARDWARE
-          </span>
-
-          <h2>
-            Standardized.
-            <br />
-            Sealed.
-            <br />
-            <span>Auditable.</span>
-          </h2>
-
-          <p>
-            The protected links between Core and official components are
-            assembled by the organization. The assembly is not intended
-            to be disassembled without physically cutting the wiring.
-          </p>
-
-          <p>
-            Attempting to disassemble, modify, bypass or tamper with the
-            official assembly is a competition violation and results in
-            disqualification.
-          </p>
-
-          <div className="warning-box">
-            <strong>WHY?</strong>
-
+      <Section>
+        <h2>Who builds what</h2>
+        <ListPlain>
+          <li>
+            <strong>Organization</strong>
             <span>
-              Every team must interact with exactly the same measurement
-              boundary. The robot remains open; the competition interface
-              remains controlled.
+              Champion Interfaces, Core, arena electronics, tracking, game
+              server, projection, safety and tournament process
             </span>
-          </div>
+          </li>
+          <li>
+            <strong>Team</strong>
+            <span>
+              Chassis, drivetrain, weapon actuators, mechanical structure,
+              control software, strategy
+            </span>
+          </li>
+        </ListPlain>
+        <p>
+          Example: the Fighter IMU lives in the interface and measures the
+          sword. The mechanism that moves the sword is entirely the team’s
+          problem.
+        </p>
+      </Section>
 
-        </div>
-
-      </section>
-
-
-      {/* RESPONSIBILITY BOUNDARY */}
-
-      <section className="responsibility-section system-responsibility">
-
-        <div className="section-header">
-
-          <span className="section-number">03</span>
-
-          <div>
-            <span className="eyebrow">RESPONSIBILITY BOUNDARY</span>
-
-            <h2>
-              What is ours?
-              <br />
-              What is theirs?
-            </h2>
-          </div>
-
-        </div>
-
-        <div className="boundary-grid">
-
-          {boundaries.map((boundary) => (
-            <div
-              key={boundary.title}
-              className={`boundary-card ${boundary.color}`}
-            >
-
-              <div className="boundary-title">
-                <span className="boundary-marker" />
-                <strong>{boundary.title}</strong>
-              </div>
-
-              <div className="boundary-items">
-                {boundary.items.map((item) => (
-                  <span key={item}>{item}</span>
-                ))}
-              </div>
-
-            </div>
-          ))}
-
-        </div>
-
-      </section>
-
-
-      {/* INTERFACE COMPONENTS */}
-
-      <section className="components-section">
-
-        <div className="section-header">
-
-          <span className="section-number">04</span>
-
-          <div>
-            <span className="eyebrow">INTERFACE COMPONENTS</span>
-
-            <h2>
-              What exactly
-              <br />
-              do we provide?
-            </h2>
-          </div>
-
-        </div>
-
-        <div className="component-grid">
-
-          {interfaceParts.map((part, index) => (
-            <article key={part.name} className="component-card">
-
-              <div className="component-card-top">
-                <span>0{index + 1}</span>
-                <small>{part.owner}</small>
-              </div>
-
-              <h3>{part.name}</h3>
-
-              <p>{part.description}</p>
-
-            </article>
-          ))}
-
-        </div>
-
-      </section>
-
-
-      {/* OPEN SOURCE */}
-
-      <section className="opensource-section">
-
-        <div className="opensource-copy">
-
-          <span className="eyebrow">
-            TRANSPARENCY MODEL
-          </span>
-
-          <h2>
-            Open by design.
-            <br />
-            Private only
-            <br />
-            <span>where necessary.</span>
-          </h2>
-
+      <Section>
+        <h2>Open interface, protected token</h2>
+        <p>
+          Interface hardware and firmware should be open source so teams can
+          understand and reproduce them for development — except the
+          competition-time authentication token.
+        </p>
+        <Callout>
+          <strong>Integrity vs freedom</strong>
           <p>
-            Everything required to reproduce and understand the Champion
-            Interface should be public. Teams should not need to reverse
-            engineer our hardware or guess how the protocol works.
+            The interface must stay identical. The robot around it is open to
+            innovation. Same boundary for everyone; different machines.
           </p>
-
-        </div>
-
-        <div className="opensource-boundary">
-
-          <div className="open-column">
-
-            <div className="open-column-title">
-              <span>OPEN SOURCE</span>
-              <small>PUBLIC</small>
-            </div>
-
-            <div className="open-items">
-              <span>Interface hardware design</span>
-              <span>Interface software</span>
-              <span>Core API</span>
-              <span>Communication protocol</span>
-              <span>Documentation</span>
-              <span>Development tools</span>
-              <span>Test interface implementation</span>
-            </div>
-
-          </div>
-
-          <div className="private-column">
-
-            <div className="open-column-title">
-              <span>PRIVATE</span>
-              <small>COMPETITION</small>
-            </div>
-
-            <div className="open-items">
-              <span>Competition-time patched token</span>
-              <span>Game server implementation</span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* PUBLIC TEST SERVER */}
-
-      <section className="test-server-section">
-
-        <div className="section-header">
-
-          <span className="section-number">05</span>
-
-          <div>
-            <span className="eyebrow">
-              DEVELOPMENT INFRASTRUCTURE
-            </span>
-
-            <h2>
-              Teams should
-              <br />
-              practice against
-              <br />
-              the <span>real system.</span>
-            </h2>
-          </div>
-
-        </div>
-
-        <div className="test-server-layout">
-
-          <div className="test-server-copy">
-
-            <p className="large-copy">
-              The official test server must be available at least two
-              months before the competition.
-            </p>
-
-            <p>
-              Teams can connect their development robot, implement against
-              the public API and observe how physical inputs are converted
-              into game state.
-            </p>
-
-            <p>
-              The goal is to remove integration surprises. The competition
-              should not be the first time a team discovers how the
-              protocol or game server behaves.
-            </p>
-
-            <div className="milestone">
-              <span>T − 2 MONTHS</span>
-              <strong>
-                PUBLIC SERVER + API + INTERFACE SPECIFICATION
-              </strong>
-            </div>
-
-          </div>
-
-
-          <div className="test-server-diagram">
-
-            <div className="test-box robot">
-              <small>TEAM</small>
-              <strong>ROBOT</strong>
-              <span>
-                local development
-              </span>
-            </div>
-
-            <div className="test-arrow">
-              USB
-              <strong>↓</strong>
-            </div>
-
-            <div className="test-box interface">
-              <small>OPEN SOURCE</small>
-              <strong>INTERFACE</strong>
-              <span>
-                team replica
-              </span>
-            </div>
-
-            <div className="test-arrow">
-              BLE / NETWORK
-              <strong>↓</strong>
-            </div>
-
-            <div className="test-box server">
-              <small>PUBLIC</small>
-              <strong>TEST SERVER</strong>
-              <span>
-                real game protocol
-              </span>
-            </div>
-
-            <div className="test-arrow">
-              GAME STATE
-              <strong>↓</strong>
-            </div>
-
-            <div className="test-output">
-
-              <div>
-                <strong>PROJECTION</strong>
-                <span>
-                  launch trajectory
-                  <br />
-                  AoE / impacts
-                </span>
-              </div>
-
-              <div>
-                <strong>HUD</strong>
-                <span>
-                  HP / energy
-                  <br />
-                  objectives
-                </span>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* COMMUNICATION */}
-
-      <section className="communication-section">
-
-        <div className="section-header">
-
-          <span className="section-number">06</span>
-
-          <div>
-            <span className="eyebrow">
-              COMMUNICATION MODEL
-            </span>
-
-            <h2>
-              Every layer has
-              <br />
-              one responsibility.
-            </h2>
-          </div>
-
-        </div>
-
-        <div className="communication-list">
-
-          {communicationSteps.map((step) => (
-            <div className="communication-step" key={step.number}>
-
-              <span className="communication-number">
-                {step.number}
-              </span>
-
-              <div>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </div>
-
-            </div>
-          ))}
-
-        </div>
-
-      </section>
-
-
-      {/* WHY SERVER AUTHORITY */}
-
-      <section className="authority-section">
-
-        <div className="authority-box">
-
-          <span className="eyebrow">
-            CRITICAL RULE
-          </span>
-
-          <h2>
-            The robot
-            <br />
-            never decides
-            <br />
-            the <span>game.</span>
-          </h2>
-
-          <p>
-            The robot produces physical actions and measurements.
-            The game server interprets those measurements under the
-            official rules and maintains the authoritative state.
-          </p>
-
-          <div className="authority-flow">
-
-            <span>PHYSICAL ACTION</span>
-            <i>→</i>
-            <span>MEASUREMENT</span>
-            <i>→</i>
-            <span>SERVER VALIDATION</span>
-            <i>→</i>
-            <span>GAME STATE</span>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* NEXT */}
-
-      <section className="next-page-section">
-
-        <div>
-          <span className="eyebrow">
-            NEXT SYSTEM
-          </span>
-
-          <h2>
-            Now define
-            <br />
-            the <span>game.</span>
-          </h2>
-        </div>
-
-        <Link to="/game" className="primary-button">
-          Game architecture
-          <span>→</span>
-        </Link>
-
-      </section>
-
-    </div>
+        </Callout>
+      </Section>
+
+      <PageNav>
+        <Link to="/">← Home</Link>
+        <Link to="/game">Next: Game →</Link>
+      </PageNav>
+    </Layout>
   );
 }
