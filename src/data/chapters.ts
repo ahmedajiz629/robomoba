@@ -19,7 +19,7 @@ export const chapters: Chapter[] = [
     number: "02",
     title: "Game",
     path: "/game",
-    promise: "How physical actions become match events.",
+    promise: "HP, Mana, Charge, cooldowns, spawn, and the Nexus.",
   },
   {
     id: "champions",

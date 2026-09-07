@@ -371,3 +371,144 @@ export function DevWorkflowDiagram() {
     </Svg>
   );
 }
+
+/** Three champion resources: HP, Mana, Charge */
+export function ResourceTriadDiagram() {
+  return (
+    <Svg viewBox="0 0 680 240" role="img" aria-label="HP Mana and Charge resources">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Three resources</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Different jobs — do not mix them up</text>
+
+      <rect x="20" y="68" width="200" height="150" rx="12" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="120" y="100" textAnchor="middle" fill="#3ecfff" fontSize="16" fontFamily={fontTitle} fontWeight="600">HP</text>
+      <text x="120" y="124" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Game · vitality</text>
+      <text x="120" y="152" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Weapons stay active</text>
+      <text x="120" y="172" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>only while HP &gt; 0</text>
+      <text x="120" y="198" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>HP ≤ 0 → dead</text>
+
+      <rect x="240" y="68" width="200" height="150" rx="12" fill="rgba(255,180,90,0.1)" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="340" y="100" textAnchor="middle" fill="#ffb45a" fontSize="16" fontFamily={fontTitle} fontWeight="600">Mana</text>
+      <text x="340" y="124" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Game · combat fuel</text>
+      <text x="340" y="152" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Consumed by attacks</text>
+      <text x="340" y="172" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>and abilities</text>
+      <text x="340" y="198" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>No Mana → no spend</text>
+
+      <rect x="460" y="68" width="200" height="150" rx="12" fill="#181e26" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
+      <text x="560" y="100" textAnchor="middle" fill="#eef2f6" fontSize="16" fontFamily={fontTitle} fontWeight="600">Charge</text>
+      <text x="560" y="124" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Robot · energy</text>
+      <text x="560" y="152" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Needed to move the</text>
+      <text x="560" y="172" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>physical robot</text>
+      <text x="560" y="198" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>No Charge → stuck</text>
+    </Svg>
+  );
+}
+
+export function AttackGateDiagram() {
+  return (
+    <Svg viewBox="0 0 680 200" role="img" aria-label="Conditions for a valid attack">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Attack gate</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>All must be true for the server to accept an attack</text>
+
+      {[
+        { x: 20, label: "HP > 0", sub: "weapons active" },
+        { x: 180, label: "Mana enough", sub: "pay the cost" },
+        { x: 340, label: "Cooldown ready", sub: "timer elapsed" },
+        { x: 500, label: "Attack fires", sub: "server applies" },
+      ].map((step, i) => (
+        <g key={step.label}>
+          <rect
+            x={step.x}
+            y="72"
+            width="140"
+            height="88"
+            rx="10"
+            fill={i === 3 ? "rgba(255,180,90,0.12)" : "#181e26"}
+            stroke={i === 3 ? "#ffb45a" : "#3ecfff"}
+            strokeWidth="1.5"
+          />
+          <text x={step.x + 70} y="110" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">{step.label}</text>
+          <text x={step.x + 70} y="132" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>{step.sub}</text>
+          {i < 3 && (
+            <>
+              <path d={`M${step.x + 148} 116 H${step.x + 172}`} stroke="#6b7785" strokeWidth="1.5" />
+              <polygon points={`${step.x + 172},112 ${step.x + 180},116 ${step.x + 172},120`} fill="#6b7785" />
+            </>
+          )}
+        </g>
+      ))}
+    </Svg>
+  );
+}
+
+export function SpawnLogicDiagram() {
+  return (
+    <Svg viewBox="0 0 680 260" role="img" aria-label="Death and continuous base spawn timer">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Spawn logic</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Revive requires continuous presence in base</text>
+
+      <rect x="20" y="72" width="140" height="70" rx="10" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="90" y="102" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">HP ≤ 0</text>
+      <text x="90" y="122" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>champion dead</text>
+
+      <path d="M160 107 H200" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="200,103 208,107 200,111" fill="#6b7785" />
+
+      <rect x="208" y="72" width="160" height="70" rx="10" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="288" y="102" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Weapons off</text>
+      <text x="288" y="122" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>return to base</text>
+
+      <path d="M368 107 H408" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="408,103 416,107 408,111" fill="#6b7785" />
+
+      <rect x="416" y="60" width="244" height="94" rx="12" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="538" y="92" textAnchor="middle" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Continuous spawn time</text>
+      <text x="538" y="114" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>must stay in base</text>
+      <text x="538" y="134" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>leave → timer resets</text>
+
+      <path d="M538 154 V178" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="534,178 538,186 542,178" fill="#6b7785" />
+
+      <rect x="416" y="190" width="244" height="50" rx="10" fill="rgba(255,180,90,0.12)" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="538" y="220" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Alive again · HP restored</text>
+    </Svg>
+  );
+}
+
+export function NexusLaneDiagram() {
+  return (
+    <Svg viewBox="0 0 680 280" role="img" aria-label="Nexus only vulnerable when a lane is cleared">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Win condition · Wild Rift logic</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Clear a lane before the Nexus can take damage</text>
+
+      <rect x="40" y="80" width="120" height="48" rx="8" fill="#181e26" stroke="#3ecfff" strokeWidth="1" />
+      <text x="100" y="108" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Outer turret</text>
+      <path d="M160 104 H190" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="190,100 198,104 190,108" fill="#6b7785" />
+
+      <rect x="198" y="80" width="120" height="48" rx="8" fill="#181e26" stroke="#3ecfff" strokeWidth="1" />
+      <text x="258" y="108" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Inner turret</text>
+      <path d="M318 104 H348" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="348,100 356,104 348,108" fill="#6b7785" />
+
+      <rect x="356" y="80" width="120" height="48" rx="8" fill="#181e26" stroke="#3ecfff" strokeWidth="1" />
+      <text x="416" y="108" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Inhibitor</text>
+      <path d="M476 104 H506" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="506,100 514,104 506,108" fill="#6b7785" />
+
+      <rect x="514" y="72" width="140" height="64" rx="10" fill="rgba(255,180,90,0.12)" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="584" y="100" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Lane cleared</text>
+      <text x="584" y="120" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>that path opens</text>
+
+      <rect x="40" y="170" width="280" height="80" rx="12" fill="#181e26" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" />
+      <text x="180" y="204" textAnchor="middle" fill="#9aa6b2" fontSize="13" fontFamily={fontTitle} fontWeight="600">Nexus invulnerable</text>
+      <text x="180" y="226" textAnchor="middle" fill="#6b7785" fontSize="11" fontFamily={fontBody}>no lane cleared yet</text>
+
+      <path d="M320 210 H380" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="380,206 388,210 380,214" fill="#6b7785" />
+
+      <rect x="388" y="170" width="266" height="80" rx="12" fill="rgba(255,180,90,0.12)" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="521" y="204" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Nexus can take damage</text>
+      <text x="521" y="226" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>at least one lane cleared</text>
+    </Svg>
+  );
+}

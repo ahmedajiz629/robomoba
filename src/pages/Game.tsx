@@ -4,7 +4,10 @@ import ChapterNav from "../components/ChapterNav";
 import Figure from "../components/Figure";
 import {
   PhysicalDigitalDiagram,
-  StepChainDiagram,
+  ResourceTriadDiagram,
+  AttackGateDiagram,
+  SpawnLogicDiagram,
+  NexusLaneDiagram,
 } from "../components/diagrams";
 import {
   PageIntro,
@@ -12,6 +15,7 @@ import {
   Section,
   WideSection,
   Callout,
+  Principle,
   Grid,
   Item,
   PageNav,
@@ -25,15 +29,17 @@ export default function Game() {
       <ChapterNav chapterId="game" />
 
       <PageIntro>
-        <Eyebrow>Chapter 02 · Match design</Eyebrow>
+        <Eyebrow>Chapter 02 · Match rules</Eyebrow>
         <h1>Game</h1>
         <p>
-          A MOBA structure — lanes, jungle, objectives, team fights — played
-          through physical robots and ruled by an authoritative server.
+          How physical play becomes a match: action → sensing → server →
+          projection — plus HP, Mana, Charge, cooldowns, base spawn, and a
+          Nexus that opens only when a lane is cleared.
         </p>
       </PageIntro>
 
       <WideSection>
+        <h2>Physical action → game event</h2>
         <Figure
           src="/images/xr-projection.jpg"
           alt="Projected game effects on a physical court"
@@ -43,29 +49,10 @@ export default function Game() {
         <DiagramPanel>
           <PhysicalDigitalDiagram />
           <figcaption>
-            How a physical action becomes an official game event.
+            The robot acts. Sensors measure. The server rules. Projection
+            shows the result.
           </figcaption>
         </DiagramPanel>
-      </WideSection>
-
-      <Section>
-        <h2>Format</h2>
-        <p>
-          First edition is <strong>3v3</strong>. Each team fields
-          Tank/Support, Fighter, and Artillery. Deployment is free: lanes and
-          jungle are strategic areas, not fixed role assignments.
-        </p>
-        <Callout>
-          <strong>Strategic freedom</strong>
-          <p>
-            A Tank can jungle. A Fighter can mid. Compositions and rotations
-            are team decisions.
-          </p>
-        </Callout>
-      </Section>
-
-      <WideSection>
-        <h2>Physical action → game event</h2>
         <Grid>
           <Item>
             <strong>Fighter</strong>
@@ -77,52 +64,123 @@ export default function Game() {
           </Item>
           <Item>
             <strong>Artillery</strong>
-            <p>Launcher motion → measured params → simulated projectile</p>
+            <p>Launcher motion → measured params → simulated projectile → projection</p>
           </Item>
         </Grid>
+        <Callout>
+          <strong>Simulation stays in the loop</strong>
+          <p>
+            Especially for Artillery: the launch is physical, the projectile
+            path and impact are simulated, then projected on the arena.
+          </p>
+        </Callout>
+      </WideSection>
+
+      <WideSection>
+        <h2>HP · Mana · Charge</h2>
+        <p>
+          Three separate pools. Mixing them up breaks both game design and
+          robot design.
+        </p>
+        <DiagramPanel>
+          <ResourceTriadDiagram />
+          <figcaption>
+            HP and Mana are game-state (server). Charge is robot energy for
+            physical movement.
+          </figcaption>
+        </DiagramPanel>
+        <Callout>
+          <strong>Quick map</strong>
+          <p>
+            <strong>HP</strong> — weapons stay active while alive.{" "}
+            <strong>Mana</strong> — spent on attacks. <strong>Charge</strong>{" "}
+            (energy) — spent to move the physical robot.
+          </p>
+        </Callout>
+      </WideSection>
+
+      <WideSection>
+        <h2>Attacks and cooldown</h2>
+        <p>
+          A sensed physical action is only accepted as an attack when the
+          champion is alive, has enough Mana, and the attack cooldown has
+          finished — then simulation / damage / projection can apply.
+        </p>
+        <DiagramPanel>
+          <AttackGateDiagram />
+          <figcaption>
+            Cooldown is a timer between accepted attacks — separate from Mana
+            cost and from Charge used to drive.
+          </figcaption>
+        </DiagramPanel>
+        <Principle>
+          No HP → weapons inactive. No Mana → cannot afford the attack. On
+          cooldown → wait.
+        </Principle>
+      </WideSection>
+
+      <WideSection>
+        <h2>Death and spawn</h2>
+        <p>
+          When HP reaches zero the champion is dead: weapons shut off and the
+          robot must return to base. Revival is not automatic on a global
+          timer alone.
+        </p>
+        <DiagramPanel>
+          <SpawnLogicDiagram />
+          <figcaption>
+            The spawn timer only advances while the robot stays continuously
+            in base. Leave early and the timer resets.
+          </figcaption>
+        </DiagramPanel>
+        <Callout $tone="warn">
+          <strong>Continuous presence</strong>
+          <p>
+            You must spend the full spawn duration inside the base without
+            leaving. Interrupted presence does not count toward revive.
+          </p>
+        </Callout>
+      </WideSection>
+
+      <WideSection>
+        <h2>Goal: take down the Nexus</h2>
+        <p>
+          Destroy the enemy Nexus to win. Like Wild Rift, the Nexus does not
+          take damage until at least one lane is cleared — you must break the
+          structures that protect that path first.
+        </p>
+        <DiagramPanel>
+          <NexusLaneDiagram />
+          <figcaption>
+            Push a lane (turrets → inhibitor) → lane cleared → Nexus becomes
+            damageable. No shortcut through an uncleared base.
+          </figcaption>
+        </DiagramPanel>
+        <Callout>
+          <strong>Strategy</strong>
+          <p>
+            Jungle objectives, Mana, and Charge management exist to help you
+            clear lanes and force a Nexus fight — not as alternate win
+            conditions.
+          </p>
+        </Callout>
       </WideSection>
 
       <Section>
-        <h2>Combat model</h2>
-        <ul>
-          <li>
-            Fighter: fast narrow swings hit harder; wide swings cover more
-            area with less strength.
-          </li>
-          <li>
-            Tank shield effectiveness depends on orientation, position, and
-            distance from the champion.
-          </li>
-          <li>
-            Artillery never fires a real projectile at opponents — launch is
-            physical, impact is simulated and projected.
-          </li>
-        </ul>
-      </Section>
-
-      <WideSection>
-        <h2>Path to victory</h2>
-        <DiagramPanel>
-          <StepChainDiagram
-            steps={["Lane / jungle", "Objectives", "Turrets", "Nexus"]}
-            highlightIndex={3}
-          />
-          <figcaption>
-            Energy and death/respawn feed this loop; the Nexus is the only win
-            condition.
-          </figcaption>
-        </DiagramPanel>
+        <h2>Format reminder</h2>
         <p>
-          Champions spend energy to act. Map resources feed that economy.
-          Death removes a robot for a respawn timer owned by the server.
+          First edition is 3v3 with Tank/Support, Fighter, and Artillery.
+          Deployment across lanes and jungle is free.
         </p>
-      </WideSection>
+      </Section>
 
       <Takeaway>
         <strong>Takeaway</strong>
         <p>
-          Robots create the feel of the match. The server creates fairness.
-          Projection makes the digital layer visible.
+          Physical action is measured, ruled, then projected. HP keeps weapons
+          on; Mana fuels attacks (with cooldown); Charge moves the robot.
+          Revive needs continuous base time. The Nexus opens only after a lane
+          is cleared.
         </p>
       </Takeaway>
 
