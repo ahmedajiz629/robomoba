@@ -4,12 +4,14 @@ import { Site, Main, Footer } from "./ui";
 
 type LayoutProps = {
   children: ReactNode;
+  hero?: ReactNode;
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, hero }: LayoutProps) {
   return (
     <Site>
       <Navbar />
+      {hero}
       <Main>{children}</Main>
       <Footer>
         <strong>Robotics MOBA</strong>

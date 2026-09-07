@@ -1,20 +1,28 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import ChapterNav from "../components/ChapterNav";
+import Figure from "../components/Figure";
+import { OpenClosedDiagram } from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
   Section,
+  WideSection,
   Callout,
   TwoCol,
   ListPlain,
   PageNav,
+  DiagramPanel,
+  Takeaway,
 } from "../components/ui";
 
 export default function Server() {
   return (
     <Layout>
+      <ChapterNav chapterId="server" />
+
       <PageIntro>
-        <Eyebrow>Infrastructure</Eyebrow>
+        <Eyebrow>Chapter 05 · Infrastructure</Eyebrow>
         <h1>Server</h1>
         <p>
           The game server is the electronic referee. Robots report physical
@@ -22,13 +30,22 @@ export default function Server() {
         </p>
       </PageIntro>
 
+      <WideSection>
+        <Figure
+          src="/images/xr-projection.jpg"
+          alt="Projected spectator layer on a physical play space"
+          caption="The server feeds visualization: projection and HUD are the spectator layer, not the authority."
+          credit="Reference: Alfa5 XR Sports / Digital AV Magazine"
+        />
+      </WideSection>
+
       <Section>
         <h2>Authoritative state</h2>
-        <p>The server maintains, among other things:</p>
         <p>
-          champion identity and position, HP, energy, alive/dead, abilities
-          and cooldowns, combat outcomes, respawn, turrets, monsters, Power
-          Charges, Dragon, Power Core, Nexus, and match timer.
+          The server maintains champion identity and position, HP, energy,
+          alive/dead, abilities and cooldowns, combat outcomes, respawn,
+          turrets, monsters, Power Charges, Dragon, Power Core, Nexus, and
+          match timer.
         </p>
         <Callout>
           <strong>Rule of interpretation</strong>
@@ -43,8 +60,7 @@ export default function Server() {
         <h2>Communication</h2>
         <p>
           Cores talk to infrastructure over BLE. Because the server is
-          authoritative, a comms failure is a match-level risk — not a minor
-          robot glitch.
+          authoritative, a comms failure is a match-level risk.
         </p>
         <ul>
           <li>Low latency and predictable behavior</li>
@@ -54,8 +70,15 @@ export default function Server() {
         </ul>
       </Section>
 
-      <Section>
+      <WideSection>
         <h2>Open interface, closed server</h2>
+        <DiagramPanel>
+          <OpenClosedDiagram />
+          <figcaption>
+            Teams get everything needed to integrate. The organization keeps
+            match authority.
+          </figcaption>
+        </DiagramPanel>
         <TwoCol>
           <div>
             <h3>Public</h3>
@@ -84,20 +107,15 @@ export default function Server() {
             </ListPlain>
           </div>
         </TwoCol>
-        <p>
-          Teams get everything needed to integrate. The organization keeps
-          control of fairness and match authority.
-        </p>
-      </Section>
+      </WideSection>
 
-      <Section>
-        <h2>Spectator layer</h2>
+      <Takeaway>
+        <strong>Takeaway</strong>
         <p>
-          The server feeds a visualization engine for projection and HUD:
-          trajectories, AoE, HP, events. Projection is the digital skin over
-          a physical match — not a substitute for seeing robots act.
+          Open what teams need to build. Close what must stay fair and
+          authoritative.
         </p>
-      </Section>
+      </Takeaway>
 
       <PageNav>
         <Link to="/arena">← Arena</Link>

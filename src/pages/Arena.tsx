@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import ChapterNav from "../components/ChapterNav";
+import Figure from "../components/Figure";
+import { ArenaMapDiagram } from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
@@ -9,19 +12,40 @@ import {
   Item,
   Callout,
   PageNav,
+  DiagramPanel,
+  Takeaway,
 } from "../components/ui";
 
 export default function Arena() {
   return (
     <Layout>
+      <ChapterNav chapterId="arena" />
+
       <PageIntro>
-        <Eyebrow>Battlefield</Eyebrow>
+        <Eyebrow>Chapter 04 · Battlefield</Eyebrow>
         <h1>Arena</h1>
         <p>
           The arena is not just a floor for robots. It holds the structures
-          and resources that create MOBA strategy.
+          and resources that create MOBA strategy — and projection that makes
+          them legible to a crowd.
         </p>
       </PageIntro>
+
+      <WideSection>
+        <Figure
+          src="/images/arena-projection.jpg"
+          alt="Robotics arena with projected markings and surrounding audience"
+          caption="A physical court with projected geometry, tracking markers, and a live audience around the floor."
+          credit="Reference: Student Robotics SR2022 arena"
+        />
+        <DiagramPanel>
+          <ArenaMapDiagram />
+          <figcaption>
+            Three lanes, jungle between them, central Power Core, Nexus at
+            each end.
+          </figcaption>
+        </DiagramPanel>
+      </WideSection>
 
       <WideSection>
         <h2>Map structure</h2>
@@ -50,26 +74,22 @@ export default function Arena() {
         <ul>
           <li>
             <strong>Mana Monsters</strong> — jungle resources that feed energy
-            economy
           </li>
           <li>
-            <strong>Dragon</strong> — contested objective with meaningful
-            reward
+            <strong>Dragon</strong> — contested objective with meaningful reward
           </li>
           <li>
-            <strong>Power Charges</strong> — collectible power that feeds into
-            larger plays
+            <strong>Power Charges</strong> — collectible power for larger plays
           </li>
           <li>
-            <strong>Power Core</strong> — central physical objective that
-            rewards territorial control
+            <strong>Power Core</strong> — central physical objective rewarding
+            territorial control
           </li>
         </ul>
         <Callout>
           <strong>Why the Power Core matters</strong>
           <p>
-            It makes territory itself a mechanic, not only lane pressure —
-            a deliberate difference from a purely digital MOBA map.
+            Territory itself becomes a mechanic — not only lane pressure.
           </p>
         </Callout>
       </Section>
@@ -77,19 +97,18 @@ export default function Arena() {
       <Section>
         <h2>Gates and obstacles</h2>
         <p>
-          Gates and selected movable obstacles change access and sight lines
-          during a match. They exist to force adaptation, not to decorate the
-          floor.
+          Gates and selected movable obstacles change access and sight lines.
+          They force adaptation, not decoration.
         </p>
       </Section>
 
-      <Section>
-        <h2>Bases</h2>
+      <Takeaway>
+        <strong>Takeaway</strong>
         <p>
-          Each team has a base that anchors spawn / Nexus defense. Exact
-          dimensions and placement belong in the frozen arena specification.
+          The arena is a strategic machine: lanes, jungle, objectives, and a
+          projected layer spectators can read instantly.
         </p>
-      </Section>
+      </Takeaway>
 
       <PageNav>
         <Link to="/champions">← Champions</Link>

@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import ChapterNav from "../components/ChapterNav";
+import Figure from "../components/Figure";
+import { PhysicalDigitalDiagram } from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
@@ -10,27 +13,45 @@ import {
   Item,
   Flow,
   PageNav,
+  DiagramPanel,
+  Takeaway,
 } from "../components/ui";
 
 export default function Game() {
   return (
     <Layout>
+      <ChapterNav chapterId="game" />
+
       <PageIntro>
-        <Eyebrow>Match design</Eyebrow>
+        <Eyebrow>Chapter 02 · Match design</Eyebrow>
         <h1>Game</h1>
         <p>
-          A MOBA structure — lanes, jungle, objectives, team fights —
-          played through physical robots and interpreted by an authoritative
-          server.
+          A MOBA structure — lanes, jungle, objectives, team fights — played
+          through physical robots and ruled by an authoritative server.
         </p>
       </PageIntro>
+
+      <WideSection>
+        <Figure
+          src="/images/xr-projection.jpg"
+          alt="Projected game effects on a physical court"
+          caption="Spectators see robots and the projected game layer at once: zones, beams, events."
+          credit="Reference: Alfa5 XR Sports / Digital AV Magazine"
+        />
+        <DiagramPanel>
+          <PhysicalDigitalDiagram />
+          <figcaption>
+            How a physical action becomes an official game event.
+          </figcaption>
+        </DiagramPanel>
+      </WideSection>
 
       <Section>
         <h2>Format</h2>
         <p>
-          First edition is <strong>3v3</strong>. Each team fields Tank/Support,
-          Fighter, and Artillery at the same time. Deployment is free: lanes
-          and jungle are strategic areas, not fixed role assignments.
+          First edition is <strong>3v3</strong>. Each team fields
+          Tank/Support, Fighter, and Artillery. Deployment is free: lanes and
+          jungle are strategic areas, not fixed role assignments.
         </p>
         <Callout>
           <strong>Strategic freedom</strong>
@@ -43,10 +64,6 @@ export default function Game() {
 
       <WideSection>
         <h2>Physical action → game event</h2>
-        <p>
-          Robots act in the real world. Sensors measure those actions. The
-          server applies rules and updates the official state.
-        </p>
         <Grid>
           <Item>
             <strong>Fighter</strong>
@@ -64,11 +81,11 @@ export default function Game() {
       </WideSection>
 
       <Section>
-        <h2>Combat model (first edition)</h2>
+        <h2>Combat model</h2>
         <ul>
           <li>
             Fighter: fast narrow swings hit harder; wide swings cover more
-            area with less strength (exact curve set in balancing).
+            area with less strength.
           </li>
           <li>
             Tank shield effectiveness depends on orientation, position, and
@@ -82,35 +99,25 @@ export default function Game() {
       </Section>
 
       <Section>
-        <h2>Energy, death, respawn</h2>
+        <h2>Energy, death, win condition</h2>
         <p>
-          Champions spend energy to act. Resources on the map (Mana Monsters,
-          objectives) feed that economy. Death removes a robot from play for
-          a respawn timer; the server owns alive/dead state.
-        </p>
-      </Section>
-
-      <Section>
-        <h2>Win condition</h2>
-        <p>
-          Destroy the opposing <strong>Nexus</strong>. Turrets, jungle
-          objectives, Dragon, Power Charges, and the Power Core create the
-          path to that goal — they are not separate win conditions.
+          Champions spend energy to act. Map resources feed that economy.
+          Death removes a robot for a respawn timer. Destroy the opposing{" "}
+          <strong>Nexus</strong> to win.
         </p>
         <Flow>{`Pressure lanes / contest jungle
-        → take objectives & resources
-        → break turrets
-        → destroy Nexus`}</Flow>
+  → take objectives & resources
+  → break turrets
+  → destroy Nexus`}</Flow>
       </Section>
 
-      <Section>
-        <h2>Physical vs digital</h2>
+      <Takeaway>
+        <strong>Takeaway</strong>
         <p>
-          Spectators see real robots and weapons. Projection adds the digital
-          layer: trajectories, AoE, HP, events. The server remains the
-          referee; projection is visualization, not authority.
+          Robots create the feel of the match. The server creates fairness.
+          Projection makes the digital layer visible.
         </p>
-      </Section>
+      </Takeaway>
 
       <PageNav>
         <Link to="/system">← System</Link>

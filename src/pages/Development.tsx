@@ -1,26 +1,41 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import ChapterNav from "../components/ChapterNav";
+import { DevWorkflowDiagram } from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
   Section,
+  WideSection,
   Callout,
-  Flow,
   PageNav,
+  DiagramPanel,
+  Takeaway,
 } from "../components/ui";
 
 export default function Development() {
   return (
     <Layout>
+      <ChapterNav chapterId="development" />
+
       <PageIntro>
-        <Eyebrow>Team workflow</Eyebrow>
+        <Eyebrow>Chapter 06 · Team workflow</Eyebrow>
         <h1>Development</h1>
         <p>
-          Teams should be able to build and integrate without waiting for
-          scarce official interfaces — against a public specification and a
-          practice server.
+          Teams should build and integrate without waiting for scarce official
+          interfaces — against a public specification and a practice server.
         </p>
       </PageIntro>
+
+      <WideSection>
+        <DiagramPanel>
+          <DevWorkflowDiagram />
+          <figcaption>
+            From published spec to competition match — practice is part of
+            the product.
+          </figcaption>
+        </DiagramPanel>
+      </WideSection>
 
       <Section>
         <h2>Publish before practice</h2>
@@ -33,8 +48,8 @@ export default function Development() {
         <Callout>
           <strong>Goal</strong>
           <p>
-            Teams develop against the specification — not against
-            undocumented behavior discovered late.
+            Teams develop against the specification — not against undocumented
+            behavior discovered late.
           </p>
         </Callout>
       </Section>
@@ -49,22 +64,11 @@ export default function Development() {
       </Section>
 
       <Section>
-        <h2>Recommended workflow</h2>
-        <Flow>{`Public specification
-  → team builds test Core / interface
-  → team builds robot
-  → API integration + local simulation
-  → official development server
-  → official interface
-  → competition`}</Flow>
-      </Section>
-
-      <Section>
         <h2>Two-month practice window</h2>
         <p>
           The official game server must be available at least{" "}
-          <strong>two months</strong> before the event, with documentation
-          and APIs at the same time.
+          <strong>two months</strong> before the event, with documentation and
+          APIs at the same time.
         </p>
         <p>
           That window is for integration, testing, and balancing — not for
@@ -83,6 +87,14 @@ export default function Development() {
           team choices.
         </p>
       </Section>
+
+      <Takeaway>
+        <strong>Takeaway</strong>
+        <p>
+          Spec first, practice server early, official interface last. Teams
+          should not be guessing at the event.
+        </p>
+      </Takeaway>
 
       <PageNav>
         <Link to="/server">← Server</Link>

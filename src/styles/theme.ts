@@ -1,18 +1,22 @@
 export const theme = {
   colors: {
-    bg: "#f4f5f7",
-    surface: "#ffffff",
-    text: "#1c2128",
-    muted: "#5b6570",
-    faint: "#8a949e",
-    line: "#dde1e6",
-    lineStrong: "#c5ccd4",
-    accent: "#0f6e8c",
-    accentSoft: "#e8f3f7",
-    warn: "#8a4b12",
-    warnSoft: "#f7efe6",
+    bg: "#0a0c10",
+    surface: "#12161c",
+    surfaceRaised: "#181e26",
+    text: "#eef2f6",
+    muted: "#9aa6b2",
+    faint: "#6b7785",
+    line: "rgba(255, 255, 255, 0.1)",
+    lineStrong: "rgba(255, 255, 255, 0.18)",
+    accent: "#3ecfff",
+    accentSoft: "rgba(62, 207, 255, 0.12)",
+    amber: "#ffb45a",
+    amberSoft: "rgba(255, 180, 90, 0.12)",
+    warn: "#ffb45a",
+    warnSoft: "rgba(255, 180, 90, 0.12)",
   },
   fonts: {
+    display: '"Space Grotesk", "IBM Plex Sans", sans-serif',
     sans: '"IBM Plex Sans", "Segoe UI", sans-serif',
     mono: '"IBM Plex Mono", ui-monospace, monospace',
   },
@@ -22,11 +26,11 @@ export const theme = {
   },
   widths: {
     prose: "42rem",
-    content: "68rem",
+    content: "72rem",
   },
   radii: {
-    sm: "4px",
-    md: "8px",
+    sm: "6px",
+    md: "12px",
   },
 } as const;
 

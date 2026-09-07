@@ -1,29 +1,20 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-
-const links = [
-  ["System", "/system"],
-  ["Game", "/game"],
-  ["Champions", "/champions"],
-  ["Arena", "/arena"],
-  ["Server", "/server"],
-  ["Development", "/development"],
-  ["Roadmap", "/roadmap"],
-] as const;
+import { chapters } from "../data/chapters";
 
 const Header = styled.header`
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(244, 245, 247, 0.92);
+  background: rgba(10, 12, 16, 0.92);
   border-bottom: 1px solid ${({ theme }) => theme.colors.line};
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
 `;
 
 const Inner = styled.div`
   max-width: ${({ theme }) => theme.widths.content};
   margin: 0 auto;
-  padding: 0.85rem ${({ theme }) => theme.space.pageX};
+  padding: 0.8rem ${({ theme }) => theme.space.pageX};
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -39,9 +30,10 @@ const Brand = styled(NavLink)`
   margin-right: auto;
 
   strong {
-    font-size: 0.95rem;
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: 1rem;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
 
   span {
@@ -52,18 +44,19 @@ const Brand = styled(NavLink)`
 
   &:hover {
     text-decoration: none;
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 
 const Nav = styled.nav`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 1rem;
+  gap: 0.35rem 0.95rem;
 
   a {
     color: ${({ theme }) => theme.colors.muted};
     text-decoration: none;
-    font-size: 0.88rem;
+    font-size: 0.84rem;
     font-weight: 500;
 
     &:hover,
@@ -84,9 +77,9 @@ export default function Navbar() {
           <span>Competition concept</span>
         </Brand>
         <Nav>
-          {links.map(([label, path]) => (
-            <NavLink key={path} to={path}>
-              {label}
+          {chapters.map((chapter) => (
+            <NavLink key={chapter.path} to={chapter.path}>
+              {chapter.title}
             </NavLink>
           ))}
         </Nav>

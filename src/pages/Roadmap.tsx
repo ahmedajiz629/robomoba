@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import ChapterNav from "../components/ChapterNav";
 import {
   PageIntro,
   Eyebrow,
@@ -10,6 +11,8 @@ import {
   Grid,
   Item,
   PageNav,
+  Takeaway,
+  Principle,
 } from "../components/ui";
 
 const months = [
@@ -42,12 +45,15 @@ const months = [
 export default function Roadmap() {
   return (
     <Layout>
+      <ChapterNav chapterId="roadmap" />
+
       <PageIntro>
-        <Eyebrow>Delivery</Eyebrow>
+        <Eyebrow>Chapter 07 · Delivery</Eyebrow>
         <h1>Roadmap</h1>
         <p>
-          About six months to a reliable first edition. Priorities: reliability
-          over feature count; gameplay quality over technical complexity.
+          About six months to a reliable first edition. Priorities:
+          reliability over feature count; gameplay quality over technical
+          complexity.
         </p>
       </PageIntro>
 
@@ -83,7 +89,9 @@ export default function Roadmap() {
           </Item>
           <Item>
             <strong>Champions</strong>
-            <p>Tank/Support, Fighter, Artillery with listed physical abilities</p>
+            <p>
+              Tank/Support, Fighter, Artillery with listed physical abilities
+            </p>
           </Item>
           <Item>
             <strong>Objectives</strong>
@@ -112,10 +120,16 @@ export default function Roadmap() {
           swords, beams, mines, launchers. Two teams with the same champion
           can still field completely different machines.
         </p>
-        <p>
-          <strong>We define the game. You define the robot.</strong>
-        </p>
+        <Principle>We define the game. You define the robot.</Principle>
       </Section>
+
+      <Takeaway>
+        <strong>Takeaway</strong>
+        <p>
+          Ship a reliable physical esport first. Expand later. Protect the
+          two-month practice window.
+        </p>
+      </Takeaway>
 
       <PageNav>
         <Link to="/development">← Development</Link>

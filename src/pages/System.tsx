@@ -1,29 +1,46 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import ChapterNav from "../components/ChapterNav";
+import {
+  BoundaryDiagram,
+  OrgTeamDiagram,
+} from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
   Section,
+  WideSection,
   Callout,
   Principle,
   Flow,
   ListPlain,
   PageNav,
   TwoCol,
+  DiagramPanel,
+  Takeaway,
 } from "../components/ui";
 
 export default function System() {
   return (
     <Layout>
+      <ChapterNav chapterId="system" />
+
       <PageIntro>
-        <Eyebrow>Architecture</Eyebrow>
+        <Eyebrow>Chapter 01 · Architecture</Eyebrow>
         <h1>System</h1>
         <p>
           The competition standardizes the game boundary — not the robot.
-          Fairness comes from a shared interface; creativity comes from
-          everything around it.
+          Fairness comes from a shared interface; creativity from everything
+          around it.
         </p>
       </PageIntro>
+
+      <WideSection>
+        <DiagramPanel>
+          <BoundaryDiagram />
+          <figcaption>Team robot ↔ Champion Interface ↔ game server</figcaption>
+        </DiagramPanel>
+      </WideSection>
 
       <Section>
         <h2>Champion vs robot</h2>
@@ -35,7 +52,7 @@ export default function System() {
    ├── chassis, motors, actuators, mechanics
    └── Champion Interface (organization)
          ├── Core
-         ├── Weapon sensors / actuators interface
+         ├── Weapon sensors / interface
          └── Photodiode / light beam (where required)`}</Flow>
         <Principle>
           The organization standardizes the measurement. The team engineers
@@ -43,24 +60,34 @@ export default function System() {
         </Principle>
       </Section>
 
+      <WideSection>
+        <h2>Who builds what</h2>
+        <DiagramPanel>
+          <OrgTeamDiagram />
+          <figcaption>
+            Organization owns the interface and infrastructure. Teams own the
+            machine and strategy.
+          </figcaption>
+        </DiagramPanel>
+      </WideSection>
+
       <Section>
         <h2>Champion Interface</h2>
         <p>
           A sealed hardware assembly supplied by the organization. Each
-          champion type has its own interface. It is mounted before the
-          match and removed after.
+          champion type has its own interface. Mounted before the match,
+          removed after.
         </p>
         <p>
-          For a 3v3 match the organization needs six competition interfaces
-          (two of each type). Extra units can exist for testing and demos,
-          but teams do not permanently own competition hardware.
+          A 3v3 match needs six competition interfaces (two of each type).
+          Teams do not permanently own competition hardware.
         </p>
         <Callout $tone="warn">
           <strong>Sealed assembly</strong>
           <p>
-            Protected wiring must not be modified, bypassed, or separated.
-            Tampering is grounds for disqualification. The goal is a shared
-            game interface — not to limit robot engineering.
+            Protected wiring must not be modified or bypassed. Tampering is
+            disqualification. The goal is a shared game interface — not to
+            limit robot engineering.
           </p>
         </Callout>
       </Section>
@@ -68,9 +95,8 @@ export default function System() {
       <Section>
         <h2>Core</h2>
         <p>
-          The Core is the center of the interface. It connects the robot
-          (USB power + data API) and the competition infrastructure
-          (wireless link to the game server).
+          The Core connects the robot (USB power + data API) and the
+          competition infrastructure (wireless link to the game server).
         </p>
         <TwoCol>
           <div>
@@ -86,52 +112,36 @@ export default function System() {
             <ul>
               <li>BLE + antenna in the Core</li>
               <li>Low latency and failure detection</li>
-              <li>Treated as critical match infrastructure</li>
+              <li>Critical match infrastructure</li>
             </ul>
           </div>
         </TwoCol>
       </Section>
 
       <Section>
-        <h2>Who builds what</h2>
+        <h2>Open interface, protected token</h2>
         <ListPlain>
           <li>
-            <strong>Organization</strong>
+            <strong>Open</strong>
             <span>
-              Champion Interfaces, Core, arena electronics, tracking, game
-              server, projection, safety and tournament process
+              Interface hardware and firmware so teams can understand and
+              reproduce them for development
             </span>
           </li>
           <li>
-            <strong>Team</strong>
-            <span>
-              Chassis, drivetrain, weapon actuators, mechanical structure,
-              control software, strategy
-            </span>
+            <strong>Protected</strong>
+            <span>Competition-time authentication token only</span>
           </li>
         </ListPlain>
-        <p>
-          Example: the Fighter IMU lives in the interface and measures the
-          sword. The mechanism that moves the sword is entirely the team’s
-          problem.
-        </p>
       </Section>
 
-      <Section>
-        <h2>Open interface, protected token</h2>
+      <Takeaway>
+        <strong>Takeaway</strong>
         <p>
-          Interface hardware and firmware should be open source so teams can
-          understand and reproduce them for development — except the
-          competition-time authentication token.
+          Same interface for everyone. Different robots. The organization
+          measures; teams act.
         </p>
-        <Callout>
-          <strong>Integrity vs freedom</strong>
-          <p>
-            The interface must stay identical. The robot around it is open to
-            innovation. Same boundary for everyone; different machines.
-          </p>
-        </Callout>
-      </Section>
+      </Takeaway>
 
       <PageNav>
         <Link to="/">← Home</Link>
