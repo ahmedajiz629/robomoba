@@ -282,24 +282,162 @@ export function StepChainDiagram({
 
 export function ChampionsDiagram() {
   return (
-    <Svg viewBox="0 0 680 180" role="img" aria-label="Three champion physical mechanisms">
-      <rect x="16" y="28" width="200" height="124" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
-      <text x="116" y="58" textAnchor="middle" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Tank / Support</text>
-      <text x="116" y="90" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Heavy shield</text>
-      <text x="116" y="112" textAnchor="middle" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>Burst · healing beam</text>
+    <Svg viewBox="0 0 680 220" role="img" aria-label="Three champions each with weapon and optic role">
+      <text x="20" y="24" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Every champion interface</text>
+      <text x="20" y="44" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Weapon sensing + one optical role</text>
 
-      <rect x="240" y="28" width="200" height="124" rx="12" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
-      <text x="340" y="58" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Fighter</text>
-      <text x="340" y="90" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Physical sword</text>
-      <text x="340" y="112" textAnchor="middle" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>IMU measures swing</text>
+      <rect x="16" y="60" width="200" height="140" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="116" y="90" textAnchor="middle" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Tank / Support</text>
+      <text x="116" y="118" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Weapon: heavy shield</text>
+      <text x="116" y="142" textAnchor="middle" fill="#ffb45a" fontSize="12" fontFamily={fontBody}>Optics: light beam</text>
+      <text x="116" y="166" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>(emitter · heals allies)</text>
 
-      <rect x="464" y="28" width="200" height="124" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
-      <text x="564" y="58" textAnchor="middle" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Artillery</text>
-      <text x="564" y="90" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Launcher · mines</text>
-      <text x="564" y="112" textAnchor="middle" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>Simulated projectile</text>
+      <rect x="240" y="60" width="200" height="140" rx="12" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="340" y="90" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Fighter</text>
+      <text x="340" y="118" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Weapon: sword</text>
+      <text x="340" y="142" textAnchor="middle" fill="#3ecfff" fontSize="12" fontFamily={fontBody}>Optics: photodiode</text>
+      <text x="340" y="166" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>(can receive heal)</text>
+
+      <rect x="464" y="60" width="200" height="140" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="564" y="90" textAnchor="middle" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Artillery</text>
+      <text x="564" y="118" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Weapon: launcher + mines</text>
+      <text x="564" y="142" textAnchor="middle" fill="#3ecfff" fontSize="12" fontFamily={fontBody}>Optics: photodiode</text>
+      <text x="564" y="166" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>(can receive heal)</text>
     </Svg>
   );
 }
+
+/** Shared combat pipeline for all three champions */
+export function SharedCombatPipelineDiagram() {
+  const steps = [
+    { label: "Physical", sub: "action" },
+    { label: "Measure", sub: "interface" },
+    { label: "Virtual", sub: "action" },
+    { label: "Server", sub: "rules" },
+    { label: "Simulate", sub: "interactive" },
+    { label: "Project", sub: "continuous" },
+  ];
+  return (
+    <Svg viewBox="0 0 720 130" role="img" aria-label="Shared combat pipeline for all champions">
+      {steps.map((step, i) => {
+        const x = 12 + i * 118;
+        const hi = i === 3 || i === 4;
+        return (
+          <g key={step.label}>
+            <rect
+              x={x}
+              y="28"
+              width="104"
+              height="74"
+              rx="10"
+              fill={hi ? "rgba(255,180,90,0.12)" : "#181e26"}
+              stroke={hi ? "#ffb45a" : "#3ecfff"}
+              strokeWidth="1.5"
+            />
+            <text x={x + 52} y="60" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontTitle} fontWeight="600">{step.label}</text>
+            <text x={x + 52} y="80" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>{step.sub}</text>
+            {i < steps.length - 1 && (
+              <>
+                <path d={`M${x + 110} 65 H${x + 114}`} stroke="#6b7785" strokeWidth="1.5" />
+                <polygon points={`${x + 114},61 ${x + 118},65 ${x + 114},69`} fill="#6b7785" />
+              </>
+            )}
+          </g>
+        );
+      })}
+    </Svg>
+  );
+}
+
+/** Healing: two champions, both talk to server */
+export function HealingLinkDiagram() {
+  return (
+    <Svg viewBox="0 0 680 260" role="img" aria-label="Healing beam between Tank and ally via server">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Healing link</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Beam and photodiode live on different champions — both report to the server</text>
+
+      <rect x="20" y="72" width="200" height="100" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="120" y="104" textAnchor="middle" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Tank</text>
+      <text x="120" y="126" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Light beam emitter</text>
+      <text x="120" y="148" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Core → server</text>
+
+      <path d="M220 122 H280" stroke="#ffb45a" strokeWidth="2" strokeDasharray="5 3" />
+      <text x="250" y="112" textAnchor="middle" fill="#ffb45a" fontSize="10" fontFamily={fontBody}>light</text>
+
+      <rect x="280" y="72" width="200" height="100" rx="12" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="380" y="104" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Ally</text>
+      <text x="380" y="126" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Photodiode</text>
+      <text x="380" y="148" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Core → server</text>
+
+      <path d="M120 172 V200" stroke="#6b7785" strokeWidth="1.5" />
+      <path d="M380 172 V200" stroke="#6b7785" strokeWidth="1.5" />
+      <path d="M120 200 H380" stroke="#6b7785" strokeWidth="1.5" />
+      <path d="M250 200 V214" stroke="#6b7785" strokeWidth="1.5" />
+
+      <rect x="170" y="214" width="160" height="36" rx="8" fill="rgba(255,180,90,0.12)" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="250" y="237" textAnchor="middle" fill="#ffb45a" fontSize="12" fontFamily={fontTitle} fontWeight="600">Server · HP update</text>
+    </Svg>
+  );
+}
+
+export function ChampionInterfaceCard({
+  title,
+  role,
+  teamParts,
+  interfaceParts,
+  accent = "#3ecfff",
+}: {
+  title: string;
+  role: string;
+  teamParts: string[];
+  interfaceParts: string[];
+  accent?: string;
+}) {
+  return (
+    <Svg viewBox="0 0 640 210" role="img" aria-label={`${title} interface and weapons`}>
+      <text x="20" y="28" fill={accent} fontSize="14" fontFamily={fontTitle} fontWeight="600">{title}</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>{role}</text>
+
+      <rect x="20" y="64" width="290" height="128" rx="12" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="36" y="92" fill="#ffb45a" fontSize="12" fontFamily={fontTitle} fontWeight="600">Team robot · actuators</text>
+      {teamParts.map((label, i) => (
+        <text key={label} x="36" y={118 + i * 22} fill="#eef2f6" fontSize="12" fontFamily={fontBody}>· {label}</text>
+      ))}
+
+      <rect x="330" y="64" width="290" height="128" rx="12" fill="rgba(62,207,255,0.08)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="346" y="92" fill="#3ecfff" fontSize="12" fontFamily={fontTitle} fontWeight="600">Champion Interface</text>
+      {interfaceParts.map((label, i) => (
+        <text key={label} x="346" y={118 + i * 22} fill="#eef2f6" fontSize="12" fontFamily={fontBody}>· {label}</text>
+      ))}
+    </Svg>
+  );
+}
+
+/** Mines are physical world objects with their own position */
+export function MinesVsProjectileDiagram() {
+  return (
+    <Svg viewBox="0 0 680 250" role="img" aria-label="Physical mines versus virtual projectiles">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Same pipeline · different duration</text>
+
+      <rect x="20" y="56" width="300" height="170" rx="12" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="170" y="88" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Launcher projectile</text>
+      <text x="170" y="116" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Virtual after measurement</text>
+      <text x="170" y="142" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Simulation is not instant</text>
+      <text x="170" y="162" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Flight continues over time</text>
+      <text x="170" y="182" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Projection tracks the path</text>
+      <text x="170" y="206" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>Same principle as other attacks</text>
+
+      <rect x="360" y="56" width="300" height="170" rx="12" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="510" y="88" textAnchor="middle" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Mine</text>
+      <text x="510" y="116" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Physically exists</text>
+      <text x="510" y="142" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Own position on the map</text>
+      <text x="510" y="162" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Deployed / moved in reality</text>
+      <text x="510" y="182" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Stays until triggered</text>
+      <text x="510" y="206" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>Not a virtual projectile</text>
+    </Svg>
+  );
+}
+
 
 export function ArenaMapDiagram() {
   return (

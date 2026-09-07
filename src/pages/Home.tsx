@@ -54,7 +54,7 @@ export default function Home() {
   const hero = (
     <HeroBleed>
       <img
-        src="/images/arena-projection.jpg"
+        src="https://production-static.mobilesyrup.com/uploads/2021/04/league-wild-rift-header.jpeg"
         alt="Projected robotics competition arena with crowd"
       />
       <HeroCopy>

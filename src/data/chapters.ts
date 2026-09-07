@@ -26,7 +26,7 @@ export const chapters: Chapter[] = [
     number: "03",
     title: "Champions",
     path: "/champions",
-    promise: "Three roles, three physical problems.",
+    promise: "Three interfaces, three weapons — and physical mines.",
   },
   {
     id: "arena",
