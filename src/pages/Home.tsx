@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import Figure from "../components/Figure";
+import PhotoStrip from "../components/PhotoStrip";
 import {
   BoundaryDiagram,
   PhysicalDigitalDiagram,
+  RobotCompositionDiagram,
 } from "../components/diagrams";
 import { chapters } from "../data/chapters";
 import {
@@ -20,6 +22,33 @@ import {
   DiagramPanel,
   PageNav,
 } from "../components/ui";
+
+const inspirationPhotos = [
+  {
+    src: "/images/frc-field-2025.jpg",
+    alt: "FIRST Robotics Competition playing field with robots",
+    caption: "Large-scale robotics field with live robots",
+    credit: "Wikimedia Commons · FRC field 2025",
+  },
+  {
+    src: "/images/eurobot-arena.jpg",
+    alt: "Eurobot competition table arena",
+    caption: "Table-top robotics arena, dense physical play",
+    credit: "Wikimedia Commons · Eurobot at ESTEC",
+  },
+  {
+    src: "/images/interactive-floor.jpg",
+    alt: "Portable interactive floor projection setup",
+    caption: "Floor projection as an interactive game surface",
+    credit: "LumoPlay · portable interactive floor",
+  },
+  {
+    src: "/images/sr-arena-alt.jpg",
+    alt: "Student Robotics arena with projected markings",
+    caption: "Projected markings + physical robots + crowd",
+    credit: "Student Robotics SR2023",
+  },
+];
 
 export default function Home() {
   const hero = (
@@ -58,12 +87,28 @@ export default function Home() {
       </Section>
 
       <WideSection>
+        <h2>What this looks like in the world</h2>
+        <p>
+          Inspiration from real robotics fields and projected play spaces —
+          not the final MOBA layout, but the energy and medium.
+        </p>
+        <PhotoStrip photos={inspirationPhotos} />
+      </WideSection>
+
+      <WideSection>
         <h2>The competition boundary</h2>
         <DiagramPanel>
           <BoundaryDiagram />
           <figcaption>
             Robots act physically. The interface measures. The server decides
             official state.
+          </figcaption>
+        </DiagramPanel>
+        <DiagramPanel>
+          <RobotCompositionDiagram />
+          <figcaption>
+            Team hardware wraps the sealed official interface — not an ASCII
+            tree, a clear split.
           </figcaption>
         </DiagramPanel>
       </WideSection>

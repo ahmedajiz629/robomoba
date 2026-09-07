@@ -2,7 +2,10 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
 import Figure from "../components/Figure";
-import { PhysicalDigitalDiagram } from "../components/diagrams";
+import {
+  PhysicalDigitalDiagram,
+  StepChainDiagram,
+} from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
@@ -11,7 +14,6 @@ import {
   Callout,
   Grid,
   Item,
-  Flow,
   PageNav,
   DiagramPanel,
   Takeaway,
@@ -98,18 +100,23 @@ export default function Game() {
         </ul>
       </Section>
 
-      <Section>
-        <h2>Energy, death, win condition</h2>
+      <WideSection>
+        <h2>Path to victory</h2>
+        <DiagramPanel>
+          <StepChainDiagram
+            steps={["Lane / jungle", "Objectives", "Turrets", "Nexus"]}
+            highlightIndex={3}
+          />
+          <figcaption>
+            Energy and death/respawn feed this loop; the Nexus is the only win
+            condition.
+          </figcaption>
+        </DiagramPanel>
         <p>
           Champions spend energy to act. Map resources feed that economy.
-          Death removes a robot for a respawn timer. Destroy the opposing{" "}
-          <strong>Nexus</strong> to win.
+          Death removes a robot for a respawn timer owned by the server.
         </p>
-        <Flow>{`Pressure lanes / contest jungle
-  → take objectives & resources
-  → break turrets
-  → destroy Nexus`}</Flow>
-      </Section>
+      </WideSection>
 
       <Takeaway>
         <strong>Takeaway</strong>

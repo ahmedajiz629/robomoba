@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
 import Figure from "../components/Figure";
+import PhotoStrip from "../components/PhotoStrip";
 import { ArenaMapDiagram } from "../components/diagrams";
 import {
   PageIntro,
@@ -33,10 +34,32 @@ export default function Arena() {
 
       <WideSection>
         <Figure
-          src="/images/arena-projection.jpg"
-          alt="Robotics arena with projected markings and surrounding audience"
-          caption="A physical court with projected geometry, tracking markers, and a live audience around the floor."
-          credit="Reference: Student Robotics SR2022 arena"
+          src="/images/sr-arena-alt.jpg"
+          alt="Student Robotics arena with projected markings and audience"
+          caption="Projected geometry on a physical floor, with spectators around the edge."
+          credit="Student Robotics SR2023"
+        />
+        <PhotoStrip
+          photos={[
+            {
+              src: "/images/frc-field-2024.jpg",
+              alt: "FRC 2024 Crescendo playing field",
+              caption: "Large alliance field with clear zones",
+              credit: "Wikimedia · FRC 2024 field",
+            },
+            {
+              src: "/images/eurobot-table.jpg",
+              alt: "Eurobot competition table close-up",
+              caption: "Dense physical objectives on a table arena",
+              credit: "Wikimedia · Eurobot ESTEC",
+            },
+            {
+              src: "/images/robocup-arena.jpg",
+              alt: "RoboCup Rescue test arena",
+              caption: "Structured obstacle arena for robots",
+              credit: "Wikimedia · RoboCup Rescue 2008",
+            },
+          ]}
         />
         <DiagramPanel>
           <ArenaMapDiagram />

@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
+import Figure from "../components/Figure";
 import {
   BoundaryDiagram,
   OrgTeamDiagram,
+  RobotCompositionDiagram,
 } from "../components/diagrams";
 import {
   PageIntro,
@@ -12,7 +14,6 @@ import {
   WideSection,
   Callout,
   Principle,
-  Flow,
   ListPlain,
   PageNav,
   TwoCol,
@@ -36,29 +37,36 @@ export default function System() {
       </PageIntro>
 
       <WideSection>
+        <Figure
+          src="/images/frc-match.jpg"
+          alt="Robots competing on a FIRST Robotics field"
+          caption="Real competition robots on a shared field — engineering differences, common rules."
+          credit="Wikimedia Commons · FIRST Robotics Competition"
+        />
         <DiagramPanel>
           <BoundaryDiagram />
           <figcaption>Team robot ↔ Champion Interface ↔ game server</figcaption>
         </DiagramPanel>
       </WideSection>
 
-      <Section>
+      <WideSection>
         <h2>Champion vs robot</h2>
         <p>
-          The <strong>champion</strong> is the standardized game entity.
-          The <strong>robot</strong> is the team’s physical implementation.
+          The <strong>champion</strong> is the standardized game entity. The{" "}
+          <strong>robot</strong> is the team’s physical implementation.
         </p>
-        <Flow>{`TEAM ROBOT
-   ├── chassis, motors, actuators, mechanics
-   └── Champion Interface (organization)
-         ├── Core
-         ├── Weapon sensors / interface
-         └── Photodiode / light beam (where required)`}</Flow>
+        <DiagramPanel>
+          <RobotCompositionDiagram />
+          <figcaption>
+            Amber = team-built. Cyan = organization interface mounted onto the
+            robot.
+          </figcaption>
+        </DiagramPanel>
         <Principle>
           The organization standardizes the measurement. The team engineers
           the physical action.
         </Principle>
-      </Section>
+      </WideSection>
 
       <WideSection>
         <h2>Who builds what</h2>

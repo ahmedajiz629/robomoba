@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
-import { ChampionsDiagram } from "../components/diagrams";
+import Figure from "../components/Figure";
+import {
+  ChampionsDiagram,
+  StepChainDiagram,
+} from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
   Section,
   WideSection,
   Callout,
-  Flow,
   PageNav,
   DiagramPanel,
   Takeaway,
@@ -29,6 +32,12 @@ export default function Champions() {
       </PageIntro>
 
       <WideSection>
+        <Figure
+          src="/images/eurobot-robots.jpg"
+          alt="Competition robots on a Eurobot arena"
+          caption="Different machines, shared field rules — the spirit of champion-vs-robot design."
+          credit="Wikimedia Commons · Eurobot at ESTEC"
+        />
         <DiagramPanel>
           <ChampionsDiagram />
           <figcaption>
@@ -58,10 +67,17 @@ export default function Champions() {
         <p>
           Optical emitter on the Tank; photodiode on the ally. Healing can
           depend on line of sight, distance, alignment, and duration.
-          Modulation identifies source so arbitrary light does not count.
         </p>
-        <Flow>{`Tank light beam → ally photodiode → Core → HP recovery`}</Flow>
       </Section>
+
+      <WideSection>
+        <DiagramPanel>
+          <StepChainDiagram
+            steps={["Light beam", "Photodiode", "Core", "HP recovery"]}
+          />
+          <figcaption>Healing as a physical optical link, then a game rule.</figcaption>
+        </DiagramPanel>
+      </WideSection>
 
       <Section>
         <h2>Fighter</h2>
@@ -99,7 +115,21 @@ export default function Champions() {
             damage is simulated.
           </p>
         </Callout>
-        <Flow>{`Physical launcher → sensors → server simulation → projection → impact`}</Flow>
+      </Section>
+
+      <WideSection>
+        <DiagramPanel>
+          <StepChainDiagram
+            steps={["Launcher", "Sensors", "Simulation", "Projection", "Impact"]}
+            highlightIndex={2}
+          />
+          <figcaption>
+            Physical launch, digital impact — safe and still engineered.
+          </figcaption>
+        </DiagramPanel>
+      </WideSection>
+
+      <Section>
         <h3>Mines</h3>
         <p>
           Physically deployed objects that become game entities. Effects are

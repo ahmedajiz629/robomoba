@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
+import Figure from "../components/Figure";
 import { DevWorkflowDiagram } from "../components/diagrams";
 import {
   PageIntro,
@@ -28,6 +29,12 @@ export default function Development() {
       </PageIntro>
 
       <WideSection>
+        <Figure
+          src="/images/frc-pit.jpg"
+          alt="Teams working with robots at a FIRST Robotics Championship"
+          caption="Development happens before the match — pits, practice, iteration."
+          credit="Wikimedia Commons · FIRST Robotics Championship"
+        />
         <DiagramPanel>
           <DevWorkflowDiagram />
           <figcaption>

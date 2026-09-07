@@ -32,6 +32,12 @@ export default function Server() {
 
       <WideSection>
         <Figure
+          src="/images/interactive-floor.jpg"
+          alt="Interactive floor projection system"
+          caption="Projection turns a floor into a readable game surface — fed by authoritative state."
+          credit="LumoPlay · portable interactive floor"
+        />
+        <Figure
           src="/images/xr-projection.jpg"
           alt="Projected spectator layer on a physical play space"
           caption="The server feeds visualization: projection and HUD are the spectator layer, not the authority."
