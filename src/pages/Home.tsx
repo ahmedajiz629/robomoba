@@ -8,8 +8,6 @@ import {
 } from "../components/diagrams";
 import { chapters } from "../data/chapters";
 import {
-  HeroBleed,
-  HeroCopy,
   Eyebrow,
   Section,
   WideSection,
@@ -20,6 +18,11 @@ import {
   TextLink,
   DiagramPanel,
   PageNav,
+  HomeHero,
+  HomeHeroCopy,
+  HomeHeroBrand,
+  HomeHeroActions,
+  HomeHeroMedia,
 } from "../components/ui";
 
 const inspirationPhotos = [
@@ -50,39 +53,54 @@ const inspirationPhotos = [
 ];
 
 export default function Home() {
-  const hero = (
-    <HeroBleed>
-      <img
-        src="/images/wild-rift-ref.jpg"
-        alt="League of Legends Wild Rift — MOBA gameplay reference"
-      />
-      <HeroCopy>
-        <Eyebrow>Competition concept</Eyebrow>
-        <h1>A MOBA — played by robots</h1>
-        <p>
-          Think League of Legends or Wild Rift: lanes, jungle, team fights,
-          destroy the Nexus. Here the champions are physical machines on a
-          real arena.
-        </p>
-      </HeroCopy>
-    </HeroBleed>
-  );
-
   return (
-    <Layout hero={hero}>
+    <Layout>
+      <HomeHero>
+        <HomeHeroCopy>
+          <HomeHeroBrand>Robotics MOBA</HomeHeroBrand>
+          <Eyebrow>Competition concept</Eyebrow>
+          <h1>A MOBA played with robots</h1>
+          <p>
+            Same game idea as League of Legends or Wild Rift — lanes, jungle,
+            team fights, destroy the Nexus — but the champions are physical
+            machines on a real arena, with projection as the digital layer.
+          </p>
+          <HomeHeroActions>
+            <Link className="primary" to="/game">
+              How a match works <span aria-hidden>→</span>
+            </Link>
+            <Link className="secondary" to="/system">
+              Robot structure
+            </Link>
+          </HomeHeroActions>
+        </HomeHeroCopy>
+
+        <HomeHeroMedia>
+          <div className="frame">
+            <img
+              src="/images/wild-rift-ref.jpg"
+              alt="League of Legends Wild Rift — MOBA gameplay reference"
+            />
+          </div>
+          <figcaption>
+            <strong>MOBA reference</strong>
+            <span>Wild Rift · the digital game vocabulary we re-embody</span>
+          </figcaption>
+        </HomeHeroMedia>
+      </HomeHero>
+
       <Section>
         <h2>What is this?</h2>
         <p>
-          The Robotics MOBA is a <strong>physical esport</strong>: two teams
-          of three custom-built robots compete in a 3v3 match inspired by
-          Multiplayer Online Battle Arenas.
+          The Robotics MOBA is a <strong>physical esport</strong>: two teams of
+          three custom-built robots compete in a 3v3 match. Spectators see
+          shields, swords, heal beams, mines, and projected projectiles — not
+          six RC cars driving in circles.
         </p>
         <p>
-          You do not watch RC cars drive in circles. You watch shields block,
-          swords swing, healing beams connect allies, mines get placed, and
-          virtual projectiles arc across the floor as projection. The match
-          ends when one team’s <strong>Nexus</strong> falls — after a lane is
-          cleared, like in Wild Rift.
+          The match ends when one team’s <strong>Nexus</strong> falls, after a
+          lane is cleared (Wild Rift–style). Behind that is an authoritative
+          game server that keeps the rules fair.
         </p>
         <Callout>
           <strong>The idea in one line</strong>
@@ -116,7 +134,7 @@ export default function Home() {
         <Figure
           src="/images/xr-projection.jpg"
           alt="Floor projection showing player zones and luminous game effects"
-          caption="Projection turns the floor into a readable game layer — trajectories, zones, events — while the machines stay real."
+          caption="On our side, projection turns the floor into a readable game layer while the machines stay real."
           credit="Reference: Alfa5 XR Sports / Digital AV Magazine"
         />
       </WideSection>
@@ -125,14 +143,12 @@ export default function Home() {
         <h2>How a hit becomes a game event</h2>
         <p>
           A robot performs a physical action. Sensors measure it. The game
-          server applies the rules. Projection shows the result to everyone
-          watching.
+          server applies the rules. Projection shows the result.
         </p>
         <DiagramPanel>
           <PhysicalDigitalDiagram />
           <figcaption>
-            Physical action → measurement → server → projection. Fairness stays
-            digital; play stays physical.
+            Physical action → measurement → server → projection.
           </figcaption>
         </DiagramPanel>
       </WideSection>
@@ -149,21 +165,18 @@ export default function Home() {
       <WideSection>
         <h2>Who builds what</h2>
         <p>
-          Once you get the match, the next question is the split between the
-          organizers and the teams.
+          Once the match makes sense, the next question is the split between
+          organizers and teams.
         </p>
         <Principle>We define the game. You define the robot.</Principle>
         <p>
           The organization owns the Champion Interface, the arena systems, and
           the authoritative game server. Teams engineer the robot — chassis,
-          actuators, control, strategy — around that boundary. Same measurement
-          for everyone; different machines.
+          actuators, control, strategy — around that boundary.
         </p>
         <DiagramPanel>
           <BoundaryDiagram />
-          <figcaption>
-            Team robot → official interface → game server.
-          </figcaption>
+          <figcaption>Team robot → official interface → game server.</figcaption>
         </DiagramPanel>
         <TextLink to="/system">See robot structure in detail →</TextLink>
       </WideSection>
@@ -189,7 +202,7 @@ export default function Home() {
       </WideSection>
 
       <PageNav>
-        <Link to="/game">New here? Start with how the match works →</Link>
+        <Link to="/game">Continue: how a match works →</Link>
       </PageNav>
     </Layout>
   );

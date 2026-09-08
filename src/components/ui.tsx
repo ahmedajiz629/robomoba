@@ -256,55 +256,133 @@ export const Takeaway = styled.aside`
   }
 `;
 
-export const HeroBleed = styled.section`
-  position: relative;
-  width: 100%;
-  height: clamp(11rem, 26vh, 16rem);
-  overflow: hidden;
+/** Home opening: copy + framed reference image (not a raw full-bleed photo) */
+export const HomeHero = styled.section`
+  display: grid;
+  gap: 2rem 2.75rem;
+  align-items: center;
+  margin: 2rem 0 3rem;
+  padding-bottom: 2.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.line};
-  animation: fadeIn 0.7s ease both;
-  background: ${({ theme }) => theme.colors.bg};
+  animation: riseIn 0.55s ease both;
+
+  @media (min-width: 900px) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 3rem;
+    margin-top: 2.5rem;
+  }
+`;
+
+export const HomeHeroCopy = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  max-width: 34rem;
+
+  h1 {
+    margin: 0.35rem 0 0.15rem;
+    font-size: clamp(2rem, 4.2vw, 2.85rem);
+    letter-spacing: -0.035em;
+  }
+
+  > p {
+    margin: 0.35rem 0 0.5rem;
+    color: ${({ theme }) => theme.colors.muted};
+    font-size: 1.08rem;
+    line-height: 1.55;
+  }
+`;
+
+export const HomeHeroBrand = styled.p`
+  margin: 0;
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+export const HomeHeroActions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.1rem;
+  align-items: center;
+  margin-top: 0.75rem;
+
+  a.primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1rem;
+    background: ${({ theme }) => theme.colors.accentSoft};
+    border: 1px solid ${({ theme }) => theme.colors.accent};
+    border-radius: ${({ theme }) => theme.radii.sm};
+    color: ${({ theme }) => theme.colors.accent};
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+
+    &:hover {
+      background: rgba(62, 207, 255, 0.2);
+      text-decoration: none;
+    }
+  }
+
+  a.secondary {
+    color: ${({ theme }) => theme.colors.muted};
+    font-weight: 500;
+    font-size: 0.92rem;
+  }
+`;
+
+export const HomeHeroMedia = styled.figure`
+  margin: 0;
+  position: relative;
+
+  .frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: ${({ theme }) => theme.radii.md};
+    border: 1px solid ${({ theme }) => theme.colors.lineStrong};
+    background: ${({ theme }) => theme.colors.surface};
+    aspect-ratio: 16 / 10;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  }
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 35%;
+    object-position: center;
   }
 
-  &::after {
+  .frame::after {
     content: "";
     position: absolute;
     inset: 0;
+    pointer-events: none;
     background: linear-gradient(
-      105deg,
-      rgba(10, 12, 16, 0.92) 0%,
-      rgba(10, 12, 16, 0.72) 42%,
-      rgba(10, 12, 16, 0.45) 100%
+      180deg,
+      transparent 55%,
+      rgba(10, 12, 16, 0.55) 100%
     );
   }
-`;
 
-export const HeroCopy = styled.div`
-  position: absolute;
-  left: ${({ theme }) => theme.space.pageX};
-  right: ${({ theme }) => theme.space.pageX};
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-  max-width: 36rem;
-
-  h1 {
-    margin: 0.3rem 0 0.55rem;
-    font-size: clamp(1.65rem, 3.5vw, 2.35rem);
+  figcaption {
+    margin-top: 0.7rem;
+    display: grid;
+    gap: 0.15rem;
   }
 
-  p {
-    margin: 0;
-    color: ${({ theme }) => theme.colors.muted};
-    font-size: 0.98rem;
-    line-height: 1.45;
-    max-width: 32rem;
+  figcaption strong {
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+
+  figcaption span {
+    color: ${({ theme }) => theme.colors.faint};
+    font-size: 0.75rem;
   }
 `;
 
