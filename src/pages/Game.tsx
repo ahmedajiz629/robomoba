@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import ChapterNav from "../components/ChapterNav";
 import Figure from "../components/Figure";
 import {
   PhysicalDigitalDiagram,
@@ -26,8 +25,6 @@ import {
 export default function Game() {
   return (
     <Layout>
-      <ChapterNav chapterId="game" />
-
       <PageIntro>
         <Eyebrow>Chapter 02 · Match rules</Eyebrow>
         <h1>Game</h1>

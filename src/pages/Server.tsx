@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import ChapterNav from "../components/ChapterNav";
 import Figure from "../components/Figure";
 import { OpenClosedDiagram } from "../components/diagrams";
 import {
@@ -19,8 +18,6 @@ import {
 export default function Server() {
   return (
     <Layout>
-      <ChapterNav chapterId="server" />
-
       <PageIntro>
         <Eyebrow>Chapter 05 · Infrastructure</Eyebrow>
         <h1>Server</h1>

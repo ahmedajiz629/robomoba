@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import ChapterNav from "../components/ChapterNav";
 import Figure from "../components/Figure";
 import { DevWorkflowDiagram } from "../components/diagrams";
 import {
@@ -17,8 +16,6 @@ import {
 export default function Development() {
   return (
     <Layout>
-      <ChapterNav chapterId="development" />
-
       <PageIntro>
         <Eyebrow>Chapter 06 · Team workflow</Eyebrow>
         <h1>Development</h1>

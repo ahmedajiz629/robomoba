@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import ChapterNav from "../components/ChapterNav";
 import {
   RobotStructureDiagram,
   InterfaceCompositionDiagram,
@@ -23,8 +22,6 @@ import {
 export default function System() {
   return (
     <Layout>
-      <ChapterNav chapterId="system" />
-
       <PageIntro>
         <Eyebrow>Chapter 01 · Robot structure</Eyebrow>
         <h1>Robot structure</h1>

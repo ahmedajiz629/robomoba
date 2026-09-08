@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import ChapterNav from "../components/ChapterNav";
 import {
   PageIntro,
   Eyebrow,
@@ -45,8 +44,6 @@ const months = [
 export default function Roadmap() {
   return (
     <Layout>
-      <ChapterNav chapterId="roadmap" />
-
       <PageIntro>
         <Eyebrow>Chapter 07 · Delivery</Eyebrow>
         <h1>Roadmap</h1>

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import ChapterNav from "../components/ChapterNav";
 import Figure from "../components/Figure";
 import { ArenaItemCards } from "../components/arenaItems";
 import {
@@ -15,8 +14,6 @@ import {
 export default function Arena() {
   return (
     <Layout>
-      <ChapterNav chapterId="arena" />
-
       <PageIntro>
         <Eyebrow>Chapter 04 · Battlefield</Eyebrow>
         <h1>Arena</h1>

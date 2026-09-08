@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Layout from "../components/Layout";
-import ChapterNav from "../components/ChapterNav";
 import { SharedCombatPipelineDiagram } from "../components/diagrams";
 import {
   HealBeamIllustration,
@@ -122,8 +121,6 @@ const Sensor = styled.p`
 export default function Champions() {
   return (
     <Layout>
-      <ChapterNav chapterId="champions" />
-
       <PageIntro>
         <Eyebrow>Chapter 03</Eyebrow>
         <h1>Champions</h1>
