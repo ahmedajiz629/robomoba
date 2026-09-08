@@ -672,8 +672,8 @@ const Envelope = styled.div<{ $wide?: boolean }>`
   background: radial-gradient(
     circle,
     transparent 16%,
-    rgba(255, 180, 90, 0.22) 17%,
-    rgba(255, 180, 90, 0.1) 84%,
+    rgba(255, 180, 90, ${({ $wide }) => $wide ? 0.22 : 0.88}) 17%,
+    rgba(255, 180, 90, ${({ $wide }) => $wide ? 0.1 : 0.4}) 84%,
     transparent 85%
   );
   ${({ $wide }) =>
@@ -721,8 +721,8 @@ const Arm = styled.div<{ $spin?: boolean }>`
   z-index: 2;
   animation: ${({ $spin }) =>
     $spin
-      ? css`swordWide 3.6s linear infinite`
-      : css`swordNarrow 0.7s linear infinite alternate`};
+      ? css`swordWide .9s linear infinite`
+      : css`swordNarrow .2s linear infinite alternate`};
 `;
 
 const Grip = styled.div`

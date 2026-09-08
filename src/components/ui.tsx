@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -385,4 +386,68 @@ export const HomeHeroMedia = styled.figure`
     font-size: 0.75rem;
   }
 `;
+
+const TourStepWrap = styled.section`
+  margin: 0 0 3.25rem;
+  padding-top: 0.35rem;
+  scroll-margin-top: 7rem;
+  animation: riseIn 0.6s ease both;
+
+  > h2 {
+    margin: 0.35rem 0 0.85rem;
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    max-width: ${({ theme }) => theme.widths.prose};
+  }
+
+  > p {
+    max-width: ${({ theme }) => theme.widths.prose};
+    color: ${({ theme }) => theme.colors.muted};
+  }
+
+  > h3 {
+    margin: 1.75rem 0 0.5rem;
+    font-size: 1.05rem;
+    max-width: ${({ theme }) => theme.widths.prose};
+  }
+`;
+
+export const TourClose = styled.p`
+  margin: 1.5rem 0 0;
+  max-width: none;
+  color: ${({ theme }) => theme.colors.faint};
+  font-size: 0.88rem;
+  line-height: 1.7;
+
+  a {
+    font-weight: 500;
+  }
+`;
+
+const TourNum = styled.span`
+  display: block;
+  margin: 0;
+  color: ${({ theme }) => theme.colors.accent};
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+`;
+
+type TourStepProps = {
+  id?: string;
+  n: string;
+  question: string;
+  more?: { to: string; label: string };
+  children: ReactNode;
+};
+
+export function TourStep({ id, n, question, more, children }: TourStepProps) {
+  return (
+    <TourStepWrap id={id}>
+      <TourNum>{n}</TourNum>
+      <h2>{question}</h2>
+      {children}
+      {more && <TextLink to={more.to}>{more.label}</TextLink>}
+    </TourStepWrap>
+  );
+}
 
