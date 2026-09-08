@@ -257,7 +257,7 @@ export default function Champions() {
       </Takeaway>
 
       <PageNav>
-        <Link to="/game">← Game</Link>
+        <Link to="/system">← Robot structure</Link>
         <Link to="/arena">Next: Arena →</Link>
       </PageNav>
     </Layout>

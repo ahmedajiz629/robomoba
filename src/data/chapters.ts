@@ -8,18 +8,18 @@ export type Chapter = {
 
 export const chapters: Chapter[] = [
   {
-    id: "system",
-    number: "01",
-    title: "Robot structure",
-    path: "/system",
-    promise: "How the robot is wired — who owns actuators vs sensors.",
-  },
-  {
     id: "game",
-    number: "02",
+    number: "01",
     title: "Game",
     path: "/game",
     promise: "HP, Mana, Charge, cooldowns, spawn, and the Nexus.",
+  },
+  {
+    id: "system",
+    number: "02",
+    title: "Robot structure",
+    path: "/system",
+    promise: "How the robot is wired — who owns actuators vs sensors.",
   },
   {
     id: "champions",

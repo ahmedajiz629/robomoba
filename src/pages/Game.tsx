@@ -26,7 +26,7 @@ export default function Game() {
   return (
     <Layout>
       <PageIntro>
-        <Eyebrow>Chapter 02 · Match rules</Eyebrow>
+        <Eyebrow>Chapter 01 · Match rules</Eyebrow>
         <h1>Game</h1>
         <p>
           How physical play becomes a match: action → sensing → server →
@@ -34,6 +34,16 @@ export default function Game() {
           Nexus that opens only when a lane is cleared.
         </p>
       </PageIntro>
+
+      <WideSection>
+        <Figure
+          src="/images/wild-rift-nexus.png"
+          alt="Wild Rift briefing: lanes, turrets, spawn platform, and destroy the enemy Nexus"
+          caption="The match you are playing. Push the lanes, break the turrets, destroy the Nexus."
+          credit="League of Legends: Wild Rift · interfaceingame.com"
+          fit="contain"
+        />
+      </WideSection>
 
       <WideSection>
         <h2>Physical action → game event</h2>
@@ -182,8 +192,8 @@ export default function Game() {
       </Takeaway>
 
       <PageNav>
-        <Link to="/system">← Robot structure</Link>
-        <Link to="/champions">Next: Champions →</Link>
+        <Link to="/">← Home</Link>
+        <Link to="/system">Next: Robot structure →</Link>
       </PageNav>
     </Layout>
   );

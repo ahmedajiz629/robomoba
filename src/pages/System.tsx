@@ -24,7 +24,7 @@ export default function System() {
   return (
     <Layout>
       <PageIntro>
-        <Eyebrow>Chapter 01 · Robot structure</Eyebrow>
+        <Eyebrow>Chapter 02 · Robot structure</Eyebrow>
         <h1>Robot structure</h1>
         <p>
           How a competition robot is put together: what the team builds, what
@@ -147,8 +147,8 @@ export default function System() {
       </Takeaway>
 
       <PageNav>
-        <Link to="/">← Home</Link>
-        <Link to="/game">Next: Game →</Link>
+        <Link to="/game">← Game</Link>
+        <Link to="/champions">Next: Champions →</Link>
       </PageNav>
     </Layout>
   );
