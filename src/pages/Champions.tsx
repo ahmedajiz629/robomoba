@@ -71,7 +71,6 @@ const Peek = styled.article<{ $accent: string }>`
 const Champ = styled.section<{ $accent: string }>`
   margin: 0 0 2.75rem;
   padding-top: 1.5rem;
-  scroll-margin-top: 7rem;
   border-top: 1px solid ${({ theme }) => theme.colors.line};
 
   > header {

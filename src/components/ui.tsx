@@ -411,7 +411,7 @@ export const HomeHeroMedia = styled.figure`
 const TourStepWrap = styled.section`
   margin: 0 0 3.25rem;
   padding-top: 0.35rem;
-  scroll-margin-top: 7rem;
+  scroll-margin-top: 9rem;
   animation: riseIn 0.6s ease both;
 
   > h2 {
