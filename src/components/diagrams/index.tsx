@@ -481,33 +481,38 @@ export function DevWorkflowDiagram() {
   );
 }
 
-/** Three champion resources: HP, Mana, Charge */
+/** Three champion resources: virtual HP/Mana vs physical Charge */
 export function ResourceTriadDiagram() {
   return (
-    <Svg viewBox="0 0 680 240" role="img" aria-label="HP Mana and Charge resources">
+    <Svg viewBox="0 0 720 268" role="img" aria-label="Virtual HP and Mana versus physical Charge">
       <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Three resources</text>
-      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Different jobs — do not mix them up</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Virtual game state on the left — physical energy on the right</text>
 
-      <rect x="20" y="68" width="200" height="150" rx="12" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1.5" />
-      <text x="120" y="100" textAnchor="middle" fill="#3ecfff" fontSize="16" fontFamily={fontTitle} fontWeight="600">HP</text>
-      <text x="120" y="124" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Game · vitality</text>
-      <text x="120" y="152" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Weapons stay active</text>
-      <text x="120" y="172" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>only while HP &gt; 0</text>
-      <text x="120" y="198" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>HP ≤ 0 → dead</text>
+      <text x="228" y="74" textAnchor="middle" fill="#3ecfff" fontSize="11" fontFamily={fontTitle} fontWeight="600" letterSpacing="0.08em">VIRTUAL</text>
+      <text x="588" y="74" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontTitle} fontWeight="600" letterSpacing="0.08em">PHYSICAL</text>
 
-      <rect x="240" y="68" width="200" height="150" rx="12" fill="rgba(255,180,90,0.1)" stroke="#ffb45a" strokeWidth="1.5" />
-      <text x="340" y="100" textAnchor="middle" fill="#ffb45a" fontSize="16" fontFamily={fontTitle} fontWeight="600">Mana</text>
-      <text x="340" y="124" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Game · combat fuel</text>
-      <text x="340" y="152" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Consumed by attacks</text>
-      <text x="340" y="172" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>and abilities</text>
-      <text x="340" y="198" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>No Mana → no spend</text>
+      <line x1="456" y1="58" x2="456" y2="256" stroke="#6b7785" strokeWidth="1.5" strokeDasharray="5 5" />
 
-      <rect x="460" y="68" width="200" height="150" rx="12" fill="#181e26" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
-      <text x="560" y="100" textAnchor="middle" fill="#eef2f6" fontSize="16" fontFamily={fontTitle} fontWeight="600">Charge</text>
-      <text x="560" y="124" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Robot · energy</text>
-      <text x="560" y="152" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Needed to move the</text>
-      <text x="560" y="172" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>physical robot</text>
-      <text x="560" y="198" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>No Charge → stuck</text>
+      <rect x="20" y="86" width="200" height="150" rx="12" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="120" y="118" textAnchor="middle" fill="#3ecfff" fontSize="16" fontFamily={fontTitle} fontWeight="600">HP</text>
+      <text x="120" y="142" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Game · vitality</text>
+      <text x="120" y="170" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Weapons stay active</text>
+      <text x="120" y="190" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>only while HP &gt; 0</text>
+      <text x="120" y="216" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>HP ≤ 0 → dead</text>
+
+      <rect x="236" y="86" width="200" height="150" rx="12" fill="rgba(255,180,90,0.1)" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="336" y="118" textAnchor="middle" fill="#ffb45a" fontSize="16" fontFamily={fontTitle} fontWeight="600">Mana</text>
+      <text x="336" y="142" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Game · combat fuel</text>
+      <text x="336" y="170" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Consumed by attacks</text>
+      <text x="336" y="190" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>and abilities</text>
+      <text x="336" y="216" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>No Mana → no spend</text>
+
+      <rect x="488" y="86" width="200" height="150" rx="12" fill="#181e26" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
+      <text x="588" y="118" textAnchor="middle" fill="#eef2f6" fontSize="16" fontFamily={fontTitle} fontWeight="600">Charge</text>
+      <text x="588" y="142" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Robot · energy</text>
+      <text x="588" y="170" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Needed to move the</text>
+      <text x="588" y="190" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>physical robot</text>
+      <text x="588" y="216" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>No Charge → stuck</text>
     </Svg>
   );
 }
@@ -618,6 +623,184 @@ export function NexusLaneDiagram() {
       <rect x="388" y="170" width="266" height="80" rx="12" fill="rgba(255,180,90,0.12)" stroke="#ffb45a" strokeWidth="1.5" />
       <text x="521" y="204" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Nexus can take damage</text>
       <text x="521" y="226" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>at least one lane cleared</text>
+    </Svg>
+  );
+}
+
+export function ServerIODiagram() {
+  return (
+    <Svg viewBox="0 0 720 300" role="img" aria-label="What the game server receives and emits">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Server I/O</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Cores and mines report. Projection and lights only show the snapshot.</text>
+
+      <text x="118" y="78" textAnchor="middle" fill="#3ecfff" fontSize="11" fontFamily={fontTitle} fontWeight="600" letterSpacing="0.08em">IN</text>
+      <rect x="20" y="88" width="196" height="86" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="118" y="118" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Champion Cores</text>
+      <text x="118" y="140" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>IMU · pose · optical events</text>
+      <text x="118" y="158" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>only uplink per robot</text>
+
+      <rect x="20" y="186" width="196" height="86" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="118" y="216" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Mine tags</text>
+      <text x="118" y="238" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>identity · position</text>
+      <text x="118" y="256" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>arming is a game event</text>
+
+      <path d="M216 131 H248" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="248,127 256,131 248,135" fill="#6b7785" />
+      <path d="M216 229 H248" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="248,225 256,229 248,233" fill="#6b7785" />
+
+      <rect x="256" y="118" width="200" height="110" rx="12" fill="rgba(255,180,90,0.12)" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="356" y="158" textAnchor="middle" fill="#ffb45a" fontSize="14" fontFamily={fontTitle} fontWeight="600">Game server</text>
+      <text x="356" y="182" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>official snapshot</text>
+      <text x="356" y="202" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>every tick</text>
+
+      <path d="M456 120 H488" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="488,116 496,120 488,124" fill="#6b7785" />
+      <path d="M456 188 H488" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="488,184 496,188 488,192" fill="#6b7785" />
+      <path d="M456 228 V248 H488" stroke="#6b7785" strokeWidth="1.5" fill="none" />
+      <polygon points="488,244 496,248 488,252" fill="#6b7785" />
+
+      <text x="598" y="78" textAnchor="middle" fill="#ffb45a" fontSize="11" fontFamily={fontTitle} fontWeight="600" letterSpacing="0.08em">OUT</text>
+      <rect x="496" y="88" width="204" height="64" rx="10" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="598" y="114" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontTitle} fontWeight="600">Projection scene</text>
+      <text x="598" y="134" textAnchor="middle" fill="#9aa6b2" fontSize="10" fontFamily={fontBody}>attacks · AoE · HP · Mana</text>
+
+      <rect x="496" y="160" width="204" height="56" rx="10" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="598" y="184" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontTitle} fontWeight="600">Item lighting</text>
+      <text x="598" y="202" textAnchor="middle" fill="#9aa6b2" fontSize="10" fontFamily={fontBody}>self-lit map objects</text>
+
+      <rect x="496" y="224" width="204" height="48" rx="10" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="598" y="244" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontTitle} fontWeight="600">Core downlink</text>
+      <text x="598" y="260" textAnchor="middle" fill="#9aa6b2" fontSize="10" fontFamily={fontBody}>weapons on / off</text>
+    </Svg>
+  );
+}
+
+export function ServerModulesDiagram() {
+  const modules = [
+    { label: "Ingest + clock", sub: "auth · drop stale" },
+    { label: "World model", sub: "poses · landmarks" },
+    { label: "Rules + sim", sub: "HP · Mana · hits" },
+    { label: "State bus", sub: "one snapshot" },
+  ];
+  return (
+    <Svg viewBox="0 0 720 250" role="img" aria-label="Internal game server modules">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Inside the referee</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Subscribers draw or light. They do not decide.</text>
+
+      {modules.map((step, i) => {
+        const x = 16 + i * 176;
+        const last = i === modules.length - 1;
+        return (
+          <g key={step.label}>
+            <rect
+              x={x}
+              y="68"
+              width="156"
+              height="72"
+              rx="10"
+              fill={last ? "rgba(255,180,90,0.12)" : "#181e26"}
+              stroke={last ? "#ffb45a" : "#3ecfff"}
+              strokeWidth="1.5"
+            />
+            <text x={x + 78} y="98" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">{step.label}</text>
+            <text x={x + 78} y="118" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>{step.sub}</text>
+            {i < modules.length - 1 && (
+              <>
+                <path d={`M${x + 156} 104 H${x + 168}`} stroke="#6b7785" strokeWidth="1.5" />
+                <polygon points={`${x + 168},100 ${x + 176},104 ${x + 168},108`} fill="#6b7785" />
+              </>
+            )}
+          </g>
+        );
+      })}
+
+      <path d="M622 140 V156" stroke="#6b7785" strokeWidth="1.5" />
+      <path d="M200 156 H622" stroke="#6b7785" strokeWidth="1.5" />
+      <path d="M200 156 V168" stroke="#6b7785" strokeWidth="1.5" />
+      <path d="M410 156 V168" stroke="#6b7785" strokeWidth="1.5" />
+      <path d="M622 156 V168" stroke="#6b7785" strokeWidth="1.5" />
+
+      {[
+        { x: 122, label: "Projection scene" },
+        { x: 332, label: "Item lighting" },
+        { x: 544, label: "Core downlink" },
+      ].map((box) => (
+        <g key={box.label}>
+          <rect x={box.x} y="168" width="156" height="52" rx="10" fill="#181e26" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" />
+          <text x={box.x + 78} y="200" textAnchor="middle" fill="#9aa6b2" fontSize="12" fontFamily={fontTitle} fontWeight="600">{box.label}</text>
+        </g>
+      ))}
+    </Svg>
+  );
+}
+
+export function ItemStatesDiagram() {
+  const rows = [
+    { name: "Nexus", states: "invulnerable · vulnerable · hp-band · destroyed" },
+    { name: "Turret", states: "alive / hp-band · destroyed" },
+    { name: "Mine", states: "idle · carried · armed · spent" },
+    { name: "Monster", states: "idle · in-combat · taken · respawning" },
+    { name: "Charge pad", states: "ready · in-use · cooldown" },
+    { name: "Gate", states: "open · closed" },
+  ];
+  return (
+    <Svg viewBox="0 0 720 292" role="img" aria-label="Lighting states for self-lit map items">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Item lighting states</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>The server commands the object. The object does not decide the match.</text>
+
+      {rows.map((row, i) => {
+        const y = 64 + i * 36;
+        return (
+          <g key={row.name}>
+            <rect x="20" y={y} width="132" height="28" rx="8" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1" />
+            <text x="86" y={y + 19} textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontTitle} fontWeight="600">{row.name}</text>
+            <text x="168" y={y + 19} fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>{row.states}</text>
+          </g>
+        );
+      })}
+    </Svg>
+  );
+}
+
+export function SessionLifecycleDiagram() {
+  const steps = [
+    { label: "Deploy", sub: "stack on site" },
+    { label: "Session", sub: "slots + items" },
+    { label: "Tokens", sub: "bind Cores" },
+    { label: "Calibrate", sub: "arena frame" },
+    { label: "Live", sub: "clock starts" },
+  ];
+  return (
+    <Svg viewBox="0 0 720 150" role="img" aria-label="Match setup from deploy to live">
+      <text x="20" y="24" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Play does not start until every bound Core and mine is in tolerance</text>
+      {steps.map((step, i) => {
+        const x = 16 + i * 142;
+        const last = i === steps.length - 1;
+        return (
+          <g key={step.label}>
+            <rect
+              x={x}
+              y="44"
+              width="124"
+              height="72"
+              rx="10"
+              fill={last ? "rgba(255,180,90,0.12)" : "#181e26"}
+              stroke={last ? "#ffb45a" : "#3ecfff"}
+              strokeWidth="1.5"
+            />
+            <text x={x + 62} y="74" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">{step.label}</text>
+            <text x={x + 62} y="94" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>{step.sub}</text>
+            {i < steps.length - 1 && (
+              <>
+                <path d={`M${x + 124} 80 H${x + 134}`} stroke="#6b7785" strokeWidth="1.5" />
+                <polygon points={`${x + 134},76 ${x + 142},80 ${x + 134},84`} fill="#6b7785" />
+              </>
+            )}
+          </g>
+        );
+      })}
     </Svg>
   );
 }
