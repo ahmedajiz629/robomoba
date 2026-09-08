@@ -1,250 +1,278 @@
 import styled from "styled-components";
 
-export const ChampionOverviewGrid = styled.div`
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  margin: 1.25rem 0 1.75rem;
-`;
-
-export const ChampionCard = styled.article<{ $accent: string }>`
-  padding: 1.1rem 1.15rem 1.2rem;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.line};
-  border-top: 3px solid ${({ $accent }) => $accent};
-  border-radius: ${({ theme }) => theme.radii.md};
-
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.75rem;
-    margin-bottom: 0.55rem;
-  }
-
-  header span {
-    color: ${({ $accent }) => $accent};
-    font-family: ${({ theme }) => theme.fonts.display};
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-
-  header small {
-    color: ${({ theme }) => theme.colors.faint};
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  h3 {
-    margin: 0 0 0.75rem;
-    font-size: 1.15rem;
-  }
-`;
-
-export const MechList = styled.div`
-  display: grid;
-  gap: 0.35rem;
-
-  > span {
-    color: ${({ theme }) => theme.colors.faint};
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  strong {
-    display: block;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.line};
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-`;
-
-export const ChampionBlock = styled.section<{ $accent: string }>`
-  margin: 0 0 3rem;
-  padding: 1.5rem 0 0;
-  border-top: 1px solid ${({ theme }) => theme.colors.line};
-  animation: riseIn 0.6s ease both;
-
-  > header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem 1rem;
-    margin-bottom: 1rem;
-  }
-
-  > header span {
-    color: ${({ theme }) => theme.colors.faint};
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-  }
-
-  > header strong {
-    color: ${({ $accent }) => $accent};
-    font-family: ${({ theme }) => theme.fonts.display};
-    font-size: 1.05rem;
-    font-weight: 600;
-  }
-
-  > h2 {
-    margin: 0 0 0.75rem;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    max-width: 20rem;
-    line-height: 1.15;
-  }
-
-  > h2 em {
-    font-style: normal;
-    color: ${({ $accent }) => $accent};
-  }
-`;
-
-export const Ability = styled.div`
-  margin: 1rem 0;
-  padding: 1rem 1.1rem;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.line};
-  border-radius: ${({ theme }) => theme.radii.md};
-
-  .meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 0.85rem;
-    align-items: center;
-    margin-bottom: 0.35rem;
-  }
-
-  .num {
-    color: ${({ theme }) => theme.colors.accent};
-    font-family: ${({ theme }) => theme.fonts.mono};
-    font-size: 0.78rem;
-    font-weight: 500;
-  }
-
-  .kind {
-    color: ${({ theme }) => theme.colors.faint};
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  h3 {
-    margin: 0 0 0.65rem;
-    font-size: 1.05rem;
-  }
-
-  p {
-    margin: 0 0 0.5rem;
-    color: ${({ theme }) => theme.colors.muted};
-    font-size: 0.92rem;
-  }
-
-  /* Nested panels stay tight */
-  > div {
-    margin-bottom: 0.5rem;
-  }
-`;
-
-export const Equation = styled.div`
+/** In-page jump links */
+export const JumpNav = styled.nav`
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.45rem 0.55rem;
-  margin-top: 0.85rem;
-  padding-top: 0.85rem;
-  border-top: 1px solid ${({ theme }) => theme.colors.line};
-  font-size: 0.82rem;
+  gap: 0.5rem;
+  margin: 0 0 2rem;
 
-  span {
-    padding: 0.35rem 0.55rem;
-    background: ${({ theme }) => theme.colors.surfaceRaised};
-    border-radius: ${({ theme }) => theme.radii.sm};
+  a {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid ${({ theme }) => theme.colors.line};
+    border-radius: 999px;
+    background: ${({ theme }) => theme.colors.surface};
     color: ${({ theme }) => theme.colors.muted};
-  }
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
 
-  i {
-    font-style: normal;
-    color: ${({ theme }) => theme.colors.faint};
-  }
-
-  strong {
-    padding: 0.35rem 0.55rem;
-    background: ${({ theme }) => theme.colors.accentSoft};
-    border-radius: ${({ theme }) => theme.radii.sm};
-    color: ${({ theme }) => theme.colors.accent};
-    font-weight: 600;
+    &:hover {
+      color: ${({ theme }) => theme.colors.text};
+      border-color: ${({ theme }) => theme.colors.lineStrong};
+      text-decoration: none;
+    }
   }
 `;
 
-export const TradeoffGrid = styled.div`
+/** Compare the three side by side — primary orientation tool */
+export const Compare = styled.div`
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-  margin-top: 1rem;
-`;
-
-export const Tradeoff = styled.div<{ $accent?: string }>`
-  padding: 1.1rem 1.15rem;
-  background: ${({ theme }) => theme.colors.surface};
+  grid-template-columns: 7.5rem repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1rem 0 1.75rem;
+  overflow-x: auto;
+  background: ${({ theme }) => theme.colors.line};
   border: 1px solid ${({ theme }) => theme.colors.line};
   border-radius: ${({ theme }) => theme.radii.md};
 
-  span {
-    display: block;
-    margin-bottom: 0.35rem;
+  > * {
+    background: ${({ theme }) => theme.colors.surface};
+    padding: 0.85rem 0.9rem;
+    min-width: 0;
+  }
+
+  .corner {
+    background: ${({ theme }) => theme.colors.surfaceRaised};
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
     color: ${({ theme }) => theme.colors.faint};
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    background: ${({ theme }) => theme.colors.surfaceRaised};
+  }
+
+  .head {
+    text-align: center;
+  }
+
+  .head strong {
+    display: block;
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .head span {
+    color: ${({ theme }) => theme.colors.muted};
+    font-size: 0.78rem;
+  }
+
+  .cell {
+    font-size: 0.88rem;
+    color: ${({ theme }) => theme.colors.text};
+    line-height: 1.35;
+  }
+
+  .cell small {
+    display: block;
+    margin-top: 0.25rem;
+    color: ${({ theme }) => theme.colors.faint};
+    font-size: 0.75rem;
+  }
+`;
+
+export const AccentHead = styled.div<{ $accent: string }>`
+  border-top: 3px solid ${({ $accent }) => $accent};
+
+  strong {
+    color: ${({ $accent }) => $accent};
+  }
+`;
+
+/** Single champion dossier — one container, fixed internal order */
+export const Dossier = styled.section<{ $accent: string }>`
+  margin: 0 0 2rem;
+  border: 1px solid ${({ theme }) => theme.colors.line};
+  border-radius: ${({ theme }) => theme.radii.md};
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.surface};
+  scroll-margin-top: 5.5rem;
+
+  .banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1.25rem;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.line};
+    border-left: 4px solid ${({ $accent }) => $accent};
+    background: ${({ theme }) => theme.colors.surfaceRaised};
+  }
+
+  .banner .id {
+    font-family: ${({ theme }) => theme.fonts.mono};
+    font-size: 0.78rem;
+    color: ${({ theme }) => theme.colors.faint};
+  }
+
+  .banner h2 {
+    margin: 0;
+    flex: 1;
+    font-size: 1.25rem;
+    min-width: 10rem;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .badge {
+    padding: 0.28rem 0.55rem;
+    border-radius: ${({ theme }) => theme.radii.sm};
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: ${({ theme }) => theme.colors.bg};
+    border: 1px solid ${({ theme }) => theme.colors.line};
+    color: ${({ theme }) => theme.colors.muted};
+  }
+
+  .badge.on {
+    border-color: ${({ $accent }) => $accent};
+    color: ${({ $accent }) => $accent};
+    background: ${({ theme }) => theme.colors.bg};
+  }
+
+  .body {
+    padding: 1.15rem 1.2rem 1.35rem;
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  @media (min-width: 860px) {
+    .body.split {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+`;
+
+export const AbilityRow = styled.div`
+  display: grid;
+  gap: 0.75rem;
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+`;
+
+export const AbilityTile = styled.div<{ $wide?: boolean }>`
+  padding: 0.9rem 1rem;
+  border: 1px solid ${({ theme }) => theme.colors.line};
+  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.colors.bg};
+  grid-column: ${({ $wide }) => ($wide ? "1 / -1" : "auto")};
+
+  .tag {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.4rem;
+  }
+
+  .tag b {
+    font-family: ${({ theme }) => theme.fonts.mono};
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.accent};
+  }
+
+  .tag span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.colors.faint};
   }
 
   h3 {
-    margin: 0 0 0.55rem;
-    font-size: 1rem;
-    color: ${({ $accent, theme }) => $accent || theme.colors.text};
-  }
-
-  .bar {
-    height: 4px;
-    margin-bottom: 0.75rem;
-    border-radius: 2px;
-    background: ${({ theme }) => theme.colors.lineStrong};
-    overflow: hidden;
-  }
-
-  .bar i {
-    display: block;
-    height: 100%;
-    background: ${({ $accent, theme }) => $accent || theme.colors.accent};
+    margin: 0 0 0.4rem;
+    font-size: 0.98rem;
   }
 
   p {
     margin: 0;
+    font-size: 0.85rem;
     color: ${({ theme }) => theme.colors.muted};
-    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+  }
+
+  .chips i {
+    font-style: normal;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.45rem;
+    border-radius: 4px;
+    background: ${({ theme }) => theme.colors.surfaceRaised};
+    color: ${({ theme }) => theme.colors.muted};
   }
 `;
 
-export const TwoColDetail = styled.div`
-  display: grid;
-  gap: 1.25rem 2rem;
-  margin-bottom: 1.25rem;
+export const Note = styled.aside<{ $tone?: "accent" | "warn" }>`
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: ${({ theme }) => theme.radii.sm};
+  border-left: 3px solid
+    ${({ theme, $tone }) =>
+      $tone === "warn" ? theme.colors.amber : theme.colors.accent};
+  background: ${({ theme, $tone }) =>
+    $tone === "warn" ? theme.colors.amberSoft : theme.colors.accentSoft};
+  font-size: 0.88rem;
+  color: ${({ theme }) => theme.colors.muted};
 
-  @media (min-width: 800px) {
-    grid-template-columns: 1.1fr 0.9fr;
-    align-items: start;
+  strong {
+    color: ${({ theme }) => theme.colors.text};
+    margin-right: 0.35rem;
   }
+`;
 
-  > p {
-    margin: 0 0 0.75rem;
-    color: ${({ theme }) => theme.colors.muted};
+export const SectionLabel = styled.h2`
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+`;
+
+export const DossierHint = styled.p`
+  margin: 0 0 1.25rem;
+  color: ${({ theme }) => theme.colors.muted};
+  font-size: 0.95rem;
+`;
+
+export const SoftRule = styled.hr`
+  border: none;
+  border-top: 1px solid ${({ theme }) => theme.colors.line};
+  margin: 2rem 0;
+`;
+
+export const TradePair = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
   }
 `;
