@@ -107,8 +107,13 @@ export const GlobalStyle = createGlobalStyle`
     50% { transform: scaleX(1); opacity: 0.95; }
   }
 
-  @keyframes swordSlash {
-    0%, 100% { transform: rotate(-36deg); }
-    50% { transform: rotate(14deg); }
+  @keyframes swordNarrow {
+    from { transform: rotate(-50deg); }
+    to { transform: rotate(20deg); }
+  }
+
+  @keyframes swordWide {
+    from { transform: rotate(-50deg); }
+    to { transform: rotate(310deg); }
   }
 `;

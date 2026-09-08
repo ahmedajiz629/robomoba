@@ -536,84 +536,119 @@ const SwordSplit = styled.div`
 `;
 
 const SwordCard = styled.div`
-  position: relative;
-  height: 11.5rem;
-  padding: 0.7rem 0.75rem;
+  padding: 0.7rem 0.75rem 0.85rem;
   border: 1px solid ${({ theme }) => theme.colors.line};
   background: ${({ theme }) => theme.colors.surfaceRaised};
-  overflow: hidden;
 
   small {
-    position: relative;
-    z-index: 2;
+    display: block;
     color: ${({ theme }) => theme.colors.amber};
     font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.07em;
   }
 
-  p {
-    position: relative;
-    z-index: 2;
+  > p {
     margin: 0.25rem 0 0;
     font-size: 0.78rem;
     color: ${({ theme }) => theme.colors.muted};
   }
 `;
 
-const MiniSword = styled.div<{ $spin?: boolean }>`
+const Arena = styled.div`
+  position: relative;
+  height: 11.5rem;
+  margin-top: 0.55rem;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 180, 90, 0.05),
+    transparent 62%
+  );
+`;
+
+const Envelope = styled.div<{ $wide?: boolean }>`
   position: absolute;
-  left: 18%;
-  top: 48%;
-  width: 8.2rem;
-  height: 1.35rem;
-  transform-origin: 12% 50%;
+  left: 50%;
+  top: 50%;
+  width: 10.2rem;
+  height: 10.2rem;
+  margin: -5.1rem 0 0 -5.1rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    transparent 16%,
+    rgba(255, 180, 90, 0.22) 17%,
+    rgba(255, 180, 90, 0.1) 84%,
+    transparent 85%
+  );
+  ${({ $wide }) =>
+    $wide
+      ? ""
+      : css`
+          mask: conic-gradient(from 40deg, #000 0 70deg, transparent 70deg);
+          -webkit-mask: conic-gradient(from 40deg, #000 0 70deg, transparent 70deg);
+        `}
+`;
+
+const DeadZone = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin: -0.85rem 0 0 -0.85rem;
+  border: 1px dashed ${({ theme }) => theme.colors.amber};
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.bg};
+  z-index: 2;
+`;
+
+const Pivot = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin: -0.225rem 0 0 -0.225rem;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.amber};
+  z-index: 3;
+`;
+
+const Arm = styled.div<{ $spin?: boolean }>`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4.3rem;
+  height: 1.05rem;
+  margin-top: -0.525rem;
+  transform-origin: 0 50%;
+  z-index: 2;
   animation: ${({ $spin }) =>
     $spin
-      ? css`swordSlash 0.55s linear infinite`
-      : css`swordSlash 1.8s ease-in-out infinite`};
+      ? css`swordWide 3.6s linear infinite`
+      : css`swordNarrow 0.7s linear infinite alternate`};
 `;
 
 const Grip = styled.div`
   position: absolute;
   left: 0;
-  top: 0.38rem;
-  width: 1.45rem;
-  height: 0.58rem;
+  top: 0.24rem;
+  width: 1.05rem;
+  height: 0.55rem;
   background: #232a2f;
   border: 1px solid #556069;
 `;
 
 const Blade = styled.div`
   position: absolute;
-  left: 1.2rem;
-  top: 0.12rem;
-  width: 6.6rem;
-  height: 1.05rem;
+  left: 0.9rem;
+  top: 0.08rem;
+  width: 3.35rem;
+  height: 0.88rem;
   background: linear-gradient(90deg, #616b72, #b3bcc2, #4b565d);
   clip-path: polygon(0 20%, 85% 20%, 100% 50%, 85% 80%, 0 80%);
-`;
-
-const Arc = styled.div<{ $wide?: boolean }>`
-  position: absolute;
-  left: 12%;
-  top: 18%;
-  border: 1px solid ${({ theme }) => theme.colors.amber};
-  border-left-color: transparent;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  ${({ $wide }) =>
-    $wide
-      ? css`
-          width: 11.5rem;
-          height: 11.5rem;
-          opacity: 0.35;
-        `
-      : css`
-          width: 7.2rem;
-          height: 7.2rem;
-          opacity: 0.9;
-        `}
 `;
 
 const GapNote = styled.div`
@@ -630,26 +665,43 @@ export function SwordIllustration() {
       <Tag>Sword · IMU on the blade · same ~3 cm dead zone</Tag>
       <SwordSplit>
         <SwordCard>
-          <small>SLASH · FAST / NARROW</small>
-          <p>High acceleration, short time in the hit volume. Hard punch, small area.</p>
-          <Arc />
-          <MiniSword>
-            <Grip />
-            <Blade />
-          </MiniSword>
+          <small>SLASH · NARROW</small>
+          <p>
+            Same blade speed, short sector. High accel from start/stop —
+            hard punch, small area.
+          </p>
+          <Arena>
+            <Envelope />
+            <DeadZone />
+            <Pivot />
+            <Arm>
+              <Grip />
+              <Blade />
+            </Arm>
+          </Arena>
         </SwordCard>
         <SwordCard>
-          <small>SPIN · WIDE / WEAKER</small>
-          <p>More time in range, lower instantaneous accel. Coverage up, impact down.</p>
-          <Arc $wide />
-          <MiniSword $spin>
-            <Grip />
-            <Blade />
-          </MiniSword>
+          <small>SPIN · WIDE</small>
+          <p>
+            Same blade speed, full ring. More time in range — coverage up,
+            impact down.
+          </p>
+          <Arena>
+            <Envelope $wide />
+            <DeadZone />
+            <Pivot />
+            <Arm $spin>
+              <Grip />
+              <Blade />
+            </Arm>
+          </Arena>
         </SwordCard>
       </SwordSplit>
       <Formula>damage ∝ sword acceleration × time in range</Formula>
-      <GapNote>Hits only after ~3 cm — contact with the blade does not deal real damage.</GapNote>
+      <GapNote>
+        Hits only after ~3 cm (inner ring) — contact with the blade does not
+        deal real damage.
+      </GapNote>
       <Flow>
         <FlowBox>
           <small>Measures</small>
