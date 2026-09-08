@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme";
 import { GlobalStyle } from "./styles/GlobalStyle";
+import ScrollToTop from "./components/ScrollToTop";
+import SvgLightbox from "./components/SvgLightbox";
 import Home from "./pages/Home";
 import System from "./pages/System";
 import Game from "./pages/Game";
@@ -16,6 +18,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BrowserRouter>
+        <ScrollToTop />
+        <SvgLightbox />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/system" element={<System />} />

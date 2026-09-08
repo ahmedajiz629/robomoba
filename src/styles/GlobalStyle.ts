@@ -65,6 +65,10 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 100%;
   }
 
+  svg[role="img"] {
+    cursor: zoom-in;
+  }
+
   @keyframes riseIn {
     from {
       opacity: 0;
