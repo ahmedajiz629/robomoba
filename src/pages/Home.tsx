@@ -3,14 +3,6 @@ import Layout from "../components/Layout";
 import Figure from "../components/Figure";
 import { ArenaItemCards } from "../components/arenaItems";
 import {
-  HealBeamIllustration,
-  ShieldPassiveIllustration,
-  ShieldBurstIllustration,
-  SwordIllustration,
-  LauncherIllustration,
-  MinesIllustration,
-} from "../components/championIllos";
-import {
   BoundaryDiagram,
   PhysicalDigitalDiagram,
   SharedCombatPipelineDiagram,
@@ -154,65 +146,32 @@ export default function Home() {
       <TourStep
         n="05"
         question="Who are the three robots?"
-        more={{ to: "/champions", label: "More on weapons and sensors →" }}
+        more={{ to: "/champions", label: "Damage and weapon details →" }}
       >
         <p>
-          First edition is 3v3. Each robot wears a sealed official
-          interface: a <strong>weapon</strong> the team actuates, plus one
-          optical role. Deployment across lanes and jungle is free.
+          First edition is 3v3. Tank with a shield, Fighter with a sword,
+          Artillery with a launcher. You <strong>move the weapon</strong>.
+          Official sensors measure that motion. The server turns it into
+          the attack. There is no fire button.
         </p>
         <Grid $cols={2}>
           <Item>
             <strong>Tank / Support</strong>
-            <p>Shield (IMU) and a coded heal beam (light, not IMU).</p>
+            <p>Orient the shield. We measure the pose.</p>
           </Item>
           <Item>
             <strong>Fighter</strong>
-            <p>Sword (IMU) and a photodiode that can receive the heal.</p>
+            <p>Swing the sword. We measure the swing.</p>
           </Item>
           <Item>
             <strong>Artillery</strong>
-            <p>Launcher (IMU), photodiode, and can arm mines on the map.</p>
+            <p>Throw with the launcher. We measure the throw.</p>
           </Item>
         </Grid>
-
-        <h3>Tank — shield and beam</h3>
         <p>
-          Point the shield at the incoming attack. Farther from the Core =
-          stronger block. A shove is a burst in that facing direction.
-          Hits start only after a small gap (~3 cm) so ramming does not
-          count.
+          How much damage, range, and the formulas live on the Champions
+          page — not here.
         </p>
-        <ShieldPassiveIllustration />
-        <ShieldBurstIllustration />
-        <p>
-          The heal is not a flashlight. It is a coded optical signal.
-          Alignment and timing must be real — you cannot intercept the beam
-          and fake it over radio.
-        </p>
-        <HealBeamIllustration />
-
-        <h3>Fighter — sword</h3>
-        <p>
-          The swing is the attack. Damage follows{" "}
-          <strong>sword acceleration × time in range</strong>. A spin covers
-          more area and hits softer. Same ~3 cm dead zone as the shield.
-        </p>
-        <SwordIllustration />
-
-        <h3>Artillery — launcher</h3>
-        <p>
-          The actuator must throw like a real launcher. The IMU records that
-          motion. The server applies physics to a{" "}
-          <strong>virtual</strong> projectile and projects the hit. Nothing
-          physical is fired at another robot.
-        </p>
-        <LauncherIllustration />
-        <p>
-          Mines are map items, not a weapon. Artillery can pick one up,
-          move it, then arm it.
-        </p>
-        <MinesIllustration />
       </TourStep>
 
       <TourStep n="06" question="A swing is not a button">
@@ -236,6 +195,7 @@ export default function Home() {
             exception: coded light + photodiode, with timing.
           </figcaption>
         </DiagramPanel>
+        <TextLink to="/system">More on robot structure →</TextLink>
       </TourStep>
 
       <TourStep n="07" question="Three separate tanks of “fuel”">
@@ -307,7 +267,6 @@ export default function Home() {
         <p>
           How a team practices before match day is a separate story.
         </p>
-        <TextLink to="/system">More on robot structure →</TextLink>
         <TextLink to="/development">How teams develop →</TextLink>
       </TourStep>
 
