@@ -1,22 +1,29 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
-import Figure from "../components/Figure";
 import {
   ChampionsDiagram,
   SharedCombatPipelineDiagram,
   HealingLinkDiagram,
   ChampionInterfaceCard,
   MinesVsProjectileDiagram,
+  StepChainDiagram,
 } from "../components/diagrams";
+import {
+  ChampionOverviewGrid,
+  ChampionCard,
+  MechList,
+  ChampionBlock,
+  Ability,
+  Equation,
+  TradeoffGrid,
+  Tradeoff,
+} from "../components/ChampionUI";
 import {
   PageIntro,
   Eyebrow,
   WideSection,
   Callout,
-  Principle,
-  Grid,
-  Item,
   PageNav,
   DiagramPanel,
   Takeaway,
@@ -31,225 +38,280 @@ export default function Champions() {
         <Eyebrow>Chapter 03 · Champions</Eyebrow>
         <h1>Champions</h1>
         <p>
-          Three interfaces, same combat principle. Each champion has a weapon
-          plus one optical role: Tank emits a light beam; Fighter and Artillery
-          carry a photodiode.
+          Three roles. Same pipeline. Each interface ={" "}
+          <strong>weapon</strong> + <strong>optics</strong> (beam if Tank,
+          photodiode otherwise).
         </p>
       </PageIntro>
 
       <WideSection>
-        <Figure
-          src="/images/eurobot-robots.jpg"
-          alt="Competition robots on a Eurobot arena"
-          caption="Different machines on a shared field — three champions, one pipeline."
-          credit="Wikimedia Commons · Eurobot at ESTEC"
-        />
         <DiagramPanel>
           <ChampionsDiagram />
-          <figcaption>
-            Weapon + optics on every interface. Only the Tank emits the heal
-            beam; the others receive it.
-          </figcaption>
+          <figcaption>Who has what — weapon and optical role.</figcaption>
         </DiagramPanel>
-      </WideSection>
-
-      <WideSection>
-        <h2>Shared principle</h2>
-        <p>
-          All three champions use the same loop. Projectiles are special only
-          because their simulation is not instantaneous — the steps stay the
-          same.
-        </p>
         <DiagramPanel>
           <SharedCombatPipelineDiagram />
           <figcaption>
-            Physical action → measurement → virtual action → server →
-            interactive simulation → continuous projection.
+            Shared for every attack (including shield burst and launcher).
           </figcaption>
         </DiagramPanel>
-        <Grid>
-          <Item>
-            <strong>Tank attack</strong>
-            <p>Shield burst motion → measure → virtual hit → server → sim → project</p>
-          </Item>
-          <Item>
-            <strong>Fighter attack</strong>
-            <p>Sword swing → IMU measure → virtual hit → server → sim → project</p>
-          </Item>
-          <Item>
-            <strong>Artillery attack</strong>
-            <p>Launcher motion → measure → virtual shot → server → flight sim → project</p>
-          </Item>
-        </Grid>
-        <Principle>
-          One pipeline. Different physical actions. Same authority: the server.
-        </Principle>
+        <Callout>
+          <strong>Note</strong>
+          <p>
+            Projectiles only differ by duration: simulation continues over
+            time. Steps stay the same.
+          </p>
+        </Callout>
       </WideSection>
 
       <WideSection>
-        <h2>Healing is not a one-way chain</h2>
-        <p>
-          The light beam sits on the Tank. The photodiode sits on the ally.
-          Both Cores talk to the server. The server decides whether heal
-          applies and updates HP — it is not “beam → diode → Core → HP” as a
-          single private path.
-        </p>
-        <DiagramPanel>
-          <HealingLinkDiagram />
-          <figcaption>
-            Optical link between champions; calculation and HP update on the
-            server.
-          </figcaption>
-        </DiagramPanel>
+        <h2>At a glance</h2>
+        <ChampionOverviewGrid>
+          <ChampionCard $accent="#3ecfff">
+            <header>
+              <span>01</span>
+              <small>Tank / Support</small>
+            </header>
+            <h3>Tank / Support</h3>
+            <MechList>
+              <span>Systems</span>
+              <strong>Heavy shield</strong>
+              <strong>Shield burst</strong>
+              <strong>Heal beam (emitter)</strong>
+            </MechList>
+          </ChampionCard>
+          <ChampionCard $accent="#ffb45a">
+            <header>
+              <span>02</span>
+              <small>Fighter</small>
+            </header>
+            <h3>Fighter</h3>
+            <MechList>
+              <span>Systems</span>
+              <strong>Physical sword</strong>
+              <strong>Swing actuation</strong>
+              <strong>Photodiode (receiver)</strong>
+            </MechList>
+          </ChampionCard>
+          <ChampionCard $accent="#a78bfa">
+            <header>
+              <span>03</span>
+              <small>Artillery</small>
+            </header>
+            <h3>Artillery</h3>
+            <MechList>
+              <span>Systems</span>
+              <strong>Launcher (virtual flight)</strong>
+              <strong>Mines (physical)</strong>
+              <strong>Photodiode (receiver)</strong>
+            </MechList>
+          </ChampionCard>
+        </ChampionOverviewGrid>
       </WideSection>
 
-      {/* ——— TANK ——— */}
-      <WideSection>
-        <h2>1 · Tank / Support</h2>
-        <p>
-          Frontline. Weapon: heavy shield. Optics: light beam emitter (support
-          heal).
-        </p>
+      {/* TANK */}
+      <ChampionBlock $accent="#3ecfff">
+        <header>
+          <span>01</span>
+          <strong>TANK / SUPPORT</strong>
+        </header>
+        <h2>
+          <em>Protect</em> · Control · Sustain
+        </h2>
+
         <DiagramPanel>
           <ChampionInterfaceCard
-            title="Tank / Support"
-            role="Shield weapon · light beam emitter"
+            title="Interface split"
+            role="You actuate · we measure · beam emits heal"
             accent="#3ecfff"
             teamParts={[
               "Shield structure & orientation",
-              "Burst motion of the robot",
-              "Aiming the heal beam",
+              "Burst motion",
+              "Beam aiming",
             ]}
             interfaceParts={[
               "Core",
-              "Weapon sensors (shield / motion)",
+              "Shield / motion sensors",
               "Light beam emitter",
             ]}
           />
         </DiagramPanel>
-        <h3>Shield defense</h3>
-        <p>
-          Physically orient the shield. Effectiveness can use pose, distance,
-          and attack direction — still evaluated through the shared pipeline.
-        </p>
-        <h3>Shield burst (Tank attack)</h3>
-        <p>
-          Rapid physical movement is measured, turned into a virtual attack,
-          ruled by the server, simulated, and projected — same principle as
-          sword or launcher, usually near-instant in simulation time.
-        </p>
-        <h3>Heal beam</h3>
-        <p>
-          Emits modulated light toward an ally photodiode. LOS, distance,
-          alignment, duration matter. Both sides report; the server updates HP.
-        </p>
-      </WideSection>
 
-      {/* ——— FIGHTER ——— */}
-      <WideSection>
-        <h2>2 · Fighter</h2>
-        <p>
-          Melee. Weapon: physical sword. Optics: photodiode (can receive heal).
-        </p>
+        <Ability>
+          <div className="meta">
+            <span className="num">A1</span>
+            <span className="kind">Defense</span>
+          </div>
+          <h3>Heavy shield</h3>
+          <Equation>
+            <span>Distance</span>
+            <i>+</i>
+            <span>Orientation</span>
+            <i>+</i>
+            <span>Attack geometry</span>
+            <i>→</i>
+            <strong>Protection</strong>
+          </Equation>
+        </Ability>
+
+        <Ability>
+          <div className="meta">
+            <span className="num">A2</span>
+            <span className="kind">Attack</span>
+          </div>
+          <h3>Shield burst</h3>
+          <DiagramPanel>
+            <StepChainDiagram
+              steps={["Burst", "Measure", "Virtual", "Server", "Project"]}
+            />
+          </DiagramPanel>
+        </Ability>
+
+        <Ability>
+          <div className="meta">
+            <span className="num">A3</span>
+            <span className="kind">Heal</span>
+          </div>
+          <h3>Healing beam</h3>
+          <Callout>
+            <strong>Note</strong>
+            <p>
+              Beam on Tank, photodiode on ally. Both Cores → server → HP. Not a
+              private wire between robots.
+            </p>
+          </Callout>
+          <DiagramPanel>
+            <HealingLinkDiagram />
+          </DiagramPanel>
+        </Ability>
+      </ChampionBlock>
+
+      {/* FIGHTER */}
+      <ChampionBlock $accent="#ffb45a">
+        <header>
+          <span>02</span>
+          <strong>FIGHTER</strong>
+        </header>
+        <h2>
+          <em>Speed</em> · Reach · Precision
+        </h2>
+
         <DiagramPanel>
           <ChampionInterfaceCard
-            title="Fighter"
-            role="Sword weapon · photodiode receiver"
+            title="Interface split"
+            role="You swing · we measure · photodiode receives heal"
             accent="#ffb45a"
             teamParts={[
-              "Sword actuator & linkage",
-              "Mass, reach, structure",
+              "Sword actuator",
+              "Mass / reach / structure",
               "Swing control",
             ]}
-            interfaceParts={[
-              "Core",
-              "Weapon sensors (sword IMU)",
-              "Photodiode",
-            ]}
+            interfaceParts={["Core", "Sword IMU", "Photodiode"]}
           />
         </DiagramPanel>
-        <Callout>
-          <strong>Swing flavour (balancing)</strong>
-          <p>
-            Fast narrow swing → stronger hit. Wide swing → larger area, lower
-            strength. That only changes how measurement maps into the virtual
-            action — not the pipeline itself.
-          </p>
-        </Callout>
-      </WideSection>
 
-      {/* ——— ARTILLERY ——— */}
-      <WideSection>
-        <h2>3 · Artillery</h2>
-        <p>
-          Range and area control. Weapons: launcher + mines. Optics:
-          photodiode (can receive heal).
-        </p>
+        <Ability>
+          <div className="meta">
+            <span className="num">A1</span>
+            <span className="kind">Melee</span>
+          </div>
+          <h3>Physical sword</h3>
+          <DiagramPanel>
+            <StepChainDiagram
+              steps={["Swing", "IMU", "Virtual", "Server", "Damage"]}
+              highlightIndex={1}
+            />
+          </DiagramPanel>
+          <TradeoffGrid>
+            <Tradeoff $accent="#ffb45a">
+              <span>A</span>
+              <h3>Fast + narrow</h3>
+              <div className="bar">
+                <i style={{ width: "85%" }} />
+              </div>
+              <p>Stronger hit · smaller area</p>
+            </Tradeoff>
+            <Tradeoff $accent="#3ecfff">
+              <span>B</span>
+              <h3>Wide + slower</h3>
+              <div className="bar">
+                <i style={{ width: "45%" }} />
+              </div>
+              <p>Weaker hit · larger area</p>
+            </Tradeoff>
+          </TradeoffGrid>
+        </Ability>
+      </ChampionBlock>
+
+      {/* ARTILLERY */}
+      <ChampionBlock $accent="#a78bfa">
+        <header>
+          <span>03</span>
+          <strong>ARTILLERY</strong>
+        </header>
+        <h2>
+          <em>Distance</em> · Prediction · Territory
+        </h2>
+
         <DiagramPanel>
           <ChampionInterfaceCard
-            title="Artillery"
-            role="Launcher & mines · photodiode receiver"
-            accent="#3ecfff"
+            title="Interface split"
+            role="You launch & deploy · we measure · photodiode receives heal"
+            accent="#a78bfa"
             teamParts={[
-              "Launcher aim / fire mechanism",
-              "Mine deploy / move mechanism",
+              "Launcher mechanism",
+              "Mine deploy / move",
               "Carriage & control",
             ]}
-            interfaceParts={[
-              "Core",
-              "Weapon sensors (launch params)",
-              "Photodiode",
-            ]}
+            interfaceParts={["Core", "Launch sensors", "Photodiode"]}
           />
         </DiagramPanel>
 
-        <h3>Launcher</h3>
-        <p>
-          Same shared pipeline. The difference: after measurement, the virtual
-          projectile is simulated over time (not instant), and projection
-          follows that flight continuously. No real projectile is fired.
-        </p>
-        <Callout $tone="warn">
-          <strong>Safety</strong>
-          <p>
-            Simulation mechanism only — not for firing dangerous projectiles
-            at robots or people.
-          </p>
-        </Callout>
+        <Ability>
+          <div className="meta">
+            <span className="num">A1</span>
+            <span className="kind">Ranged</span>
+          </div>
+          <h3>Launcher</h3>
+          <Callout $tone="warn">
+            <strong>Note</strong>
+            <p>
+              No real projectile at opponents. Flight is simulated over time,
+              then projected.
+            </p>
+          </Callout>
+          <DiagramPanel>
+            <StepChainDiagram
+              steps={["Launch", "Measure", "Flight sim", "Project", "Impact"]}
+              highlightIndex={2}
+            />
+          </DiagramPanel>
+        </Ability>
 
-        <h3>Mines</h3>
-        <p>
-          Unlike virtual projectiles, mines <strong>physically exist</strong>,
-          have <strong>their own position</strong>, and can be moved in the
-          arena. Deploy uses the pipeline; while on the ground they remain
-          physical game objects until triggered.
-        </p>
-        <DiagramPanel>
-          <MinesVsProjectileDiagram />
-          <figcaption>
-            Projectile: virtual and time-extended in simulation. Mine: real
-            object with independent placement.
-          </figcaption>
-        </DiagramPanel>
-      </WideSection>
-
-      <WideSection>
-        <Callout>
-          <strong>Deployment</strong>
-          <p>
-            No fixed lane roles. Teams place Tank, Fighter, and Artillery where
-            they want and rotate freely.
-          </p>
-        </Callout>
-      </WideSection>
+        <Ability>
+          <div className="meta">
+            <span className="num">A2</span>
+            <span className="kind">Physical object</span>
+          </div>
+          <h3>Mines</h3>
+          <Callout>
+            <strong>Note</strong>
+            <p>
+              Mines exist in the arena with their own position. They can be
+              moved. Not virtual projectiles.
+            </p>
+          </Callout>
+          <DiagramPanel>
+            <MinesVsProjectileDiagram />
+          </DiagramPanel>
+        </Ability>
+      </ChampionBlock>
 
       <Takeaway>
         <strong>Takeaway</strong>
         <p>
-          Every champion: weapon + (light beam if Tank, else photodiode). All
-          attacks share one pipeline through the server. Heal is a two-champion
-          optical link judged by the server. Mines stay physical with their own
-          position.
+          Weapon + optics on every champion. One attack pipeline. Heal =
+          Tank↔ally optical link judged by the server. Mines stay physical.
         </p>
       </Takeaway>
 
