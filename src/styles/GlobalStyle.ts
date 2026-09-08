@@ -80,4 +80,35 @@ export const GlobalStyle = createGlobalStyle`
     from { opacity: 0; }
     to { opacity: 1; }
   }
+
+  @keyframes beamMove {
+    from { left: 0; }
+    to { left: calc(100% - 10px); }
+  }
+
+  @keyframes beamPulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes burstPush {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+  }
+
+  @keyframes trajDot {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
+  }
+
+  @keyframes coneGrow {
+    0%, 100% { transform: scaleX(0.72); opacity: 0.45; }
+    50% { transform: scaleX(1); opacity: 0.95; }
+  }
+
+  @keyframes swordSlash {
+    0%, 100% { transform: rotate(-36deg); }
+    50% { transform: rotate(14deg); }
+  }
 `;

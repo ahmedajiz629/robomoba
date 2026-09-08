@@ -300,7 +300,7 @@ export function ChampionsDiagram() {
 
       <rect x="464" y="60" width="200" height="140" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
       <text x="564" y="90" textAnchor="middle" fill="#3ecfff" fontSize="13" fontFamily={fontTitle} fontWeight="600">Artillery</text>
-      <text x="564" y="118" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Weapon: launcher + mines</text>
+      <text x="564" y="118" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontBody}>Weapon: launcher</text>
       <text x="564" y="142" textAnchor="middle" fill="#3ecfff" fontSize="12" fontFamily={fontBody}>Optics: photodiode</text>
       <text x="564" y="166" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>(can receive heal)</text>
     </Svg>

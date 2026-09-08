@@ -1,33 +1,123 @@
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
+import { SharedCombatPipelineDiagram } from "../components/diagrams";
 import {
-  SharedCombatPipelineDiagram,
-  HealingLinkDiagram,
-  MinesVsProjectileDiagram,
-  ChampionInterfaceCard,
-} from "../components/diagrams";
-import {
-  JumpNav,
-  Compare,
-  AccentHead,
-  Dossier,
-  AbilityRow,
-  AbilityTile,
-  Note,
-  SectionLabel,
-  SoftRule,
-  DossierHint,
-  TradePair,
-} from "../components/ChampionUI";
+  HealBeamIllustration,
+  ShieldPassiveIllustration,
+  ShieldBurstIllustration,
+  SwordIllustration,
+  LauncherIllustration,
+  MinesIllustration,
+} from "../components/championIllos";
 import {
   PageIntro,
   Eyebrow,
   WideSection,
   DiagramPanel,
   PageNav,
+  Callout,
   Takeaway,
 } from "../components/ui";
+
+const Trio = styled.div`
+  display: grid;
+  gap: 0.85rem;
+  margin: 0 0 2.5rem;
+
+  @media (min-width: 800px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+
+const Peek = styled.article<{ $accent: string }>`
+  padding: 1rem 1.1rem;
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.line};
+  border-top: 3px solid ${({ $accent }) => $accent};
+  border-radius: ${({ theme }) => theme.radii.md};
+
+  small {
+    color: ${({ $accent }) => $accent};
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 0.3rem 0 0.45rem;
+    font-size: 1.15rem;
+  }
+
+  p {
+    margin: 0;
+    color: ${({ theme }) => theme.colors.muted};
+    font-size: 0.88rem;
+  }
+`;
+
+const Champ = styled.section<{ $accent: string }>`
+  margin: 0 0 2.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid ${({ theme }) => theme.colors.line};
+
+  > header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  > header span {
+    color: ${({ $accent }) => $accent};
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  > h2 {
+    margin: 0 0 1.25rem;
+    font-size: 1.7rem;
+  }
+`;
+
+const Ability = styled.div`
+  margin-bottom: 1.75rem;
+
+  h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.15rem;
+  }
+
+  > p {
+    margin: 0 0 0.5rem;
+    color: ${({ theme }) => theme.colors.muted};
+    max-width: 40rem;
+  }
+`;
+
+const AbilityNo = styled.span`
+  display: inline-block;
+  margin-right: 0.45rem;
+  color: ${({ theme }) => theme.colors.faint};
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+`;
+
+const Sensor = styled.p`
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: ${({ theme }) => theme.colors.accent};
+
+  strong {
+    color: ${({ theme }) => theme.colors.text};
+    font-weight: 600;
+  }
+`;
 
 export default function Champions() {
   return (
@@ -35,328 +125,137 @@ export default function Champions() {
       <ChapterNav chapterId="champions" />
 
       <PageIntro>
-        <Eyebrow>Chapter 03 · Champions</Eyebrow>
+        <Eyebrow>Chapter 03</Eyebrow>
         <h1>Champions</h1>
         <p>
-          Compare the three, learn the one shared rule, then open each dossier.
-          Every interface = weapon + optics.
+          Three interfaces. Each has a weapon IMU and one optical role: Tank
+          emits a coded beam; Fighter and Artillery receive it.
         </p>
       </PageIntro>
 
-      <JumpNav>
-        <a href="#compare">1 Compare</a>
-        <a href="#pipeline">2 Pipeline</a>
-        <a href="#heal">3 Heal</a>
-        <a href="#tank">Tank</a>
-        <a href="#fighter">Fighter</a>
-        <a href="#artillery">Artillery</a>
-      </JumpNav>
+      <Trio>
+        <Peek $accent="#3ecfff">
+          <small>01</small>
+          <h2>Tank / Support</h2>
+          <p>Shield (IMU) · light beam (signal)</p>
+        </Peek>
+        <Peek $accent="#ffb45a">
+          <small>02</small>
+          <h2>Fighter</h2>
+          <p>Sword (IMU) · photodiode</p>
+        </Peek>
+        <Peek $accent="#a78bfa">
+          <small>03</small>
+          <h2>Artillery</h2>
+          <p>Launcher (IMU) · photodiode · can arm mines</p>
+        </Peek>
+      </Trio>
 
-      <WideSection id="compare">
-        <SectionLabel>1 · Side by side</SectionLabel>
-        <Compare>
-          <div className="corner" />
-          <AccentHead className="head" $accent="#3ecfff">
-            <strong>Tank / Support</strong>
-            <span>01</span>
-          </AccentHead>
-          <AccentHead className="head" $accent="#ffb45a">
-            <strong>Fighter</strong>
-            <span>02</span>
-          </AccentHead>
-          <AccentHead className="head" $accent="#a78bfa">
-            <strong>Artillery</strong>
-            <span>03</span>
-          </AccentHead>
-
-          <div className="label">Weapon</div>
-          <div className="cell">
-            Heavy shield
-            <small>Defense + burst attack</small>
-          </div>
-          <div className="cell">
-            Physical sword
-            <small>Melee swing</small>
-          </div>
-          <div className="cell">
-            Launcher + mines
-            <small>Range + territory</small>
-          </div>
-
-          <div className="label">Optics</div>
-          <div className="cell">
-            Light beam
-            <small>Emitter · heals allies</small>
-          </div>
-          <div className="cell">
-            Photodiode
-            <small>Receiver · can be healed</small>
-          </div>
-          <div className="cell">
-            Photodiode
-            <small>Receiver · can be healed</small>
-          </div>
-
-          <div className="label">Team builds</div>
-          <div className="cell">Shield mechanism & pose</div>
-          <div className="cell">Sword actuator & control</div>
-          <div className="cell">Launcher + mine deploy</div>
-
-          <div className="label">We measure</div>
-          <div className="cell">Shield / motion sensors</div>
-          <div className="cell">Sword IMU</div>
-          <div className="cell">Launch parameters</div>
-        </Compare>
-        <Note>
-          <strong>Start here.</strong>
-          Differences are easiest to see in this grid.
-        </Note>
-      </WideSection>
-
-      <WideSection id="pipeline">
-        <SectionLabel>2 · One pipeline for every attack</SectionLabel>
+      <WideSection>
+        <h2>How a weapon hit is made</h2>
         <DiagramPanel>
           <SharedCombatPipelineDiagram />
-          <figcaption>
-            Physical → measure → virtual → server → simulate → project
-          </figcaption>
         </DiagramPanel>
-        <Note>
-          <strong>Including</strong> shield burst, sword, and launcher. Flight
-          only lasts longer in simulation — same steps.
-        </Note>
+        <Callout>
+          <strong>IMU on every weapon</strong>
+          <p>
+            Shield, sword, launcher: the interface IMU measures the physical
+            motion. The server turns that motion into a virtual action. The
+            heal beam is not an IMU — it is a coded optical link.
+          </p>
+        </Callout>
       </WideSection>
 
-      <WideSection id="heal">
-        <SectionLabel>3 · Heal crosses two champions</SectionLabel>
-        <DiagramPanel>
-          <HealingLinkDiagram />
-          <figcaption>Beam and photodiode live on different robots</figcaption>
-        </DiagramPanel>
-        <Note>
-          <strong>Not a private wire.</strong>
-          Both Cores → server → HP update.
-        </Note>
-      </WideSection>
+      <Champ $accent="#3ecfff">
+        <header>
+          <span>01 · TANK / SUPPORT</span>
+        </header>
+        <h2>Shield + beam</h2>
 
-      <SoftRule />
+        <Ability>
+          <h3>
+            <AbilityNo>A1</AbilityNo>
+            Passive · shield pose
+          </h3>
+          <Sensor>
+            Sensor: <strong>IMU</strong> — orientation of the shield face
+          </Sensor>
+          <ShieldPassiveIllustration />
+        </Ability>
 
-      <SectionLabel>4 · Dossiers</SectionLabel>
-      <DossierHint>
-        Same layout each time: badges → who owns what → abilities.
-      </DossierHint>
+        <Ability>
+          <h3>
+            <AbilityNo>A2</AbilityNo>
+            Burst · directed hit
+          </h3>
+          <Sensor>
+            Sensor: <strong>IMU</strong> — acceleration of the burst
+          </Sensor>
+          <ShieldBurstIllustration />
+        </Ability>
 
-      <Dossier id="tank" $accent="#3ecfff">
-        <div className="banner">
-          <span className="id">01</span>
-          <h2>Tank / Support</h2>
-          <div className="badges">
-            <span className="badge on">Weapon · shield</span>
-            <span className="badge on">Optics · light beam</span>
-          </div>
-        </div>
-        <div className="body split">
-          <DiagramPanel>
-            <ChampionInterfaceCard
-              title="Who owns what"
-              role="Protect · burst · emit heal"
-              accent="#3ecfff"
-              teamParts={[
-                "Shield structure & orientation",
-                "Burst motion",
-                "Beam aiming",
-              ]}
-              interfaceParts={[
-                "Core",
-                "Shield / motion sensors",
-                "Light beam emitter",
-              ]}
-            />
-          </DiagramPanel>
-          <AbilityRow>
-            <AbilityTile $wide>
-              <div className="tag">
-                <b>A1</b>
-                <span>Defense</span>
-              </div>
-              <h3>Heavy shield</h3>
-              <p>Pose and distance drive protection.</p>
-              <div className="chips">
-                <i>distance</i>
-                <i>orientation</i>
-                <i>attack geometry</i>
-                <i>→ protection</i>
-              </div>
-            </AbilityTile>
-            <AbilityTile $wide>
-              <div className="tag">
-                <b>A2</b>
-                <span>Attack</span>
-              </div>
-              <h3>Shield burst</h3>
-              <p>Same pipeline — usually near-instant.</p>
-              <div className="chips">
-                <i>burst</i>
-                <i>measure</i>
-                <i>server</i>
-                <i>→ damage / knockback</i>
-              </div>
-            </AbilityTile>
-            <AbilityTile $wide>
-              <div className="tag">
-                <b>A3</b>
-                <span>Heal</span>
-              </div>
-              <h3>Light beam</h3>
-              <p>Emitter only. Ally photodiode + server apply HP.</p>
-              <div className="chips">
-                <i>LOS</i>
-                <i>alignment</i>
-                <i>modulation</i>
-              </div>
-            </AbilityTile>
-          </AbilityRow>
-        </div>
-      </Dossier>
+        <Ability>
+          <h3>
+            <AbilityNo>A3</AbilityNo>
+            Heal · coded light
+          </h3>
+          <Sensor>
+            Sensor: <strong>optical</strong> — Tank emitter + ally photodiode
+          </Sensor>
+          <HealBeamIllustration />
+        </Ability>
+      </Champ>
 
-      <Dossier id="fighter" $accent="#ffb45a">
-        <div className="banner">
-          <span className="id">02</span>
-          <h2>Fighter</h2>
-          <div className="badges">
-            <span className="badge on">Weapon · sword</span>
-            <span className="badge on">Optics · photodiode</span>
-          </div>
-        </div>
-        <div className="body split">
-          <DiagramPanel>
-            <ChampionInterfaceCard
-              title="Who owns what"
-              role="Swing · measure · receive heal"
-              accent="#ffb45a"
-              teamParts={[
-                "Sword actuator",
-                "Mass / reach / structure",
-                "Swing control",
-              ]}
-              interfaceParts={["Core", "Sword IMU", "Photodiode"]}
-            />
-          </DiagramPanel>
-          <div>
-            <AbilityTile>
-              <div className="tag">
-                <b>A1</b>
-                <span>Melee</span>
-              </div>
-              <h3>Physical sword</h3>
-              <p>The swing is the input — not a button press.</p>
-              <div className="chips">
-                <i>swing</i>
-                <i>IMU</i>
-                <i>virtual hit</i>
-                <i>→ damage / area</i>
-              </div>
-            </AbilityTile>
-            <TradePair>
-              <AbilityTile>
-                <div className="tag">
-                  <b>A</b>
-                  <span>Tradeoff</span>
-                </div>
-                <h3>Fast + narrow</h3>
-                <p>Stronger · smaller area</p>
-              </AbilityTile>
-              <AbilityTile>
-                <div className="tag">
-                  <b>B</b>
-                  <span>Tradeoff</span>
-                </div>
-                <h3>Wide + slower</h3>
-                <p>Weaker · larger area</p>
-              </AbilityTile>
-            </TradePair>
-          </div>
-        </div>
-      </Dossier>
+      <Champ $accent="#ffb45a">
+        <header>
+          <span>02 · FIGHTER</span>
+        </header>
+        <h2>Sword</h2>
 
-      <Dossier id="artillery" $accent="#a78bfa">
-        <div className="banner">
-          <span className="id">03</span>
-          <h2>Artillery</h2>
-          <div className="badges">
-            <span className="badge on">Launcher</span>
-            <span className="badge on">Mines</span>
-            <span className="badge on">Photodiode</span>
-          </div>
-        </div>
-        <div className="body">
-          <DiagramPanel>
-            <ChampionInterfaceCard
-              title="Who owns what"
-              role="Launch & deploy · measure · receive heal"
-              accent="#a78bfa"
-              teamParts={[
-                "Launcher mechanism",
-                "Mine deploy / move",
-                "Carriage & control",
-              ]}
-              interfaceParts={["Core", "Launch sensors", "Photodiode"]}
-            />
-          </DiagramPanel>
+        <Ability>
+          <h3>
+            <AbilityNo>A1</AbilityNo>
+            The swing is the attack
+          </h3>
+          <Sensor>
+            Sensor: <strong>IMU</strong> on the blade
+          </Sensor>
+          <SwordIllustration />
+        </Ability>
+      </Champ>
 
-          <AbilityRow>
-            <AbilityTile>
-              <div className="tag">
-                <b>A1</b>
-                <span>Ranged</span>
-              </div>
-              <h3>Launcher</h3>
-              <p>Same pipeline; flight lasts over time.</p>
-              <div className="chips">
-                <i>launch</i>
-                <i>measure</i>
-                <i>flight sim</i>
-                <i>→ project</i>
-              </div>
-            </AbilityTile>
-            <AbilityTile>
-              <div className="tag">
-                <b>A2</b>
-                <span>Physical</span>
-              </div>
-              <h3>Mines</h3>
-              <p>Own position. Can move. Not virtual.</p>
-              <div className="chips">
-                <i>deploy</i>
-                <i>position</i>
-                <i>trigger</i>
-              </div>
-            </AbilityTile>
-            <AbilityTile>
-              <div className="tag">
-                <b>—</b>
-                <span>Safety</span>
-              </div>
-              <h3>No real projectile</h3>
-              <p>Nothing dangerous is fired at opponents.</p>
-            </AbilityTile>
-          </AbilityRow>
+      <Champ $accent="#a78bfa">
+        <header>
+          <span>03 · ARTILLERY</span>
+        </header>
+        <h2>Launcher</h2>
 
-          <Note $tone="warn">
-            <strong>Mines ≠ projectiles.</strong>
-            After measurement, shots become virtual. Mines stay physical.
-          </Note>
-          <DiagramPanel>
-            <MinesVsProjectileDiagram />
-          </DiagramPanel>
-        </div>
-      </Dossier>
+        <Ability>
+          <h3>
+            <AbilityNo>A1</AbilityNo>
+            Throw like a real launcher
+          </h3>
+          <Sensor>
+            Sensor: <strong>IMU</strong> on the throw motion
+          </Sensor>
+          <LauncherIllustration />
+        </Ability>
+
+        <Ability>
+          <h3>
+            <AbilityNo>MAP</AbilityNo>
+            Mines · map items, not a weapon
+          </h3>
+          <MinesIllustration />
+        </Ability>
+      </Champ>
 
       <Takeaway>
-        <strong>Reading order</strong>
+        <strong>Takeaway</strong>
         <p>
-          Grid → pipeline → heal → dossiers. Each dossier only adds what is
-          unique to that champion.
+          Shield, sword, and launcher are IMU weapons. The heal beam is a
+          timed optical signal that cannot be radio-spoofed. Mines are map
+          items Artillery can arm — not a fourth weapon.
         </p>
       </Takeaway>
 
