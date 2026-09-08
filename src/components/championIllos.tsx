@@ -720,8 +720,6 @@ export function SwordIllustration() {
 /* ——— LAUNCHER ——— */
 
 const LaunchField = styled.div`
-  position: relative;
-  height: 14rem;
   background: radial-gradient(
     circle at 82% 72%,
     rgba(167, 139, 250, 0.1),
@@ -729,155 +727,244 @@ const LaunchField = styled.div`
   );
 `;
 
-const Launcher = styled.div`
-  position: absolute;
-  left: 6%;
-  bottom: 16%;
-  width: 7rem;
-  height: 5rem;
+const LaunchSvg = styled.svg`
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 680 / 224;
 `;
 
-const LBase = styled.div`
-  position: absolute;
-  left: 0.6rem;
-  bottom: 0;
-  width: 3.6rem;
-  height: 1.35rem;
-  border: 1px solid ${({ theme }) => theme.colors.accent};
-  background: ${({ theme }) => theme.colors.bg};
-`;
+type Pt = { x: number; y: number };
 
-const LArm = styled.div`
-  position: absolute;
-  left: 1.5rem;
-  bottom: 1.2rem;
-  width: 3.2rem;
-  height: 0.55rem;
-  transform: rotate(-22deg);
-  background: #1c2329;
-  border: 1px solid #56616a;
-`;
-
-const LBarrel = styled.div`
-  position: absolute;
-  left: 3.6rem;
-  bottom: 2.35rem;
-  width: 4.4rem;
-  height: 0.7rem;
-  transform: rotate(-22deg);
-  border: 1px solid #a78bfa;
-  background: rgba(167, 139, 250, 0.08);
-`;
-
-const ImuBadge = styled.span`
-  position: absolute;
-  left: 2.4rem;
-  bottom: 3.35rem;
-  padding: 0.12rem 0.35rem;
-  border: 1px solid #a78bfa;
-  color: #a78bfa;
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  background: ${({ theme }) => theme.colors.bg};
-`;
-
-const Traj = styled.div`
-  position: absolute;
-  left: 34%;
-  top: 24%;
-  width: 44%;
-  height: 5.8rem;
-  transform: rotate(-12deg);
-  border-top: 1.5px dashed rgba(167, 139, 250, 0.55);
-  border-radius: 50%;
-
-  span {
-    position: absolute;
-    left: 18%;
-    top: -1.35rem;
-    font-size: 0.68rem;
-    letter-spacing: 0.06em;
-    color: #a78bfa;
-    transform: rotate(12deg);
+function ballisticPoints(
+  muzzle: Pt,
+  impact: Pt,
+  angleDeg: number,
+  samples = 48,
+): Pt[] {
+  const dx = impact.x - muzzle.x;
+  const dy = impact.y - muzzle.y;
+  const slope = Math.tan((angleDeg * Math.PI) / 180);
+  const a = (dy - slope * dx) / (dx * dx);
+  const pts: Pt[] = [];
+  for (let i = 0; i <= samples; i++) {
+    const x = muzzle.x + (dx * i) / samples;
+    const X = x - muzzle.x;
+    pts.push({ x, y: muzzle.y + a * X * X + slope * X });
   }
+  return pts;
+}
 
-  i {
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #a78bfa;
-    box-shadow: 0 0 8px #a78bfa;
-    animation: trajDot 1.6s ease-in-out infinite;
-  }
+function toPath(pts: Pt[]) {
+  return pts
+    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+    .join(" ");
+}
 
-  i:nth-child(1) {
-    left: 6%;
-    top: -3px;
-    animation-delay: 0s;
-  }
-  i:nth-child(2) {
-    left: 32%;
-    top: 10px;
-    animation-delay: 0.2s;
-  }
-  i:nth-child(3) {
-    left: 60%;
-    top: 32px;
-    animation-delay: 0.4s;
-  }
-  i:nth-child(4) {
-    left: 88%;
-    top: 62px;
-    animation-delay: 0.6s;
-  }
-`;
-
-const Aoe = styled.div`
-  position: absolute;
-  right: 7%;
-  bottom: 12%;
-  width: 4.4rem;
-  height: 4.4rem;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(167, 139, 250, 0.5);
-  border-radius: 50%;
-  color: #a78bfa;
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 0.95rem;
-`;
-
-const PhysNote = styled.p`
-  margin: 0;
-  position: absolute;
-  left: 6%;
-  bottom: 0.35rem;
-  font-size: 0.68rem;
-  color: ${({ theme }) => theme.colors.faint};
-`;
+const LAUNCH = {
+  w: 680,
+  h: 224,
+  joint: { x: 102, y: 168 },
+  barrelLen: 92,
+  angle: -22,
+  impact: { x: 572, y: 176 },
+  aoeR: 40,
+  dur: "2s",
+} as const;
 
 export function LauncherIllustration() {
+  const { joint, barrelLen, angle, impact, aoeR, w, h, dur } = LAUNCH;
+  const rad = (angle * Math.PI) / 180;
+  const muzzle = {
+    x: joint.x + barrelLen * Math.cos(rad),
+    y: joint.y + barrelLen * Math.sin(rad),
+  };
+  const pts = ballisticPoints(muzzle, impact, angle);
+  const d = toPath(pts);
+  const dots = [0.18, 0.38, 0.58, 0.78].map(
+    (t) => pts[Math.round(t * (pts.length - 1))],
+  );
+  const apex = pts.reduce((best, p) => (p.y < best.y ? p : best), pts[0]);
+
   return (
     <Stage>
       <Tag>Launcher · IMU on the throw · virtual projectile</Tag>
       <LaunchField>
-        <Launcher>
-          <LBase />
-          <LArm />
-          <LBarrel />
-          <ImuBadge>IMU</ImuBadge>
-        </Launcher>
-        <Traj>
-          <span>SIMULATED TRAJECTORY</span>
-          <i />
-          <i />
-          <i />
-          <i />
-        </Traj>
-        <Aoe>AoE</Aoe>
-        <PhysNote>Nothing physical is thrown at another robot.</PhysNote>
+        <LaunchSvg
+          viewBox={`0 0 ${w} ${h}`}
+          role="img"
+          aria-label="IMU on the launcher arm measuring a throw, then a virtual projectile"
+        >
+          <rect x="48" y="178" width="70" height="22" fill="#0a0c10" stroke="#3ecfff" />
+
+          <g transform={`translate(${joint.x} ${joint.y}) rotate(${angle})`}>
+            <line
+              x1="-38"
+              y1="0"
+              x2={barrelLen + 8}
+              y2="0"
+              stroke="rgba(167,139,250,0.28)"
+              strokeWidth="1.2"
+              strokeDasharray="4 5"
+            />
+          </g>
+
+          <g transform={`translate(${joint.x} ${joint.y}) rotate(${angle})`}>
+            <g>
+              <animateTransform
+                attributeName="transform"
+                type="translate"
+                dur={dur}
+                repeatCount="indefinite"
+                calcMode="linear"
+                values="0 0; -30 0; -30 0; 10 0; 0 0; 0 0; 0 0"
+                keyTimes="0; 0.32; 0.44; 0.52; 0.58; 0.9; 1"
+              />
+              <rect
+                x="0"
+                y="-5"
+                width="44"
+                height="10"
+                fill="#1c2329"
+                stroke="#56616a"
+              />
+              <rect
+                x="40"
+                y="-7"
+                width={barrelLen - 40}
+                height="14"
+                fill="rgba(167,139,250,0.08)"
+                stroke="#a78bfa"
+              />
+              <g transform="translate(26 -24)">
+                <circle
+                  r="4"
+                  fill="none"
+                  stroke="#a78bfa"
+                  strokeWidth="1.5"
+                  opacity="0"
+                >
+                  <animate
+                    attributeName="r"
+                    dur={dur}
+                    repeatCount="indefinite"
+                    values="6;6;6;20;8;8;6"
+                    keyTimes="0; 0.44; 0.48; 0.54; 0.62; 0.9; 1"
+                  />
+                  <animate
+                    attributeName="opacity"
+                    dur={dur}
+                    repeatCount="indefinite"
+                    values="0;0;0.9;0.85;0;0;0"
+                    keyTimes="0; 0.44; 0.48; 0.54; 0.62; 0.9; 1"
+                  />
+                </circle>
+                <rect
+                  x="-18"
+                  y="-9"
+                  width="36"
+                  height="18"
+                  fill="#0a0c10"
+                  stroke="#a78bfa"
+                >
+                  <animate
+                    attributeName="stroke"
+                    dur={dur}
+                    repeatCount="indefinite"
+                    values="#a78bfa;#a78bfa;#ffb45a;#ffb45a;#a78bfa;#a78bfa;#a78bfa"
+                    keyTimes="0; 0.44; 0.48; 0.56; 0.64; 0.9; 1"
+                  />
+                </rect>
+                <text
+                  y="4"
+                  textAnchor="middle"
+                  fill="#a78bfa"
+                  fontSize="9"
+                  fontWeight="600"
+                  letterSpacing="0.08em"
+                >
+                  IMU
+                  <animate
+                    attributeName="fill"
+                    dur={dur}
+                    repeatCount="indefinite"
+                    values="#a78bfa;#a78bfa;#ffb45a;#ffb45a;#a78bfa;#a78bfa;#a78bfa"
+                    keyTimes="0; 0.44; 0.48; 0.56; 0.64; 0.9; 1"
+                  />
+                </text>
+              </g>
+            </g>
+          </g>
+
+          <path
+            d={d}
+            fill="none"
+            stroke="rgba(167,139,250,0.7)"
+            strokeWidth="1.6"
+            strokeDasharray="7 6"
+            strokeLinecap="round"
+          />
+          {dots.map((p, i) => (
+            <circle
+              key={i}
+              cx={p.x}
+              cy={p.y}
+              r="4.5"
+              fill="#a78bfa"
+              style={{
+                animation: "trajDot 1.6s ease-in-out infinite",
+                animationDelay: `${i * 0.2}s`,
+              }}
+            />
+          ))}
+          <circle r="4.5" fill="#a78bfa" opacity="0">
+            <animate
+              attributeName="opacity"
+              dur={dur}
+              repeatCount="indefinite"
+              values="0;0;1;1;0"
+              keyTimes="0; 0.51; 0.52; 0.9; 1"
+            />
+            <animateMotion
+              dur={dur}
+              repeatCount="indefinite"
+              path={d}
+              calcMode="linear"
+              keyPoints="0;0;1;1"
+              keyTimes="0; 0.52; 0.9; 1"
+            />
+          </circle>
+          <text
+            x={apex.x}
+            y={apex.y - 12}
+            textAnchor="middle"
+            fill="#a78bfa"
+            fontSize="10"
+            letterSpacing="0.08em"
+          >
+            SIMULATED TRAJECTORY
+          </text>
+          <circle
+            cx={impact.x}
+            cy={impact.y}
+            r={aoeR}
+            fill="rgba(167,139,250,0.06)"
+            stroke="rgba(167,139,250,0.55)"
+          />
+          <text
+            x={impact.x}
+            y={impact.y + 4}
+            textAnchor="middle"
+            fill="#a78bfa"
+            fontSize="14"
+            fontFamily="Space Grotesk, sans-serif"
+          >
+            AoE
+          </text>
+          <text x="48" y="216" fill="#6b7785" fontSize="11">
+            Nothing physical is thrown at another robot.
+          </text>
+        </LaunchSvg>
       </LaunchField>
       <Caption>
         The actuator must move like a real launcher. Physics is applied to that
