@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import Layout from "../components/Layout";
 import Figure from "../components/Figure";
 import { ArenaItemCards } from "../components/arenaItems";
@@ -15,8 +16,6 @@ import {
   Eyebrow,
   Principle,
   Callout,
-  Grid,
-  Item,
   TextLink,
   DiagramPanel,
   Takeaway,
@@ -28,6 +27,92 @@ import {
   HomeHeroActions,
   HomeHeroMedia,
 } from "../components/ui";
+
+const ChampGrid = styled.div`
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 800px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+`;
+
+const ChampCard = styled(Link)`
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+  align-content: start;
+  gap: 0.55rem;
+  padding: 1.1rem 1.15rem;
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.line};
+  border-radius: ${({ theme }) => theme.radii.md};
+  color: inherit;
+  text-decoration: none;
+
+  strong {
+    font-size: 0.98rem;
+  }
+
+  > p {
+    margin: 0;
+    color: ${({ theme }) => theme.colors.muted};
+    font-size: 0.92rem;
+  }
+
+  &:hover {
+    text-decoration: none;
+    border-color: ${({ theme }) => theme.colors.accent};
+  }
+
+  @media (min-width: 800px) {
+    grid-template-rows: subgrid;
+    grid-row: span 5;
+  }
+`;
+
+const Chip = styled.span<{ $tone: "weapon" | "light" | "mines"; $empty?: boolean }>`
+  display: ${({ $empty }) => ($empty ? "none" : "inline-flex")};
+
+  @media (min-width: 800px) {
+    display: inline-flex;
+    visibility: ${({ $empty }) => ($empty ? "hidden" : "visible")};
+  }
+  align-items: center;
+  align-self: start;
+  gap: 0.4rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.28rem 0.65rem 0.28rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: ${({ $tone, theme }) =>
+    $tone === "weapon" ? theme.colors.amber : $tone === "light" ? theme.colors.accent : "#5ee0a0"};
+  background: ${({ $tone }) =>
+    $tone === "weapon"
+      ? "rgba(255, 180, 90, 0.14)"
+      : $tone === "light"
+        ? "rgba(62, 207, 255, 0.14)"
+        : "rgba(94, 224, 160, 0.14)"};
+  border: 1px solid
+    ${({ $tone }) =>
+      $tone === "weapon"
+        ? "rgba(255, 180, 90, 0.35)"
+        : $tone === "light"
+          ? "rgba(62, 207, 255, 0.35)"
+          : "rgba(94, 224, 160, 0.35)"};
+
+  &::before {
+    content: "";
+    flex: 0 0 0.42rem;
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+`;
 
 export default function Home() {
   return (
@@ -154,33 +239,33 @@ export default function Home() {
           Official sensors measure that motion. The server turns it into
           the attack. There is no fire button.
         </p>
-        <Grid $cols={2}>
-          <Item as={Link} to="/champions#tank">
+        <ChampGrid>
+          <ChampCard to="/champions#tank">
             <strong>Tank / Support</strong>
             <p>Orient the shield. We measure the pose.</p>
-            <ul>
-              <li>Weapon: shield (IMU + pose)</li>
-              <li>HP: light beam</li>
-            </ul>
-          </Item>
-          <Item as={Link} to="/champions#fighter">
+            <Chip $tone="weapon">Weapon · shield (IMU + pose)</Chip>
+            <Chip $tone="light">HP · light beam</Chip>
+            <Chip $tone="mines" $empty>
+              Mines
+            </Chip>
+          </ChampCard>
+          <ChampCard to="/champions#fighter">
             <strong>Fighter</strong>
             <p>Swing the sword. We measure the swing.</p>
-            <ul>
-              <li>Weapon: sword (IMU)</li>
-              <li>HP: photodiode</li>
-            </ul>
-          </Item>
-          <Item as={Link} to="/champions#artillery">
+            <Chip $tone="weapon">Weapon · sword (IMU)</Chip>
+            <Chip $tone="light">HP · photodiode</Chip>
+            <Chip $tone="mines" $empty>
+              Mines
+            </Chip>
+          </ChampCard>
+          <ChampCard to="/champions#artillery">
             <strong>Artillery</strong>
             <p>Throw with the launcher. We measure the throw.</p>
-            <ul>
-              <li>Weapon: launcher (IMU + angular pose)</li>
-              <li>HP: photodiode</li>
-              <li>Mines activator</li>
-            </ul>
-          </Item>
-        </Grid>
+            <Chip $tone="weapon">Weapon · launcher (IMU + angular pose)</Chip>
+            <Chip $tone="light">HP · photodiode</Chip>
+            <Chip $tone="mines">Mines activator</Chip>
+          </ChampCard>
+        </ChampGrid>
         <p>
           How much damage, range, and the formulas live on the Champions
           page — not here.
