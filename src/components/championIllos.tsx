@@ -539,7 +539,7 @@ const Cone = styled.div`
     rgba(255, 180, 90, 0.02)
   );
   clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 58%);
-  animation: coneGrow 1.8s ease-in-out infinite;
+  animation: coneGrow 1.6s ease-in-out infinite;
   display: grid;
   place-items: center;
   color: ${({ theme }) => theme.colors.amber};
