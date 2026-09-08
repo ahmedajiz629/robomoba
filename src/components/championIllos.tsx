@@ -999,7 +999,6 @@ export function LauncherIllustration() {
 
 const Map = styled.div`
   position: relative;
-  height: 10.5rem;
   border: 1px dashed ${({ theme }) => theme.colors.lineStrong};
   background:
     linear-gradient(transparent 23px, ${({ theme }) => theme.colors.line} 24px)
@@ -1008,91 +1007,204 @@ const Map = styled.div`
       0 0 / 24px 24px;
 `;
 
-const MapLabel = styled.span`
-  position: absolute;
-  left: 0.65rem;
-  top: 0.5rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.07em;
-  color: ${({ theme }) => theme.colors.faint};
+const MapSvg = styled.svg`
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 680 / 210;
 `;
 
-const ArtilleryDot = styled.div`
-  position: absolute;
-  left: 12%;
-  bottom: 18%;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid #a78bfa;
-  color: #a78bfa;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  background: ${({ theme }) => theme.colors.bg};
-`;
-
-const Mine = styled.div<{ $on?: boolean; $x: string; $y: string }>`
-  position: absolute;
-  left: ${({ $x }) => $x};
-  top: ${({ $y }) => $y};
-  width: 3.6rem;
-  height: 3.6rem;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 1.5px solid
-    ${({ $on, theme }) => ($on ? theme.colors.accent : theme.colors.lineStrong)};
-  color: ${({ $on, theme }) => ($on ? theme.colors.accent : theme.colors.faint)};
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-align: center;
-  background: ${({ $on, theme }) =>
-    $on ? theme.colors.accentSoft : theme.colors.surfaceRaised};
-`;
-
-const ArmLine = styled.div`
-  position: absolute;
-  left: 26%;
-  bottom: 32%;
-  width: 28%;
-  height: 1px;
-  background: #a78bfa;
-  transform: rotate(-18deg);
-  transform-origin: left center;
-
-  &::after {
-    content: "arm";
-    position: absolute;
-    top: -1.05rem;
-    right: 0;
-    color: #a78bfa;
-    font-size: 0.62rem;
-    letter-spacing: 0.06em;
-    transform: rotate(18deg);
-  }
-`;
+const MINE_SCENE = {
+  w: 680,
+  h: 210,
+  start: { x: 86, y: 162 },
+  target: { x: 340, y: 108 },
+  idle: [
+    { x: 168, y: 46 },
+    { x: 540, y: 148 },
+  ],
+  r: 30,
+  dur: "3.2s",
+} as const;
 
 export function MinesIllustration() {
+  const { w, h, start, target, idle, r, dur } = MINE_SCENE;
+  const route = `M ${start.x} ${start.y} L ${target.x} ${target.y}`;
+
   return (
     <Stage>
-      <Tag>Map items · Artillery can activate them</Tag>
+      <Tag>Map items · Artillery arms a mine by moving onto it</Tag>
       <Map>
-        <MapLabel>ARENA MAP</MapLabel>
-        <ArtilleryDot>ARTILLERY</ArtilleryDot>
-        <ArmLine />
-        <Mine $x="18%" $y="12%">
-          IDLE
-        </Mine>
-        <Mine $on $x="48%" $y="28%">
-          ARMED
-        </Mine>
-        <Mine $x="72%" $y="52%">
-          IDLE
-        </Mine>
+        <MapSvg
+          viewBox={`0 0 ${w} ${h}`}
+          role="img"
+          aria-label="Artillery moves over an idle mine to activate it"
+        >
+          <text
+            x="16"
+            y="22"
+            fill="#6b7785"
+            fontSize="11"
+            letterSpacing="0.08em"
+          >
+            ARENA MAP
+          </text>
+          <path
+            d={route}
+            fill="none"
+            stroke="rgba(167,139,250,0.35)"
+            strokeWidth="1.4"
+            strokeDasharray="5 6"
+          />
+          {idle.map((p) => (
+            <g key={`${p.x}-${p.y}`}>
+              <circle
+                cx={p.x}
+                cy={p.y}
+                r={r}
+                fill="#181e26"
+                stroke="rgba(255,255,255,0.18)"
+                strokeWidth="1.5"
+              />
+              <text
+                x={p.x}
+                y={p.y + 4}
+                textAnchor="middle"
+                fill="#6b7785"
+                fontSize="10"
+                fontWeight="600"
+                letterSpacing="0.06em"
+              >
+                IDLE
+              </text>
+            </g>
+          ))}
+          <g>
+            <circle
+              cx={target.x}
+              cy={target.y}
+              r={r}
+              fill="#181e26"
+              stroke="rgba(255,255,255,0.18)"
+              strokeWidth="1.5"
+            >
+              <animate
+                attributeName="fill"
+                dur={dur}
+                repeatCount="indefinite"
+                values="#181e26;#181e26;rgba(62,207,255,0.18);rgba(62,207,255,0.18);#181e26"
+                keyTimes="0; 0.42; 0.5; 0.86; 1"
+              />
+              <animate
+                attributeName="stroke"
+                dur={dur}
+                repeatCount="indefinite"
+                values="rgba(255,255,255,0.18);rgba(255,255,255,0.18);#3ecfff;#3ecfff;rgba(255,255,255,0.18)"
+                keyTimes="0; 0.42; 0.5; 0.86; 1"
+              />
+            </circle>
+            <circle
+              cx={target.x}
+              cy={target.y}
+              r={r}
+              fill="none"
+              stroke="#3ecfff"
+              strokeWidth="1.5"
+              opacity="0"
+            >
+              <animate
+                attributeName="r"
+                dur={dur}
+                repeatCount="indefinite"
+                values="30;30;30;42;30"
+                keyTimes="0; 0.42; 0.48; 0.62; 1"
+              />
+              <animate
+                attributeName="opacity"
+                dur={dur}
+                repeatCount="indefinite"
+                values="0;0;0.9;0;0"
+                keyTimes="0; 0.42; 0.48; 0.62; 1"
+              />
+            </circle>
+            <text
+              x={target.x}
+              y={target.y + 4}
+              textAnchor="middle"
+              fontSize="10"
+              fontWeight="600"
+              letterSpacing="0.06em"
+              fill="#6b7785"
+            >
+              <animate
+                attributeName="fill"
+                dur={dur}
+                repeatCount="indefinite"
+                values="#6b7785;#6b7785;#3ecfff;#3ecfff;#6b7785"
+                keyTimes="0; 0.42; 0.5; 0.86; 1"
+              />
+              IDLE
+              <animate
+                attributeName="opacity"
+                dur={dur}
+                repeatCount="indefinite"
+                values="1;1;0;0;1"
+                keyTimes="0; 0.42; 0.5; 0.86; 1"
+              />
+            </text>
+            <text
+              x={target.x}
+              y={target.y + 4}
+              textAnchor="middle"
+              fontSize="10"
+              fontWeight="600"
+              letterSpacing="0.06em"
+              fill="#3ecfff"
+              opacity="0"
+            >
+              ARMED
+              <animate
+                attributeName="opacity"
+                dur={dur}
+                repeatCount="indefinite"
+                values="0;0;1;1;0"
+                keyTimes="0; 0.42; 0.5; 0.86; 1"
+              />
+            </text>
+          </g>
+          <g>
+            <rect
+              x="-34"
+              y="-14"
+              width="68"
+              height="28"
+              fill="#0a0c10"
+              stroke="#a78bfa"
+            />
+            <text
+              y="5"
+              textAnchor="middle"
+              fill="#a78bfa"
+              fontSize="10"
+              fontWeight="600"
+              letterSpacing="0.06em"
+            >
+              ARTILLERY
+            </text>
+            <animateMotion
+              dur={dur}
+              repeatCount="indefinite"
+              path={route}
+              calcMode="linear"
+              keyPoints="0;0;1;1;0"
+              keyTimes="0; 0.08; 0.45; 0.82; 1"
+            />
+          </g>
+        </MapSvg>
       </Map>
       <Caption>
-        Mines already sit on the map with their own positions. They are not a
-        weapon class. Artillery is the champion that can arm them.
+        Mines already sit on the map. Artillery is not shooting them — it
+        drives onto an idle mine to arm it.
       </Caption>
     </Stage>
   );
