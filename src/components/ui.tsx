@@ -136,6 +136,27 @@ export const Item = styled.div`
   p {
     margin: 0;
   }
+
+  ul {
+    margin: 0.7rem 0 0;
+    padding-left: 1.05rem;
+    color: ${({ theme }) => theme.colors.muted};
+    font-size: 0.86rem;
+  }
+
+  li + li {
+    margin-top: 0.25rem;
+  }
+
+  &:is(a) {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+      border-color: ${({ theme }) => theme.colors.accent};
+    }
+  }
 `;
 
 export const ListPlain = styled.ul`

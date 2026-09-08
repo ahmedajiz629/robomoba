@@ -155,17 +155,30 @@ export default function Home() {
           the attack. There is no fire button.
         </p>
         <Grid $cols={2}>
-          <Item>
+          <Item as={Link} to="/champions#tank">
             <strong>Tank / Support</strong>
             <p>Orient the shield. We measure the pose.</p>
+            <ul>
+              <li>Weapon: shield (IMU + pose)</li>
+              <li>HP: light beam</li>
+            </ul>
           </Item>
-          <Item>
+          <Item as={Link} to="/champions#fighter">
             <strong>Fighter</strong>
             <p>Swing the sword. We measure the swing.</p>
+            <ul>
+              <li>Weapon: sword (IMU)</li>
+              <li>HP: photodiode</li>
+            </ul>
           </Item>
-          <Item>
+          <Item as={Link} to="/champions#artillery">
             <strong>Artillery</strong>
             <p>Throw with the launcher. We measure the throw.</p>
+            <ul>
+              <li>Weapon: launcher (IMU + angular pose)</li>
+              <li>HP: photodiode</li>
+              <li>Mines activator</li>
+            </ul>
           </Item>
         </Grid>
         <p>

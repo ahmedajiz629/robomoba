@@ -56,11 +56,22 @@ const Peek = styled.article<{ $accent: string }>`
     color: ${({ theme }) => theme.colors.muted};
     font-size: 0.88rem;
   }
+
+  &:is(a) {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+      border-color: ${({ $accent }) => $accent};
+    }
+  }
 `;
 
 const Champ = styled.section<{ $accent: string }>`
   margin: 0 0 2.75rem;
   padding-top: 1.5rem;
+  scroll-margin-top: 7rem;
   border-top: 1px solid ${({ theme }) => theme.colors.line};
 
   > header {
@@ -140,17 +151,17 @@ export default function Champions() {
       />
 
       <Trio>
-        <Peek $accent="#3ecfff">
+        <Peek as={Link} to="#tank" $accent="#3ecfff">
           <small>01</small>
           <h2>Tank / Support</h2>
           <p>Shield (IMU) · light beam (signal)</p>
         </Peek>
-        <Peek $accent="#ffb45a">
+        <Peek as={Link} to="#fighter" $accent="#ffb45a">
           <small>02</small>
           <h2>Fighter</h2>
           <p>Sword (IMU) · photodiode</p>
         </Peek>
-        <Peek $accent="#a78bfa">
+        <Peek as={Link} to="#artillery" $accent="#a78bfa">
           <small>03</small>
           <h2>Artillery</h2>
           <p>Launcher (IMU) · photodiode · can arm mines</p>
@@ -172,7 +183,7 @@ export default function Champions() {
         </Callout>
       </WideSection>
 
-      <Champ $accent="#3ecfff">
+      <Champ id="tank" $accent="#3ecfff">
         <header>
           <span>01 · TANK / SUPPORT</span>
         </header>
@@ -212,7 +223,7 @@ export default function Champions() {
         </Ability>
       </Champ>
 
-      <Champ $accent="#ffb45a">
+      <Champ id="fighter" $accent="#ffb45a">
         <header>
           <span>02 · FIGHTER</span>
         </header>
@@ -230,7 +241,7 @@ export default function Champions() {
         </Ability>
       </Champ>
 
-      <Champ $accent="#a78bfa">
+      <Champ id="artillery" $accent="#a78bfa">
         <header>
           <span>03 · ARTILLERY</span>
         </header>
