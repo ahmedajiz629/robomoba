@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import Figure from "../components/Figure";
 import {
   RobotStructureDiagram,
   InterfaceCompositionDiagram,
@@ -34,6 +35,12 @@ export default function System() {
 
       <WideSection>
         <h2>Two zones in one machine</h2>
+        <Figure
+          src="/images/unitree-b1.jpg"
+          alt="Quadruped robot with a payload mounted on the chassis"
+          caption="A real machine: team body and locomotion, plus hardware mounted on top. That split is the structure we care about — not this platform, and not this payload."
+          credit="Unitree B1 · The Defense Post"
+        />
         <DiagramPanel>
           <RobotStructureDiagram />
           <figcaption>
