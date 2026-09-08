@@ -795,13 +795,13 @@ export function LauncherIllustration() {
           role="img"
           aria-label="IMU on the launcher arm measuring a throw, then a virtual projectile"
         >
-          <rect x="48" y="178" width="78" height="22" fill="#0a0c10" stroke="#3ecfff" />
+          <rect x="48" y="178" width="70" height="22" fill="#0a0c10" stroke="#3ecfff" />
 
           <g transform={`translate(${joint.x} ${joint.y}) rotate(${angle})`}>
             <line
-              x1="-40"
+              x1="-38"
               y1="0"
-              x2={barrelLen + 10}
+              x2={barrelLen + 8}
               y2="0"
               stroke="rgba(167,139,250,0.28)"
               strokeWidth="1.2"
@@ -816,14 +816,9 @@ export function LauncherIllustration() {
               fill="#1c2329"
               stroke="#56616a"
             />
-            <rect
-              x={barrelLen - 8}
-              y="-11"
-              width="28"
-              height="22"
-              fill="rgba(167,139,250,0.08)"
-              stroke="#a78bfa"
-            />
+          </g>
+
+          <g transform={`translate(${joint.x} ${joint.y}) rotate(${angle})`}>
             <g>
               <animateTransform
                 attributeName="transform"
@@ -831,10 +826,26 @@ export function LauncherIllustration() {
                 dur={dur}
                 repeatCount="indefinite"
                 calcMode="linear"
-                values="28 0; -8 0; -8 0; 48 0; 28 0; 28 0; 28 0"
+                values="0 0; -30 0; -30 0; 10 0; 0 0; 0 0; 0 0"
                 keyTimes="0; 0.32; 0.44; 0.52; 0.58; 0.9; 1"
               />
-              <g transform="translate(0 -26)">
+              <rect
+                x="0"
+                y="-5"
+                width="44"
+                height="10"
+                fill="#1c2329"
+                stroke="#56616a"
+              />
+              <rect
+                x="40"
+                y="-7"
+                width={barrelLen - 40}
+                height="14"
+                fill="rgba(167,139,250,0.08)"
+                stroke="#a78bfa"
+              />
+              <g transform="translate(26 -24)">
                 <circle
                   r="4"
                   fill="none"
