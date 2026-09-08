@@ -308,6 +308,15 @@ export function ShieldPassiveIllustration() {
   const cone = conePoly(origin.x, origin.y, coneDeg, leftX);
   const trapNear = trapPoly(origin.x, origin.y, nearX, halfH, leftX);
   const trapFar = trapPoly(origin.x, origin.y, farX, halfH, leftX);
+  const margin = 16;
+  const coreR = 22;
+  const shieldHalfW = 18;
+  const waveBox = {
+    x: core.x - coreR - margin,
+    y: core.y - halfH - margin,
+    w: farX + shieldHalfW + margin - (core.x - coreR - margin),
+    h: 2 * halfH + 2 * margin,
+  };
 
   return (
     <Stage>
@@ -321,6 +330,14 @@ export function ShieldPassiveIllustration() {
           <clipPath id="passive-attack-cone">
             <polygon points={cone} />
           </clipPath>
+          <clipPath id="passive-wave-rect">
+            <rect
+              x={waveBox.x}
+              y={waveBox.y}
+              width={waveBox.w}
+              height={waveBox.h}
+            />
+          </clipPath>
         </defs>
         <line
           x1={core.x + 20}
@@ -329,34 +346,36 @@ export function ShieldPassiveIllustration() {
           y2={origin.y}
           stroke="rgba(255,255,255,0.18)"
         />
-        <polygon points={cone} fill="rgba(255,180,90,0.1)" />
-        <g clipPath="url(#passive-attack-cone)">
-          {Array.from({ length: 12 }, (_, i) => i * 0.18).map((begin) => (
-            <circle
-              key={begin}
-              cx={origin.x}
-              cy={origin.y}
-              r="28"
-              fill="none"
-              stroke="#ffb45a"
-              strokeWidth="14"
-            >
-              <animate
-                attributeName="r"
-                dur="2.2s"
-                begin={`${begin}s`}
-                repeatCount="indefinite"
-                values="28; 620"
-              />
-              <animate
-                attributeName="opacity"
-                dur="2.2s"
-                begin={`${begin}s`}
-                repeatCount="indefinite"
-                values="0.85; 0.12"
-              />
-            </circle>
-          ))}
+        <g clipPath="url(#passive-wave-rect)">
+          <polygon points={cone} fill="rgba(255,180,90,0.1)" />
+          <g clipPath="url(#passive-attack-cone)">
+            {Array.from({ length: 12 }, (_, i) => i * 0.18).map((begin) => (
+              <circle
+                key={begin}
+                cx={origin.x}
+                cy={origin.y}
+                r="28"
+                fill="none"
+                stroke="#ffb45a"
+                strokeWidth="14"
+              >
+                <animate
+                  attributeName="r"
+                  dur="2.2s"
+                  begin={`${begin}s`}
+                  repeatCount="indefinite"
+                  values="28; 620"
+                />
+                <animate
+                  attributeName="opacity"
+                  dur="2.2s"
+                  begin={`${begin}s`}
+                  repeatCount="indefinite"
+                  values="0.85; 0.12"
+                />
+              </circle>
+            ))}
+          </g>
         </g>
         <polygon points={trapNear} fill={bg} opacity="0.2">
           <animate
@@ -417,14 +436,14 @@ export function ShieldPassiveIllustration() {
           far · stronger
         </text>
         <text
-          x={origin.x - 6}
-          y="28"
+          x={origin.x - 100}
+          y="110"
           textAnchor="end"
           fill="#ffb45a"
           fontSize="11"
           letterSpacing="0.08em"
         >
-          ATTACK
+          &lt; ATTACK
         </text>
       </ShieldSvg>
       <Flow>
