@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ChapterNav from "../components/ChapterNav";
 import Figure from "../components/Figure";
-import PhotoStrip from "../components/PhotoStrip";
-import { ArenaMapDiagram } from "../components/diagrams";
+import { ArenaMapDiagram, ArenaObjectsDiagram } from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
@@ -26,46 +25,26 @@ export default function Arena() {
         <Eyebrow>Chapter 04 · Battlefield</Eyebrow>
         <h1>Arena</h1>
         <p>
-          The arena is not just a floor for robots. It holds the structures
-          and resources that create MOBA strategy — and projection that makes
-          them legible to a crowd.
+          Same map idea as Wild Rift: two bases in opposite corners, three
+          lanes that connect them, jungle in the pockets between. Robots play
+          on a real floor; many objectives are real objects, not projections.
         </p>
       </PageIntro>
 
       <WideSection>
         <Figure
-          src="/images/sr-arena-alt.jpg"
-          alt="Student Robotics arena with projected markings and audience"
-          caption="Projected geometry on a physical floor, with spectators around the edge."
-          credit="Student Robotics SR2023"
-        />
-        <PhotoStrip
-          photos={[
-            {
-              src: "/images/frc-field-2024.jpg",
-              alt: "FRC 2024 Crescendo playing field",
-              caption: "Large alliance field with clear zones",
-              credit: "Wikimedia · FRC 2024 field",
-            },
-            {
-              src: "/images/eurobot-table.jpg",
-              alt: "Eurobot competition table close-up",
-              caption: "Dense physical objectives on a table arena",
-              credit: "Wikimedia · Eurobot ESTEC",
-            },
-            {
-              src: "/images/robocup-arena.jpg",
-              alt: "RoboCup Rescue test arena",
-              caption: "Structured obstacle arena for robots",
-              credit: "Wikimedia · RoboCup Rescue 2008",
-            },
-          ]}
+          src="/images/wild-rift-map.jpg"
+          alt="Wild Rift Summoner's Rift: two corner bases, three connecting lanes, jungle, river, dragon pit"
+          caption="Layout reference: bases in opposite corners. Top, mid, and bot lanes join those bases. Jungle and river sit between the lanes."
+          credit="Wild Rift map · oneesports.gg"
+          fit="contain"
         />
         <DiagramPanel>
           <ArenaMapDiagram />
           <figcaption>
-            Three lanes, jungle between them, central Power Core, Nexus at
-            each end.
+            Two bases, opposite corners. Three lanes connect them. Jungle
+            between the lanes — not three parallel corridors with a Nexus at
+            the bottom of each.
           </figcaption>
         </DiagramPanel>
       </WideSection>
@@ -74,62 +53,82 @@ export default function Arena() {
         <h2>Map structure</h2>
         <Grid $cols={2}>
           <Item>
+            <strong>Two bases</strong>
+            <p>Opposite corners. Each holds a physical Nexus.</p>
+          </Item>
+          <Item>
             <strong>Three lanes</strong>
-            <p>Top, mid, bottom — primary paths to pressure the Nexus</p>
+            <p>Top, mid, bot — the paths that link the two bases.</p>
           </Item>
           <Item>
             <strong>Jungle</strong>
-            <p>Space between lanes for resources, rotation, and ambush</p>
+            <p>The terrain between lanes: camps, rotations, ambush.</p>
           </Item>
           <Item>
-            <strong>Turrets</strong>
-            <p>Defensive structures that must be dealt with to advance</p>
-          </Item>
-          <Item>
-            <strong>Nexus</strong>
-            <p>Final objective — destroy it to win</p>
+            <strong>River</strong>
+            <p>Cuts across the square, crossing mid, with major pits.</p>
           </Item>
         </Grid>
       </WideSection>
 
-      <Section>
-        <h2>Objectives and resources</h2>
-        <ul>
-          <li>
-            <strong>Mana Monsters</strong> — jungle resources that feed energy
-          </li>
-          <li>
-            <strong>Dragon</strong> — contested objective with meaningful reward
-          </li>
-          <li>
-            <strong>Power Charges</strong> — collectible power for larger plays
-          </li>
-          <li>
-            <strong>Power Core</strong> — central physical objective rewarding
-            territorial control
-          </li>
-        </ul>
+      <WideSection>
+        <h2>Physical objects, not stickers</h2>
+        <p>
+          Turrets, Nexus, mines, and mana monsters (Dragon included) exist
+          on the floor. They have their own lighting. Monsters can move in
+          place in their camp — they are not a projected icon.
+        </p>
+        <DiagramPanel>
+          <ArenaObjectsDiagram />
+          <figcaption>
+            Same class as mines: a real object with a position, light, and
+            server state. Projection can enhance them; it does not replace
+            them.
+          </figcaption>
+        </DiagramPanel>
+        <Grid $cols={2}>
+          <Item>
+            <strong>Own lighting</strong>
+            <p>HP, camp, and event state read from the object itself.</p>
+          </Item>
+          <Item>
+            <strong>Move in place</strong>
+            <p>Idle, face, strike — the body moves; the camp stays put.</p>
+          </Item>
+        </Grid>
+      </WideSection>
+
+      <WideSection>
+        <h2>Charge stations</h2>
+        <p>
+          Consumable pads on the map. A robot uses one, then that station
+          goes on cooldown before it can be used again.
+        </p>
         <Callout>
-          <strong>Why the Power Core matters</strong>
+          <strong>Charge, not a second weapon</strong>
           <p>
-            Territory itself becomes a mechanic — not only lane pressure.
+            Stations refill robot movement energy. They are map items with
+            a cooldown, like a plant — not a projected pickup with no body.
           </p>
         </Callout>
-      </Section>
+      </WideSection>
 
       <Section>
-        <h2>Gates and obstacles</h2>
+        <h2>Gates and movable objects</h2>
         <p>
-          Gates and selected movable obstacles change access and sight lines.
-          They force adaptation, not decoration.
+          Some passages have <strong>activated gates</strong> — the match
+          can open or close them. Some obstacles are <strong>movable</strong>:
+          robots can shift them and change a path or a sight line.
         </p>
       </Section>
 
       <Takeaway>
         <strong>Takeaway</strong>
         <p>
-          The arena is a strategic machine: lanes, jungle, objectives, and a
-          projected layer spectators can read instantly.
+          Corner bases, three connecting lanes, jungle between. Objectives
+          you fight over are physical — lit, sometimes moving in place —
+          plus charge stations on cooldown, gates, and objects robots can
+          move.
         </p>
       </Takeaway>
 

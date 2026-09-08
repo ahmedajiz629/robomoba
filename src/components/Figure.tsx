@@ -5,9 +5,10 @@ type FigureProps = {
   alt: string;
   caption: string;
   credit: string;
+  fit?: "cover" | "contain";
 };
 
-const Wrap = styled.figure`
+const Wrap = styled.figure<{ $fit: "cover" | "contain" }>`
   margin: 1.25rem 0 1.75rem;
   padding: 0;
   max-width: none;
@@ -15,8 +16,8 @@ const Wrap = styled.figure`
 
   img {
     width: 100%;
-    max-height: 28rem;
-    object-fit: cover;
+    max-height: ${({ $fit }) => ($fit === "contain" ? "36rem" : "28rem")};
+    object-fit: ${({ $fit }) => $fit};
     border-radius: ${({ theme }) => theme.radii.md};
     border: 1px solid ${({ theme }) => theme.colors.line};
     background: ${({ theme }) => theme.colors.surface};
@@ -40,9 +41,15 @@ const Wrap = styled.figure`
   }
 `;
 
-export default function Figure({ src, alt, caption, credit }: FigureProps) {
+export default function Figure({
+  src,
+  alt,
+  caption,
+  credit,
+  fit = "cover",
+}: FigureProps) {
   return (
-    <Wrap>
+    <Wrap $fit={fit}>
       <img src={src} alt={alt} loading="lazy" />
       <figcaption>
         <strong>{caption}</strong>
