@@ -252,109 +252,181 @@ export function HealBeamIllustration() {
 
 /* ——— SHIELD PASSIVE ——— */
 
-const Field = styled.div`
-  position: relative;
-  height: 14rem;
-  background: radial-gradient(
-    circle at 18% 50%,
-    rgba(255, 180, 90, 0.08),
-    transparent 42%
-  );
+const ShieldSvg = styled.svg`
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 680 / 240;
 `;
 
-const Core = styled.div`
-  position: absolute;
-  left: 10%;
-  top: 50%;
-  width: 2.6rem;
-  height: 2.6rem;
-  margin-top: -1.3rem;
-  border-radius: 50%;
-  border: 1.5px solid ${({ theme }) => theme.colors.amber};
-  background: ${({ theme }) => theme.colors.amberSoft};
-  display: grid;
-  place-items: center;
-  font-size: 0.62rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.amber};
-  z-index: 2;
-`;
+function rayAtX(
+  ox: number,
+  oy: number,
+  px: number,
+  py: number,
+  x: number,
+) {
+  return oy + ((x - ox) / (px - ox)) * (py - oy);
+}
 
-const Axis = styled.div`
-  position: absolute;
-  left: 18%;
-  right: 10%;
-  top: 50%;
-  height: 1px;
-  background: ${({ theme }) => theme.colors.lineStrong};
+function conePoly(ox: number, oy: number, halfDeg: number, leftX: number) {
+  const dy = (ox - leftX) * Math.tan((halfDeg * Math.PI) / 180);
+  return `${ox},${oy} ${leftX},${(oy - dy).toFixed(1)} ${leftX},${(oy + dy).toFixed(1)}`;
+}
 
-  &::after {
-    content: "";
-    position: absolute;
-    right: -2px;
-    top: -3px;
-    border: 4px solid transparent;
-    border-left-color: ${({ theme }) => theme.colors.lineStrong};
-  }
-`;
+function trapPoly(
+  ox: number,
+  oy: number,
+  sx: number,
+  halfH: number,
+  leftX: number,
+) {
+  const topY = oy - halfH;
+  const botY = oy + halfH;
+  const ly1 = rayAtX(ox, oy, sx, topY, leftX);
+  const ly2 = rayAtX(ox, oy, sx, botY, leftX);
+  return `${sx},${topY} ${sx},${botY} ${leftX},${ly2.toFixed(1)} ${leftX},${ly1.toFixed(1)}`;
+}
 
-const ShieldShape = styled.div<{ $far?: boolean }>`
-  position: absolute;
-  left: ${({ $far }) => ($far ? "58%" : "32%")};
-  top: 50%;
-  width: 3.2rem;
-  height: 5.2rem;
-  margin-top: -2.6rem;
-  border: 1.5px solid ${({ theme }) => theme.colors.accent};
-  background: ${({ theme }) => theme.colors.accentSoft};
-  clip-path: polygon(50% 0, 92% 16%, 80% 78%, 50% 100%, 20% 78%, 8% 16%);
-  opacity: ${({ $far }) => ($far ? 1 : 0.38)};
-`;
-
-const DistLabel = styled.span<{ $x: string; $strong?: boolean }>`
-  position: absolute;
-  left: ${({ $x }) => $x};
-  bottom: 1.15rem;
-  font-size: 0.7rem;
-  color: ${({ $strong, theme }) =>
-    $strong ? theme.colors.accent : theme.colors.muted};
-  font-weight: ${({ $strong }) => ($strong ? 600 : 400)};
-`;
-
-const AttackArrow = styled.span`
-  position: absolute;
-  right: 6%;
-  top: 44%;
-  color: ${({ theme }) => theme.colors.amber};
-  font-size: 1.35rem;
-  letter-spacing: -0.12em;
-`;
-
-const Incoming = styled.span`
-  position: absolute;
-  right: 6%;
-  top: 28%;
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  color: ${({ theme }) => theme.colors.amber};
-`;
+const PASSIVE = {
+  w: 680,
+  h: 240,
+  core: { x: 78, y: 118 },
+  origin: { x: 636, y: 118 },
+  nearX: 198,
+  farX: 428,
+  halfH: 34,
+  coneDeg: 15,
+  leftX: 24,
+  dur: "4s",
+  bg: "#0a0c10",
+} as const;
 
 export function ShieldPassiveIllustration() {
+  const { w, h, core, origin, nearX, farX, halfH, coneDeg, leftX, dur, bg } =
+    PASSIVE;
+  const cone = conePoly(origin.x, origin.y, coneDeg, leftX);
+  const trapNear = trapPoly(origin.x, origin.y, nearX, halfH, leftX);
+  const trapFar = trapPoly(origin.x, origin.y, farX, halfH, leftX);
+
   return (
     <Stage>
       <Tag>Passive defense · IMU pose · distance from Core</Tag>
-      <Field>
-        <Core>CORE</Core>
-        <Axis />
-        <ShieldShape />
-        <ShieldShape $far />
-        <DistLabel $x="30%">near · weak</DistLabel>
-        <DistLabel $x="56%" $strong>
+      <ShieldSvg
+        viewBox={`0 0 ${w} ${h}`}
+        role="img"
+        aria-label="An angled attack is blocked behind the shield; the block is stronger when the shield is farther from the Core"
+      >
+        <defs>
+          <clipPath id="passive-attack-cone">
+            <polygon points={cone} />
+          </clipPath>
+        </defs>
+        <line
+          x1={core.x + 20}
+          y1={core.y}
+          x2={origin.x - 18}
+          y2={origin.y}
+          stroke="rgba(255,255,255,0.18)"
+        />
+        <polygon points={cone} fill="rgba(255,180,90,0.1)" />
+        <g clipPath="url(#passive-attack-cone)">
+          {Array.from({ length: 12 }, (_, i) => i * 0.18).map((begin) => (
+            <circle
+              key={begin}
+              cx={origin.x}
+              cy={origin.y}
+              r="28"
+              fill="none"
+              stroke="#ffb45a"
+              strokeWidth="14"
+            >
+              <animate
+                attributeName="r"
+                dur="2.2s"
+                begin={`${begin}s`}
+                repeatCount="indefinite"
+                values="28; 620"
+              />
+              <animate
+                attributeName="opacity"
+                dur="2.2s"
+                begin={`${begin}s`}
+                repeatCount="indefinite"
+                values="0.85; 0.12"
+              />
+            </circle>
+          ))}
+        </g>
+        <polygon points={trapNear} fill={bg} opacity="0.2">
+          <animate
+            attributeName="points"
+            dur={dur}
+            repeatCount="indefinite"
+            values={`${trapNear}; ${trapFar}; ${trapNear}`}
+            keyTimes="0; 0.5; 1"
+            calcMode="linear"
+          />
+          <animate
+            attributeName="opacity"
+            dur={dur}
+            repeatCount="indefinite"
+            values="0.16; 0.82; 0.16"
+            keyTimes="0; 0.5; 1"
+            calcMode="linear"
+          />
+        </polygon>
+        <circle
+          cx={core.x}
+          cy={core.y}
+          r="22"
+          fill="rgba(255,180,90,0.12)"
+          stroke="#ffb45a"
+        />
+        <text
+          x={core.x}
+          y={core.y + 4}
+          textAnchor="middle"
+          fill="#ffb45a"
+          fontSize="9"
+          fontWeight="600"
+        >
+          CORE
+        </text>
+        <g>
+          <animateTransform
+            attributeName="transform"
+            type="translate"
+            dur={dur}
+            repeatCount="indefinite"
+            values={`${nearX} ${core.y}; ${farX} ${core.y}; ${nearX} ${core.y}`}
+            keyTimes="0; 0.5; 1"
+            calcMode="linear"
+          />
+          <polygon
+            points={`0,${-halfH} 16,${-halfH + 8} 12,${halfH - 8} 0,${halfH} -12,${halfH - 8} -16,${-halfH + 8}`}
+            fill="rgba(62,207,255,0.16)"
+            stroke="#3ecfff"
+            strokeWidth="1.6"
+          />
+        </g>
+        <text x={nearX} y="222" textAnchor="middle" fill="#9aa6b2" fontSize="11">
+          near · weak
+        </text>
+        <text x={farX} y="222" textAnchor="middle" fill="#3ecfff" fontSize="11">
           far · stronger
-        </DistLabel>
-        <Incoming>INCOMING</Incoming>
-        <AttackArrow>← ←</AttackArrow>
-      </Field>
+        </text>
+        <text
+          x={origin.x - 6}
+          y="28"
+          textAnchor="end"
+          fill="#ffb45a"
+          fontSize="11"
+          letterSpacing="0.08em"
+        >
+          ATTACK
+        </text>
+      </ShieldSvg>
       <Flow>
         <FlowBox>
           <small>Measures</small>
@@ -363,7 +435,10 @@ export function ShieldPassiveIllustration() {
         <Arrow>→</Arrow>
         <FlowBox>
           <small>Impact</small>
-          <strong>Block if facing the hit. Farther = more protection.</strong>
+          <strong>
+            Trapezoid behind the shield covers the attack. Farther = more
+            opaque = less reaches the Core.
+          </strong>
         </FlowBox>
       </Flow>
     </Stage>
