@@ -1014,31 +1014,60 @@ const MapSvg = styled.svg`
   aspect-ratio: 680 / 210;
 `;
 
+function dist(a: Pt, b: Pt) {
+  return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+function closedPath(points: Pt[]) {
+  return `${points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ")} Z`;
+}
+
+function tAlong(points: Pt[], idx: number) {
+  const segs = points.map((p, i) => dist(p, points[(i + 1) % points.length]));
+  const total = segs.reduce((s, n) => s + n, 0);
+  let acc = 0;
+  for (let i = 0; i < idx; i++) acc += segs[i];
+  return acc / total;
+}
+
+const MINE_LOOP: Pt[] = [
+  { x: 90, y: 175 },
+  { x: 130, y: 155 },
+  { x: 300, y: 125 },
+  { x: 500, y: 80 },
+  { x: 640, y: 110 },
+  { x: 620, y: 180 },
+  { x: 350, y: 195 },
+];
+
 const MINE_SCENE = {
   w: 680,
   h: 210,
-  start: { x: 86, y: 162 },
-  target: { x: 340, y: 108 },
-  idle: [
-    { x: 168, y: 46 },
-    { x: 540, y: 148 },
-  ],
-  r: 30,
-  dur: "3.2s",
+  pick: 1,
+  drop: 3,
+  idle: { x: 220, y: 42 },
+  r: 28,
+  dur: "6.4s",
 } as const;
 
 export function MinesIllustration() {
-  const { w, h, start, target, idle, r, dur } = MINE_SCENE;
-  const route = `M ${start.x} ${start.y} L ${target.x} ${target.y}`;
+  const { w, h, pick, drop, idle, r, dur } = MINE_SCENE;
+  const loop = closedPath(MINE_LOOP);
+  const tPick = tAlong(MINE_LOOP, pick);
+  const tDrop = tAlong(MINE_LOOP, drop);
+  const tHold = 0.58;
+  const tHide = 0.68;
+  const tAppear = 0.72;
+  const kt = `0; ${tPick.toFixed(3)}; ${tDrop.toFixed(3)}; ${tHold}; ${tHide}; ${tAppear}; 1`;
 
   return (
     <Stage>
-      <Tag>Map items · Artillery arms a mine by moving onto it</Tag>
+      <Tag>Map items · relocate, then arm</Tag>
       <Map>
         <MapSvg
           viewBox={`0 0 ${w} ${h}`}
           role="img"
-          aria-label="Artillery moves over an idle mine to activate it"
+          aria-label="Artillery carries an idle mine elsewhere, arms it, then continues"
         >
           <text
             x="16"
@@ -1050,39 +1079,50 @@ export function MinesIllustration() {
             ARENA MAP
           </text>
           <path
-            d={route}
+            d={loop}
             fill="none"
             stroke="rgba(167,139,250,0.35)"
             strokeWidth="1.4"
             strokeDasharray="5 6"
           />
-          {idle.map((p) => (
-            <g key={`${p.x}-${p.y}`}>
-              <circle
-                cx={p.x}
-                cy={p.y}
-                r={r}
-                fill="#181e26"
-                stroke="rgba(255,255,255,0.18)"
-                strokeWidth="1.5"
-              />
-              <text
-                x={p.x}
-                y={p.y + 4}
-                textAnchor="middle"
-                fill="#6b7785"
-                fontSize="10"
-                fontWeight="600"
-                letterSpacing="0.06em"
-              >
-                IDLE
-              </text>
-            </g>
-          ))}
           <g>
             <circle
-              cx={target.x}
-              cy={target.y}
+              cx={idle.x}
+              cy={idle.y}
+              r={r}
+              fill="#181e26"
+              stroke="rgba(255,255,255,0.18)"
+              strokeWidth="1.5"
+            />
+            <text
+              x={idle.x}
+              y={idle.y + 4}
+              textAnchor="middle"
+              fill="#6b7785"
+              fontSize="10"
+              fontWeight="600"
+              letterSpacing="0.06em"
+            >
+              IDLE
+            </text>
+          </g>
+          <g>
+            <animateMotion
+              dur={dur}
+              repeatCount="indefinite"
+              path={loop}
+              calcMode="linear"
+              keyPoints={`${tPick.toFixed(3)};${tPick.toFixed(3)};${tDrop.toFixed(3)};${tDrop.toFixed(3)};${tDrop.toFixed(3)};${tPick.toFixed(3)};${tPick.toFixed(3)}`}
+              keyTimes={kt}
+            />
+            <animate
+              attributeName="opacity"
+              dur={dur}
+              repeatCount="indefinite"
+              values="1;1;1;1;0;0;1"
+              keyTimes={kt}
+            />
+            <circle
               r={r}
               fill="#181e26"
               stroke="rgba(255,255,255,0.18)"
@@ -1092,69 +1132,52 @@ export function MinesIllustration() {
                 attributeName="fill"
                 dur={dur}
                 repeatCount="indefinite"
-                values="#181e26;#181e26;rgba(62,207,255,0.18);rgba(62,207,255,0.18);#181e26"
-                keyTimes="0; 0.42; 0.5; 0.86; 1"
+                values="#181e26;#181e26;rgba(62,207,255,0.18);rgba(62,207,255,0.18);rgba(62,207,255,0.18);#181e26;#181e26"
+                keyTimes={kt}
               />
               <animate
                 attributeName="stroke"
                 dur={dur}
                 repeatCount="indefinite"
-                values="rgba(255,255,255,0.18);rgba(255,255,255,0.18);#3ecfff;#3ecfff;rgba(255,255,255,0.18)"
-                keyTimes="0; 0.42; 0.5; 0.86; 1"
+                values="rgba(255,255,255,0.18);rgba(255,255,255,0.18);#3ecfff;#3ecfff;#3ecfff;rgba(255,255,255,0.18);rgba(255,255,255,0.18)"
+                keyTimes={kt}
               />
             </circle>
-            <circle
-              cx={target.x}
-              cy={target.y}
-              r={r}
-              fill="none"
-              stroke="#3ecfff"
-              strokeWidth="1.5"
-              opacity="0"
-            >
+            <circle r={r} fill="none" stroke="#3ecfff" strokeWidth="1.5" opacity="0">
               <animate
                 attributeName="r"
                 dur={dur}
                 repeatCount="indefinite"
-                values="30;30;30;42;30"
-                keyTimes="0; 0.42; 0.48; 0.62; 1"
+                values="28;28;42;28;28;28;28"
+                keyTimes={kt}
               />
               <animate
                 attributeName="opacity"
                 dur={dur}
                 repeatCount="indefinite"
-                values="0;0;0.9;0;0"
-                keyTimes="0; 0.42; 0.48; 0.62; 1"
+                values="0;0;0.9;0;0;0;0"
+                keyTimes={kt}
               />
             </circle>
             <text
-              x={target.x}
-              y={target.y + 4}
+              y="4"
               textAnchor="middle"
               fontSize="10"
               fontWeight="600"
               letterSpacing="0.06em"
               fill="#6b7785"
             >
-              <animate
-                attributeName="fill"
-                dur={dur}
-                repeatCount="indefinite"
-                values="#6b7785;#6b7785;#3ecfff;#3ecfff;#6b7785"
-                keyTimes="0; 0.42; 0.5; 0.86; 1"
-              />
               IDLE
               <animate
                 attributeName="opacity"
                 dur={dur}
                 repeatCount="indefinite"
-                values="1;1;0;0;1"
-                keyTimes="0; 0.42; 0.5; 0.86; 1"
+                values="1;1;0;0;0;1;1"
+                keyTimes={kt}
               />
             </text>
             <text
-              x={target.x}
-              y={target.y + 4}
+              y="4"
               textAnchor="middle"
               fontSize="10"
               fontWeight="600"
@@ -1167,8 +1190,8 @@ export function MinesIllustration() {
                 attributeName="opacity"
                 dur={dur}
                 repeatCount="indefinite"
-                values="0;0;1;1;0"
-                keyTimes="0; 0.42; 0.5; 0.86; 1"
+                values="0;0;1;1;0;0;0"
+                keyTimes={kt}
               />
             </text>
           </g>
@@ -1194,17 +1217,15 @@ export function MinesIllustration() {
             <animateMotion
               dur={dur}
               repeatCount="indefinite"
-              path={route}
+              path={loop}
               calcMode="linear"
-              keyPoints="0;0;1;1;0"
-              keyTimes="0; 0.08; 0.45; 0.82; 1"
             />
           </g>
         </MapSvg>
       </Map>
       <Caption>
-        Mines already sit on the map. Artillery is not shooting them — it
-        drives onto an idle mine to arm it.
+        Artillery drives onto an idle mine, carries it somewhere else, arms it
+        there, then keeps going. It does not bring the mine back.
       </Caption>
     </Stage>
   );
