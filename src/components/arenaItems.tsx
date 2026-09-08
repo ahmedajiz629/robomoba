@@ -10,15 +10,22 @@ const Card = styled.article<{ $accent: string }>`
   display: grid;
   grid-template-columns: 3.4rem 1fr;
   gap: 0.85rem 1rem;
-  padding: 1rem 1.05rem 1.05rem;
+  padding: 1rem 1.05rem 1.1rem;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.line};
   border-top: 3px solid ${({ $accent }) => $accent};
   border-radius: ${({ theme }) => theme.radii.md};
 
   h3 {
-    margin: 0 0 0.15rem;
-    font-size: 1.05rem;
+    margin: 0 0 0.25rem;
+    font-size: 1.08rem;
+  }
+
+  > div > p {
+    margin: 0 0 0.7rem;
+    color: ${({ theme }) => theme.colors.muted};
+    font-size: 0.88rem;
+    line-height: 1.45;
   }
 `;
 
@@ -47,22 +54,33 @@ const Kind = styled.span<{ $accent: string }>`
   text-transform: uppercase;
 `;
 
-const Facts = styled.ul`
-  margin: 0.55rem 0 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
+const Rows = styled.dl`
+  margin: 0;
+  display: grid;
+  gap: 0.4rem;
 
-  li {
+  div {
+    display: grid;
+    grid-template-columns: 4.2rem 1fr;
+    gap: 0.55rem;
+    align-items: start;
+  }
+
+  dt {
     margin: 0;
-    padding: 0.18rem 0.5rem;
-    border: 1px solid ${({ theme }) => theme.colors.line};
-    border-radius: 99px;
-    color: ${({ theme }) => theme.colors.muted};
-    font-size: 0.72rem;
-    letter-spacing: 0.02em;
+    color: ${({ theme }) => theme.colors.accent};
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding-top: 0.12rem;
+  }
+
+  dd {
+    margin: 0;
+    color: ${({ theme }) => theme.colors.text};
+    font-size: 0.84rem;
+    line-height: 1.4;
   }
 `;
 
@@ -150,52 +168,84 @@ function IconCrate() {
 const ITEMS = [
   {
     name: "Nexus",
-    kind: "Win object",
+    kind: "Win condition",
     accent: "#ffb45a",
     Icon: IconNexus,
-    facts: ["Physical", "Own light", "Destroy to win"],
+    lead: "Destroy the enemy one to win.",
+    rows: [
+      ["Does", "Takes damage only after at least one lane is cleared."],
+      ["Body", "A real structure in the base — not a floor projection."],
+      ["Light", "HP is shown on the object itself."],
+    ],
   },
   {
     name: "Turret",
     kind: "Lane defense",
     accent: "#3ecfff",
     Icon: IconTurret,
-    facts: ["Physical", "Own light", "Server HP"],
+    lead: "You cannot walk a lane to the Nexus while it stands.",
+    rows: [
+      ["Does", "Holds the lane. Must be broken to push."],
+      ["Body", "Physical tower on the path."],
+      ["Light", "Its own LEDs show remaining HP."],
+    ],
   },
   {
     name: "Mine",
     kind: "Map item",
     accent: "#3ecfff",
     Icon: IconMine,
-    facts: ["Has a position", "Artillery arms it", "Not a weapon class"],
+    lead: "Already on the map. Artillery is the one that can arm it.",
+    rows: [
+      ["Does", "Idle until armed, then it is a threat at that spot."],
+      ["How", "Artillery drives onto it, can relocate it, then arms it."],
+      ["Not", "A champion weapon. No fourth weapon class."],
+    ],
   },
   {
     name: "Mana monster",
-    kind: "Camp · Dragon too",
+    kind: "Jungle camp · includes Dragon",
     accent: "#ffb45a",
     Icon: IconMonster,
-    facts: ["Physical body", "Own light", "Moves in place"],
+    lead: "A body you fight, not a hologram on the floor.",
+    rows: [
+      ["Does", "Reward mana / a major buff when the camp is taken."],
+      ["Body", "Physical object with its own lighting."],
+      ["Motion", "Can idle-move in the camp. It does not roam the map."],
+    ],
   },
   {
     name: "Charge station",
-    kind: "Consumable",
+    kind: "Consumable pad",
     accent: "#3ecfff",
     Icon: IconCharge,
-    facts: ["Robot energy", "Use once", "Then cooldown"],
+    lead: "Refills Charge — the energy that moves the robot.",
+    rows: [
+      ["Does", "One robot uses it, then the pad is dead until cooldown ends."],
+      ["Not", "Mana. This does not pay for attacks."],
+    ],
   },
   {
     name: "Gate",
     kind: "Passage",
     accent: "#a78bfa",
     Icon: IconGate,
-    facts: ["Activated", "Opens / closes", "Match-controlled"],
+    lead: "A real door the match can open or close.",
+    rows: [
+      ["Does", "Cuts or opens a path while the game is running."],
+      ["Who", "The server / match event — not a painted wall."],
+    ],
   },
   {
     name: "Movable object",
     kind: "Obstacle",
     accent: "#ffb45a",
     Icon: IconCrate,
-    facts: ["Robots shift it", "Changes a path", "Changes sight"],
+    lead: "Robots can push it during the match.",
+    rows: [
+      ["Does", "Changes a corridor or a sight line after it is moved."],
+      ["Who", "The robots, not the projection."],
+    ],
   },
 ];
 
@@ -210,11 +260,15 @@ export function ArenaItemCards() {
           <div>
             <Kind $accent={item.accent}>{item.kind}</Kind>
             <h3>{item.name}</h3>
-            <Facts>
-              {item.facts.map((fact) => (
-                <li key={fact}>{fact}</li>
+            <p>{item.lead}</p>
+            <Rows>
+              {item.rows.map(([label, text]) => (
+                <div key={label}>
+                  <dt>{label}</dt>
+                  <dd>{text}</dd>
+                </div>
               ))}
-            </Facts>
+            </Rows>
           </div>
         </Card>
       ))}
