@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Layout from "../components/Layout";
+import Figure from "../components/Figure";
 import { SharedCombatPipelineDiagram } from "../components/diagrams";
 import {
   HealBeamIllustration,
@@ -129,6 +130,14 @@ export default function Champions() {
           emits a coded beam; Fighter and Artillery receive it.
         </p>
       </PageIntro>
+
+      <Figure
+        src="/images/champions-trio.png"
+        alt="Three champions together: sword fighter, shield tank, and missile artillery"
+        caption="The three roles. Fighter, Tank, Artillery — one team."
+        credit="Concept splash"
+        fit="contain"
+      />
 
       <Trio>
         <Peek $accent="#3ecfff">
