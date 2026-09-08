@@ -5,6 +5,7 @@ import Figure from "../components/Figure";
 import { ArenaItemCards } from "../components/arenaItems";
 import {
   BoundaryDiagram,
+  RobotStructureDiagram,
   PhysicalDigitalDiagram,
   SharedCombatPipelineDiagram,
   ResourceTriadDiagram,
@@ -230,6 +231,32 @@ export default function Home() {
 
       <TourStep
         n="05"
+        question="How does a robot get a role?"
+        more={{ to: "/system", label: "More on robot structure →" }}
+      >
+        <p>
+          Each team fields <strong>three roles</strong>. The role is not
+          painted on the chassis. It comes from a sealed{" "}
+          <strong>Champion Interface</strong> — a mountable device the
+          organization puts inside the team’s robot for the match.
+        </p>
+        <p>
+          That unit is the identity: it carries the weapon sensors and the
+          optical part. Mount a Tank interface and the robot is a Tank.
+          After the match the interface is <strong>removed</strong>. Teams
+          do not keep it.
+        </p>
+        <DiagramPanel>
+          <RobotStructureDiagram />
+          <figcaption>
+            Team robot (amber) plus a demountable official interface (cyan).
+            The interface is what makes the role.
+          </figcaption>
+        </DiagramPanel>
+      </TourStep>
+
+      <TourStep
+        n="06"
         question="Who are the three robots?"
         more={{ to: "/champions", label: "Damage and weapon details →" }}
       >
@@ -272,7 +299,7 @@ export default function Home() {
         </p>
       </TourStep>
 
-      <TourStep n="06" question="A swing is not a button">
+      <TourStep n="07" question="A swing is not a button">
         <p>
           The game does not take a keypress. The robot moves something
           real. Official sensors measure that motion. The server turns it
@@ -293,10 +320,9 @@ export default function Home() {
             exception: coded light + photodiode, with timing.
           </figcaption>
         </DiagramPanel>
-        <TextLink to="/system">More on robot structure →</TextLink>
       </TourStep>
 
-      <TourStep n="07" question="Three separate tanks of “fuel”">
+      <TourStep n="08" question="Three separate tanks of “fuel”">
         <p>
           Mixing these up breaks the game and the robot. They are not the
           same bar.
@@ -319,7 +345,7 @@ export default function Home() {
         </Callout>
       </TourStep>
 
-      <TourStep n="08" question="What happens when you die?">
+      <TourStep n="09" question="What happens when you die?">
         <p>
           HP hits zero: weapons shut off. The robot must return to its
           base. Revival is not a global countdown you can ignore.
@@ -334,7 +360,7 @@ export default function Home() {
       </TourStep>
 
       <TourStep
-        n="09"
+        n="10"
         question="What else is on the floor?"
         more={{ to: "/arena", label: "More on map items →" }}
       >
@@ -347,7 +373,7 @@ export default function Home() {
         <ArenaItemCards />
       </TourStep>
 
-      <TourStep n="10" question="Who builds what?">
+      <TourStep n="11" question="Who builds what?">
         <Principle>We define the game. You define the robot.</Principle>
         <p>
           The organization owns the sealed Champion Interface (sensors +
@@ -369,7 +395,7 @@ export default function Home() {
       </TourStep>
 
       <TourStep
-        n="11"
+        n="12"
         question="Who is the referee?"
         more={{ to: "/server", label: "More on the server →" }}
       >
