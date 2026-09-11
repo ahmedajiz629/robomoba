@@ -105,15 +105,17 @@ export default function System() {
       <WideSection>
         <h2>How the robot is wired</h2>
         <p>
-          Teams never rewire the sealed interface. They connect to the Core
-          over USB (power + documented API). The Core talks to the game
-          server over BLE.
+          Teams never rewire the sealed interface. In a match they do not
+          radio the robot themselves. The operator is wired into the{" "}
+          <strong>server</strong>. The server talks to the interface over{" "}
+          <strong>LoRa</strong>. The interface hands the team a{" "}
+          <strong>wire API</strong> for custom data into the robot.
         </p>
         <DiagramPanel>
           <RobotWiringDiagram />
           <figcaption>
-            Team computer ↔ USB ↔ Core ↔ sealed sensors · and Core ↔ BLE ↔
-            server.
+            User —wired— server —LoRa— interface —wire API— robot. Official
+            measurements and team packets share that radio.
           </figcaption>
         </DiagramPanel>
       </WideSection>
@@ -142,9 +144,9 @@ export default function System() {
       <Takeaway>
         <strong>Takeaway</strong>
         <p>
-          Robot structure = team shell + sealed interface. You own the weapon
-          actuator. We own the weapon sensor. Wiring to the game goes only
-          through the Core.
+          Robot structure = team shell + sealed interface. You own the
+          weapon actuator. We own the weapon sensor. Match radio is LoRa
+          through the server — not a private link to the robot.
         </p>
       </Takeaway>
 

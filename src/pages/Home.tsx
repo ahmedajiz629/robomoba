@@ -382,7 +382,9 @@ export default function Home() {
           The organization owns the sealed Champion Interface (sensors +
           Core), the arena systems, and the game server. Teams build the
           chassis, the actuators that produce the motion, the control, and
-          the strategy.
+          the strategy. To talk to the robot in a match, the team is
+          wired into the server; custom data then rides LoRa to the
+          interface and a wire API into the machine.
         </p>
         <DiagramPanel>
           <BoundaryDiagram />

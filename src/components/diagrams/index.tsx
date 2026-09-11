@@ -87,7 +87,7 @@ export function InterfaceCompositionDiagram() {
 
       <rect x="220" y="72" width="200" height="64" rx="12" fill="rgba(62,207,255,0.14)" stroke="#3ecfff" strokeWidth="1.5" />
       <text x="320" y="100" textAnchor="middle" fill="#3ecfff" fontSize="15" fontFamily={fontTitle} fontWeight="600">Core</text>
-      <text x="320" y="120" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>USB · BLE · API</text>
+      <text x="320" y="120" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>wire API · LoRa SX1278</text>
 
       <path d="M320 136 V160" stroke="#3ecfff" strokeWidth="2" />
       <text x="332" y="154" fill="#6b7785" fontSize="10" fontFamily={fontBody}>sealed wiring</text>
@@ -137,43 +137,51 @@ export function ActuatorVsSensorDiagram() {
   );
 }
 
-/** How power/data/radio are wired around the Core */
+/** Match path: user wired to server, LoRa to interface, wire API to robot */
 export function RobotWiringDiagram() {
+  const hops = [
+    { x: 16, label: "User", sub: "team computer", accent: true },
+    { x: 186, label: "Server", sub: "official", accent: false },
+    { x: 356, label: "Interface", sub: "Core + radio", accent: false },
+    { x: 526, label: "Robot", sub: "team machine", accent: true },
+  ];
+  const links = [
+    { x: 154, label: "wired" },
+    { x: 324, label: "LoRa" },
+    { x: 494, label: "wire API" },
+  ];
   return (
-    <Svg viewBox="0 0 680 280" role="img" aria-label="How the robot is wired through the Core">
-      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">How it is wired</text>
+    <Svg viewBox="0 0 720 250" role="img" aria-label="User to server to interface to robot over LoRa and wire API">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">How you talk to the robot</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>No private radio. Custom data rides the official link.</text>
 
-      <rect x="40" y="100" width="140" height="70" rx="10" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
-      <text x="110" y="130" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Team robot</text>
-      <text x="110" y="150" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>computer · power</text>
+      {hops.map((box) => (
+        <g key={box.label}>
+          <rect
+            x={box.x}
+            y="68"
+            width="138"
+            height="72"
+            rx="10"
+            fill={box.accent ? "rgba(255,180,90,0.12)" : "rgba(62,207,255,0.1)"}
+            stroke={box.accent ? "#ffb45a" : "#3ecfff"}
+            strokeWidth="1.5"
+          />
+          <text x={box.x + 69} y="98" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">{box.label}</text>
+          <text x={box.x + 69} y="118" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>{box.sub}</text>
+        </g>
+      ))}
+      {links.map((link) => (
+        <g key={link.label}>
+          <path d={`M${link.x} 104 H${link.x + 32}`} stroke={link.label === "LoRa" ? "#3ecfff" : "#ffb45a"} strokeWidth="2" strokeDasharray={link.label === "LoRa" ? "5 3" : undefined} />
+          <polygon points={`${link.x + 32},100 ${link.x + 40},104 ${link.x + 32},108`} fill={link.label === "LoRa" ? "#3ecfff" : "#ffb45a"} />
+          <text x={link.x + 20} y="92" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>{link.label}</text>
+        </g>
+      ))}
 
-      <path d="M180 135 H230" stroke="#ffb45a" strokeWidth="2" />
-      <text x="205" y="124" textAnchor="middle" fill="#ffb45a" fontSize="10" fontFamily={fontBody}>USB</text>
-      <polygon points="230,131 240,135 230,139" fill="#ffb45a" />
-
-      <rect x="248" y="88" width="180" height="100" rx="12" fill="rgba(62,207,255,0.12)" stroke="#3ecfff" strokeWidth="1.5" />
-      <text x="338" y="120" textAnchor="middle" fill="#3ecfff" fontSize="14" fontFamily={fontTitle} fontWeight="600">Core</text>
-      <text x="338" y="140" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>power + data API</text>
-      <text x="338" y="158" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>to sealed parts</text>
-
-      <path d="M338 188 V210" stroke="#3ecfff" strokeWidth="2" />
-      <text x="350" y="204" fill="#6b7785" fontSize="10" fontFamily={fontBody}>hard-wired</text>
-
-      <rect x="220" y="210" width="110" height="48" rx="8" fill="#181e26" stroke="#3ecfff" strokeWidth="1" />
-      <text x="275" y="238" textAnchor="middle" fill="#eef2f6" fontSize="11" fontFamily={fontBody}>Weapon sensors</text>
-
-      <rect x="346" y="210" width="110" height="48" rx="8" fill="#181e26" stroke="#3ecfff" strokeWidth="1" />
-      <text x="401" y="238" textAnchor="middle" fill="#eef2f6" fontSize="11" fontFamily={fontBody}>Optics</text>
-
-      <path d="M428 120 H500" stroke="#ffb45a" strokeWidth="2" strokeDasharray="5 3" />
-      <text x="464" y="110" textAnchor="middle" fill="#ffb45a" fontSize="10" fontFamily={fontBody}>BLE</text>
-      <polygon points="500,116 510,120 500,124" fill="#ffb45a" />
-
-      <rect x="518" y="95" width="140" height="70" rx="10" fill="#181e26" stroke="#ffb45a" strokeWidth="1.5" />
-      <text x="588" y="125" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">Game server</text>
-      <text x="588" y="145" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>authoritative state</text>
-
-      <text x="40" y="60" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Teams talk to the Core only — never to sealed internal wiring</text>
+      <rect x="16" y="164" width="688" height="68" rx="10" fill="#181e26" stroke="rgba(255,255,255,0.16)" strokeWidth="1.5" />
+      <text x="360" y="192" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontTitle} fontWeight="600">SX1278 · 433 MHz · FSK / GFSK</text>
+      <text x="360" y="214" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>Hop 100 kHz channels · 20 kbps · official state + team custom data</text>
     </Svg>
   );
 }

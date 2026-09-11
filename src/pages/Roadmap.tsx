@@ -96,7 +96,7 @@ export default function Roadmap() {
           </Item>
           <Item>
             <strong>Infrastructure</strong>
-            <p>Interfaces, Core, USB API, BLE, tracking, server, projection</p>
+            <p>Interfaces, Core, wire API, LoRa 433, tracking, server, projection</p>
           </Item>
         </Grid>
       </WideSection>

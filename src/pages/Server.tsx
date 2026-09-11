@@ -8,6 +8,7 @@ import {
   ItemStatesDiagram,
   SessionLifecycleDiagram,
   LocalizationDiagram,
+  RobotWiringDiagram,
 } from "../components/diagrams";
 import {
   PageIntro,
@@ -86,6 +87,30 @@ export default function Server() {
           shutter so a moving robot does not smear the matrix. The
           pattern can change in time so two objects never look the same
           and a printed sticker cannot spoof a live unit.
+        </p>
+      </WideSection>
+
+      <WideSection>
+        <h2>The radio</h2>
+        <p>
+          Interface and server talk over <strong>LoRa SX1278</strong> at{" "}
+          <strong>433 MHz</strong>, FSK / GFSK, hopping{" "}
+          <strong>100 kHz-spaced channels</strong> at{" "}
+          <strong>20 kbps</strong>. That is also how a team talks to its
+          own robot: no private wireless hop.
+        </p>
+        <DiagramPanel>
+          <RobotWiringDiagram />
+          <figcaption>
+            User —wired— server —LoRa— interface —wire API (custom data)—
+            robot.
+          </figcaption>
+        </DiagramPanel>
+        <p>
+          Official IMU, optical events, and weapon enable ride the same
+          link. Team custom data is a payload on that link — the server
+          can see it, rate-limit it, and drop it if it would break the
+          match.
         </p>
       </WideSection>
 
@@ -173,9 +198,9 @@ export default function Server() {
 
         <h3>Deploy</h3>
         <p>
-          Match day is one stack: Game Server, BLE gateway, overhead
-          camera, projector machine (can be the same host), and the item
-          lighting bus. Practice uses the same protocol without
+          Match day is one stack: Game Server, LoRa SX1278 radio,
+          overhead camera, projector machine (can be the same host), and
+          the item lighting bus. Practice uses the same protocol without
           competition tokens — local or hosted.
         </p>
         <TextLink to="/development">How teams practice against it →</TextLink>
@@ -217,8 +242,8 @@ export default function Server() {
         <Callout>
           <strong>Comms failure</strong>
           <p>
-            Cores talk over BLE. Because the server is the referee, a lost
-            Core is a match-level risk — not an ordinary robot stall.
+            Cores talk over LoRa. Because the server is the referee, a
+            lost Core is a match-level risk — not an ordinary robot stall.
           </p>
         </Callout>
       </WideSection>
