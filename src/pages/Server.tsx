@@ -7,6 +7,7 @@ import {
   ServerModulesDiagram,
   ItemStatesDiagram,
   SessionLifecycleDiagram,
+  LocalizationDiagram,
 } from "../components/diagrams";
 import {
   PageIntro,
@@ -29,37 +30,62 @@ export default function Server() {
         <h1>Server</h1>
         <p>
           The game server is the electronic referee. Cores report IMU and
-          pose. Mines report where they are. The server decides HP, hits,
-          and the Nexus — then tells the floor and the lights what to show.
+          optical events. An overhead camera reads LED patterns to locate
+          every interactable. The server decides HP, hits, and the Nexus —
+          then tells the floor and the lights what to show.
         </p>
       </PageIntro>
 
       <WideSection>
         <h2>What comes in. What goes out.</h2>
         <p>
-          The Core is the only uplink for a champion. Team laptops,
-          projectors, and screens do not get a vote.
+          The Core is the only uplink for a champion’s weapon. Pose is not
+          a Core guess. Team laptops, projectors, and screens do not get
+          a vote.
         </p>
         <DiagramPanel>
           <ServerIODiagram />
           <figcaption>
-            Authenticated measurements in. Official snapshot out. Lighting
-            and projection only subscribe.
+            Weapon measurements and camera poses in. Official snapshot out.
+            Lighting and projection only subscribe.
           </figcaption>
         </DiagramPanel>
         <p>
-          After session auth each Core sends a timestamped{" "}
-          <strong>pose</strong> (x, y, heading) in the arena frame,{" "}
-          <strong>IMU</strong> samples for the sealed actuator, and{" "}
+          After session auth each Core sends timestamped{" "}
+          <strong>IMU</strong> samples for the sealed actuator and{" "}
           <strong>optical events</strong> (heal emit / photodiode receive).
           Battery or Charge readings may ride along as diagnostics. They
           are not a game resource.
         </p>
         <p>
-          Each mine tag sends <strong>identity and position</strong>.
-          Arming is still a game event — Artillery on the mine, then arm —
-          not a fourth weapon. Map items do not decide hits. They may
-          acknowledge a lighting command.
+          Position and heading of every interactable — robots, mines,
+          movable objects — come from the <strong>overhead camera</strong>.
+          Arming a mine is still a game event. Map items do not decide
+          hits. They may acknowledge a lighting command.
+        </p>
+      </WideSection>
+
+      <WideSection>
+        <h2>Where things are</h2>
+        <p>
+          Anything the match must locate wears a <strong>dynamic LED
+          pattern</strong> — a WS2812-class matrix facing up. A camera
+          above the arena reads those codes and writes{" "}
+          <strong>ID, x, y, heading</strong> into the world model.
+        </p>
+        <DiagramPanel>
+          <LocalizationDiagram />
+          <figcaption>
+            The pattern is the tag. The camera is the surveyor. Cores do
+            not report their own pose.
+          </figcaption>
+        </DiagramPanel>
+        <p>
+          Working camera spec: about <strong>5 megapixels</strong>,{" "}
+          <strong>global shutter</strong>, looking straight down. Global
+          shutter so a moving robot does not smear the matrix. The
+          pattern can change in time so two objects never look the same
+          and a printed sticker cannot spoof a live unit.
         </p>
       </WideSection>
 
@@ -79,7 +105,7 @@ export default function Server() {
           </li>
           <li>
             <strong>World model</strong>
-            <span>Six champion poses, mine poses, fixed landmarks (Nexus, turrets, camps, pads, gates).</span>
+            <span>Camera poses for every tagged interactable, plus fixed landmarks (Nexus, turrets, camps, pads, gates).</span>
           </li>
           <li>
             <strong>Rules + combat sim</strong>
@@ -147,10 +173,10 @@ export default function Server() {
 
         <h3>Deploy</h3>
         <p>
-          Match day is one stack: Game Server, BLE gateway, projector
-          machine (can be the same host), and the item lighting bus.
-          Practice uses the same protocol without competition tokens —
-          local or hosted.
+          Match day is one stack: Game Server, BLE gateway, overhead
+          camera, projector machine (can be the same host), and the item
+          lighting bus. Practice uses the same protocol without
+          competition tokens — local or hosted.
         </p>
         <TextLink to="/development">How teams practice against it →</TextLink>
 
@@ -178,15 +204,15 @@ export default function Server() {
 
         <h3>Calibrate</h3>
         <p>
-          One shared <strong>arena frame</strong>. Base corners and spawn
-          pads are the position references. Projector homography maps
-          pixels to meters in that same frame. Each Core records an IMU
-          rest pose. Mine tags are paired to IDs. Fixed items are stored
-          as landmarks.
+          One shared <strong>arena frame</strong>. The overhead camera is
+          registered to that frame (height, tilt, pixels → meters).
+          Projector homography uses the same frame. Each live LED code
+          is bound to a session slot or item ID. Each Core records an
+          IMU rest pose. Fixed structures are stored as landmarks.
         </p>
         <p>
-          The clock does not start until every bound Core and mine reports
-          inside tolerance.
+          The clock does not start until every tagged interactable is in
+          the camera and inside tolerance.
         </p>
         <Callout>
           <strong>Comms failure</strong>
@@ -239,9 +265,9 @@ export default function Server() {
       <Takeaway>
         <strong>Takeaway</strong>
         <p>
-          Cores and mines report. The server decides. The floor image shows
-          attacks, AoE, HP, and Mana. Lights follow item state. Charge
-          stays on the robot.
+          Cores report weapons. The camera reports where things are. The
+          server decides. The floor image shows attacks, AoE, HP, and Mana.
+          Lights follow item state. Charge stays on the robot.
         </p>
       </Takeaway>
 

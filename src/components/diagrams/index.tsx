@@ -63,7 +63,7 @@ export function RobotStructureDiagram() {
         ["Core", 158],
         ["Weapon internal sensors", 182],
         ["Photodiode / light beam", 206],
-        ["Protected internal wiring", 230],
+        ["Upward LED matrix", 230],
       ].map(([label, y]) => (
         <g key={label}>
           <rect x="360" y={Number(y) - 14} width="268" height="26" rx="6" fill="rgba(62,207,255,0.1)" />
@@ -631,18 +631,18 @@ export function ServerIODiagram() {
   return (
     <Svg viewBox="0 0 720 300" role="img" aria-label="What the game server receives and emits">
       <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Server I/O</text>
-      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Cores and mines report. Projection and lights only show the snapshot.</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Cores measure weapons. The camera localizes every interactable.</text>
 
       <text x="118" y="78" textAnchor="middle" fill="#3ecfff" fontSize="11" fontFamily={fontTitle} fontWeight="600" letterSpacing="0.08em">IN</text>
       <rect x="20" y="88" width="196" height="86" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
       <text x="118" y="118" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Champion Cores</text>
-      <text x="118" y="140" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>IMU · pose · optical events</text>
-      <text x="118" y="158" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>only uplink per robot</text>
+      <text x="118" y="140" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>IMU · optical events</text>
+      <text x="118" y="158" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>weapon uplink only</text>
 
       <rect x="20" y="186" width="196" height="86" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
-      <text x="118" y="216" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Mine tags</text>
-      <text x="118" y="238" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>identity · position</text>
-      <text x="118" y="256" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>arming is a game event</text>
+      <text x="118" y="216" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Overhead camera</text>
+      <text x="118" y="238" textAnchor="middle" fill="#9aa6b2" fontSize="11" fontFamily={fontBody}>LED patterns → poses</text>
+      <text x="118" y="256" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>5 MP · global shutter</text>
 
       <path d="M216 131 H248" stroke="#6b7785" strokeWidth="1.5" />
       <polygon points="248,127 256,131 248,135" fill="#6b7785" />
@@ -769,12 +769,12 @@ export function SessionLifecycleDiagram() {
     { label: "Deploy", sub: "stack on site" },
     { label: "Session", sub: "slots + items" },
     { label: "Tokens", sub: "bind Cores" },
-    { label: "Calibrate", sub: "arena frame" },
+    { label: "Calibrate", sub: "camera + LEDs" },
     { label: "Live", sub: "clock starts" },
   ];
   return (
     <Svg viewBox="0 0 720 150" role="img" aria-label="Match setup from deploy to live">
-      <text x="20" y="24" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Play does not start until every bound Core and mine is in tolerance</text>
+      <text x="20" y="24" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Play does not start until every tagged interactable is in the camera</text>
       {steps.map((step, i) => {
         const x = 16 + i * 142;
         const last = i === steps.length - 1;
@@ -801,6 +801,54 @@ export function SessionLifecycleDiagram() {
           </g>
         );
       })}
+    </Svg>
+  );
+}
+
+export function LocalizationDiagram() {
+  const cells = [1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0];
+  return (
+    <Svg viewBox="0 0 720 220" role="img" aria-label="Overhead camera reads dynamic LED patterns to localize interactables">
+      <text x="20" y="28" fill="#eef2f6" fontSize="14" fontFamily={fontTitle} fontWeight="600">Where things are</text>
+      <text x="20" y="48" fill="#6b7785" fontSize="11" fontFamily={fontBody}>Every interactable wears a coded LED matrix. A ceiling camera reads it.</text>
+
+      <rect x="20" y="68" width="168" height="128" rx="12" fill="#181e26" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="104" y="92" textAnchor="middle" fill="#eef2f6" fontSize="12" fontFamily={fontTitle} fontWeight="600">LED matrix</text>
+      <text x="104" y="110" textAnchor="middle" fill="#6b7785" fontSize="10" fontFamily={fontBody}>WS2812-class · dynamic</text>
+      {cells.map((on, i) => {
+        const col = i % 4;
+        const row = Math.floor(i / 4);
+        return (
+          <rect
+            key={i}
+            x={56 + col * 24}
+            y={122 + row * 16}
+            width="18"
+            height="12"
+            rx="2"
+            fill={on ? "#3ecfff" : "#0a0c10"}
+            stroke="rgba(62,207,255,0.35)"
+          />
+        );
+      })}
+
+      <path d="M188 132 H220" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="220,128 228,132 220,136" fill="#6b7785" />
+
+      <rect x="228" y="68" width="200" height="128" rx="12" fill="rgba(62,207,255,0.1)" stroke="#3ecfff" strokeWidth="1.5" />
+      <text x="328" y="108" textAnchor="middle" fill="#eef2f6" fontSize="13" fontFamily={fontTitle} fontWeight="600">Overhead camera</text>
+      <text x="328" y="130" textAnchor="middle" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>~5 MP · global shutter</text>
+      <text x="328" y="152" textAnchor="middle" fill="#6b7785" fontSize="11" fontFamily={fontBody}>looks down at the floor</text>
+      <text x="328" y="174" textAnchor="middle" fill="#6b7785" fontSize="11" fontFamily={fontBody}>no rolling-shutter smear</text>
+
+      <path d="M428 132 H460" stroke="#6b7785" strokeWidth="1.5" />
+      <polygon points="460,128 468,132 460,136" fill="#6b7785" />
+
+      <rect x="468" y="68" width="232" height="128" rx="12" fill="rgba(255,180,90,0.12)" stroke="#ffb45a" strokeWidth="1.5" />
+      <text x="584" y="108" textAnchor="middle" fill="#ffb45a" fontSize="13" fontFamily={fontTitle} fontWeight="600">World model</text>
+      <text x="584" y="130" textAnchor="middle" fill="#9aa6b2" fontSize="12" fontFamily={fontBody}>ID · x · y · heading</text>
+      <text x="584" y="152" textAnchor="middle" fill="#6b7785" fontSize="11" fontFamily={fontBody}>robots · mines · items</text>
+      <text x="584" y="174" textAnchor="middle" fill="#6b7785" fontSize="11" fontFamily={fontBody}>same arena frame</text>
     </Svg>
   );
 }

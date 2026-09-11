@@ -82,7 +82,9 @@ export default function System() {
         <p>
           The Champion Interface is one sealed assembly. Exact parts vary by
           champion (Tank optics, Fighter IMU, Artillery launch sensing), but
-          the pattern is the same: a Core hard-wired to its sensors.
+          the pattern is the same: a Core hard-wired to its sensors, plus an
+          upward <strong>LED matrix</strong> so the overhead camera can
+          locate the robot.
         </p>
         <DiagramPanel>
           <InterfaceCompositionDiagram />

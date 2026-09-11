@@ -2,13 +2,16 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import Figure from "../components/Figure";
 import { ArenaItemCards } from "../components/arenaItems";
+import { LocalizationDiagram } from "../components/diagrams";
 import {
   PageIntro,
   Eyebrow,
   WideSection,
   Callout,
   PageNav,
+  DiagramPanel,
   Takeaway,
+  TextLink,
 } from "../components/ui";
 
 export default function Arena() {
@@ -45,10 +48,30 @@ export default function Arena() {
         </Callout>
       </WideSection>
 
+      <WideSection>
+        <h2>How the floor is surveyed</h2>
+        <p>
+          Anything interactable — robots, mines, movable objects — wears
+          an upward <strong>dynamic LED pattern</strong> (WS2812-class
+          matrix). A <strong>~5 MP global-shutter</strong> camera above
+          the arena reads those codes and reports ID, position, and
+          heading. Nothing locates itself by dead reckoning.
+        </p>
+        <DiagramPanel>
+          <LocalizationDiagram />
+          <figcaption>
+            Same pattern on every class of interactable. The camera is
+            the surveyor.
+          </figcaption>
+        </DiagramPanel>
+        <TextLink to="/server">How the server uses those poses →</TextLink>
+      </WideSection>
+
       <Takeaway>
         <strong>Takeaway</strong>
         <p>
-          Picture = map idea. Cards = item types. Spots on the floor = later.
+          Picture = map idea. Cards = item types. LED + overhead camera =
+          where they actually sit.
         </p>
       </Takeaway>
 

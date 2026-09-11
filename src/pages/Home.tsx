@@ -368,7 +368,9 @@ export default function Home() {
           Many objectives are <strong>physical objects</strong> with their
           own lighting — not stickers or holograms. Monsters can move in
           place in their camp. Placement on our map is still open; the
-          types are not.
+          types are not. Anything the match must locate wears a{" "}
+          <strong>dynamic LED pattern</strong> that an overhead camera
+          reads.
         </p>
         <ArenaItemCards />
       </TourStep>
@@ -401,7 +403,8 @@ export default function Home() {
       >
         <p>
           The <strong>game server</strong> is the electronic referee.
-          Robots report measurements. The server decides HP, hits, cooldowns,
+          Robots report weapon measurements. An overhead camera reports
+          where interactables are. The server decides HP, hits, cooldowns,
           and whether the Nexus can take damage. Projection and screens
           show that state — they do not invent it.
         </p>
