@@ -742,7 +742,7 @@ export function ItemStatesDiagram() {
     { name: "Turret", states: "alive / hp-band · destroyed" },
     { name: "Mine", states: "idle · carried · armed · spent" },
     { name: "Monster", states: "idle · in-combat · taken · respawning" },
-    { name: "Charge pad", states: "ready · in-use · cooldown" },
+    { name: "Charge pad", states: "stocked · taken · restocking" },
     { name: "Gate", states: "open · closed" },
   ];
   return (

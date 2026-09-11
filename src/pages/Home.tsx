@@ -340,7 +340,8 @@ export default function Home() {
             <strong>HP</strong> — weapons stay on only while you are alive.{" "}
             <strong>Mana</strong> — spent on an attack, plus a cooldown
             between accepted attacks. <strong>Charge</strong> — energy to
-            drive. Charge stations on the map refill Charge, not Mana.
+            drive. Charge stations hand out a real Li-ion cell you can
+            carry or drop — not Mana, not a wireless tap.
           </p>
         </Callout>
       </TourStep>

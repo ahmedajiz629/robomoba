@@ -216,13 +216,14 @@ const ITEMS = [
   },
   {
     name: "Charge station",
-    kind: "Consumable pad",
+    kind: "Battery rack",
     accent: "#3ecfff",
     Icon: IconCharge,
-    lead: "Refills Charge — the energy that moves the robot.",
+    lead: "Hands out a real Li-ion pack — extra power you can carry, then drop.",
     rows: [
-      ["Does", "One robot uses it, then the pad is dead until cooldown ends."],
-      ["Not", "Mana. This does not pay for attacks."],
+      ["Does", "You take a physical cell as a spare power source."],
+      ["Drop", "Discard it whenever you no longer need it — including to pick up another."],
+      ["Not", "A wireless charge. Not Mana. Not a raw power tap into the robot."],
     ],
   },
   {

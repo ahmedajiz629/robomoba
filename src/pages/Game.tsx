@@ -101,7 +101,9 @@ export default function Game() {
           <p>
             <strong>HP</strong> — weapons stay active while alive.{" "}
             <strong>Mana</strong> — spent on attacks. <strong>Charge</strong>{" "}
-            (energy) — spent to move the physical robot.
+            (energy) — spent to move the physical robot. Stations on the
+            map hand out a real Li-ion cell you can carry as extra power
+            and drop when you want another — not a wireless refill.
           </p>
         </Callout>
       </WideSection>
